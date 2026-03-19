@@ -496,19 +496,19 @@ async function downloadExcel() {
             return;
         }
         
-        // ΠΡΟΣΘΗΚΗ: Βάζουμε τίτλους στις στήλες (Greeklish για αποφυγή προβλημάτων)
-        let csv = 'Ημερομηνία,Ονομα,Επιθετο,Τηλεφωνο,Ατομα,Τυπος\n';
+        // Δημιουργία CSV
+        let csv = 'Ημερομηνία,Όνομα,Επίθετο,Τηλέφωνο,Άτομα,Τύπος\n';
         
         reservations.forEach(r => {
-            // Παίρνουμε την ημερομηνία όπως έρχεται
+            // ΔΙΟΡΘΩΣΗ: Παίρνουμε τα δεδομένα με τα σωστά ονόματα
             const fullDate = r.Ημερομηνία || '';
             
-            // Βεβαιωνόμαστε ότι δεν υπάρχουν κόμματα μέσα στα κείμενα
-            const name = (r.Όνομα || '').replace(/,/g, ' ');
-            const surname = (r.Επιθετο || '').replace(/,/g, ' ');
-            const phone = (r.Τηλέφωνο || '').replace(/,/g, ' ');
-            const people = r.Άτομα || '';
-            const type = (r.Τύπος || '').replace(/,/g, ' ');
+            // Δοκιμάζουμε διαφορετικά ονόματα για το πεδίο (λόγω Greeklish)
+            const name = r.Όνομα || r.ονομα || r.name || '';
+            const surname = r.Επίθετο || r.επίθετο || r.επωνυμο || r.Επιθετο || r.surname || '';
+            const phone = r.Τηλέφωνο || r.τηλέφωνο || r.τηλεφωνο || r.phone || '';
+            const people = r.Άτομα || r.ατομα || r.people || '';
+            const type = r.Τύπος || r.τύπος || r.τυπος || r.type || '';
             
             csv += `${fullDate},${name},${surname},${phone},${people},${type}\n`;
         });
