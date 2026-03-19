@@ -496,21 +496,14 @@ async function downloadExcel() {
             return;
         }
         
-        // Δημιουργία CSV με σωστές στήλες
-        let csv = 'Ημερομηνία,Ώρα,Όνομα,Επίθετο,Τηλέφωνο,Άτομα,Τύπος\n';
+        // Δημιουργία CSV με τις στήλες που θέλεις
+        let csv = 'Ημερομηνία,Όνομα,Επιθετο,Τηλέφωνο,Άτομα,Τύπος\n';
         
         reservations.forEach(r => {
-            // Αν η Ημερομηνία περιέχει και ώρα, τη σπάμε
-            let datePart = '';
-            let timePart = '';
+            // Παίρνουμε την ημερομηνία όπως έρχεται από το Apps Script
+            const fullDate = r.Ημερομηνία || '';
             
-            if (r.Ημερομηνία) {
-                const dateObj = new Date(r.Ημερομηνία);
-                datePart = dateObj.toLocaleDateString('el-GR');
-                timePart = dateObj.toLocaleTimeString('el-GR');
-            }
-            
-            csv += `${datePart},${timePart},${r.Όνομα || ''},${r.Επίθετο || ''},${r.Τηλέφωνο || ''},${r.Άτομα || ''},${r.Τύπος || ''}\n`;
+            csv += `${fullDate},${r.Όνομα || ''},${r.Επιθετο || ''},${r.Τηλέφωνο || ''},${r.Άτομα || ''},${r.Τύπος || ''}\n`;
         });
         
         // Κατέβασμα αρχείου
