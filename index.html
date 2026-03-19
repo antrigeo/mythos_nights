@@ -168,7 +168,7 @@
         opacity: 0;
     }
 
-    /* MOBILE IMPROVEMENTS */
+    /* ΒΕΛΤΙΩΣΕΙΣ ΓΙΑ ΚΙΝΗΤΑ */
     @media(max-width: 640px) {
         .admin-table {
             width: 95%;
@@ -179,6 +179,20 @@
             max-width: 90% !important;
             margin: 0 auto;
             display: block;
+        }
+        /* Επιπλέον βελτιώσεις κινητών */
+        input, select, button {
+            font-size: 16px !important;
+        }
+        .shaka-font {
+            font-size: 24px !important;
+            letter-spacing: 2px !important;
+        }
+        .fixed.bottom-6.right-6 {
+            bottom: 15px !important;
+            right: 15px !important;
+            padding: 10px 15px !important;
+            font-size: 12px !important;
         }
     }
 
@@ -326,6 +340,8 @@
 <!-- JAVASCRIPT -->
 <script>
 const ADMIN_PASSWORD = "mythos2024";
+const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx-7P1Ur_5n-EWAuB-tc6nr3HhNyJV5IpfV3NbDwS0rmu5ZCOCHckLxbPRKmd5kWXjSzg/exec";
+
 let clickCount = 0;
 let clickTimer;
 
@@ -371,7 +387,7 @@ function checkAdminPass() {
     }
 }
 
-function saveReservation() {
+async function saveReservation() {
     const name = document.getElementById('name').value.trim();
     const surname = document.getElementById('surname').value.trim();
     const phone = document.getElementById('phone').value.trim();
@@ -389,27 +405,77 @@ function saveReservation() {
         return;
     }
 
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.innerHTML = 'ΑΠΟΘΗΚΕΥΣΗ...';
+
     const reservation = {
         ονομα: name,
         επωνυμο: surname,
         τηλεφωνο: phone,
         ατομα: people,
         τυπος: type,
-        ημερομηνια_κρατησης: new Date().toLocaleDateString('el-GR'),
-        ωρα_κρατησης: new Date().toLocaleTimeString('el-GR'),
         ημερομηνια_event: "25/4/2026",
         ωρα_event: "9:00 μ.μ."
     };
 
-    let reservations = JSON.parse(localStorage.getItem('mythos_reservations')) || [];
-    reservations.push(reservation);
-    localStorage.setItem('mythos_reservations', JSON.stringify(reservations));
-    
-    showMessage('Η κράτηση καταχωρήθηκε!', 'green');
-    document.getElementById('name').value = '';
-    document.getElementById('surname').value = '';
-    document.getElementById('phone').value = '';
-    document.getElementById('people').value = '2';
+    try {
+        await fetch(GOOGLE_APPS_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(reservation)
+        });
+        
+        showMessage('Η κράτηση καταχωρήθηκε!', 'green');
+        document.getElementById('name').value = '';
+        document.getElementById('surname').value = '';
+        document.getElementById('phone').value = '';
+        document.getElementById('people').value = '2';
+    } catch(error) {
+        showMessage('Σφάλμα! Δοκιμάστε ξανά.', 'red');
+        console.error(error);
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = 'ΚΑΤΑΧΩΡΗΣΗ';
+    }
+}
+
+async function loadReservations() {
+    try {
+        const response = await fetch(GOOGLE_APPS_SCRIPT_URL + '?t=' + Date.now());
+        const reservations = await response.json();
+        
+        let listDiv = document.getElementById('reservationsList');
+        
+        if (!reservations || reservations.length === 0) {
+            listDiv.innerHTML = '<p class="text-center text-gray-400">Δεν υπάρχουν κρατήσεις</p>';
+            document.getElementById('totalRes').innerHTML = '';
+            return;
+        }
+        
+        let html = '<table><tr><th>Ημ/νία</th><th>Όνομα</th><th>Επίθετο</th><th>Τηλέφωνο</th><th>Άτομα</th><th>Τύπος</th></tr>';
+        
+        [...reservations].reverse().forEach(r => {
+            html += `<tr>
+                <td>${r.Ημερομηνία ? new Date(r.Ημερομηνία).toLocaleString('el-GR') : ''}</td>
+                <td>${r.Όνομα || ''}</td>
+                <td>${r.Επίθετο || ''}</td>
+                <td>${r.Τηλέφωνο || ''}</td>
+                <td>${r.Άτομα || ''}</td>
+                <td>${r.Τύπος || ''}</td>
+            </tr>`;
+        });
+        
+        html += '</table>';
+        listDiv.innerHTML = html;
+        document.getElementById('totalRes').innerHTML = `Σύνολο: ${reservations.length} κρατήσεις`;
+    } catch(error) {
+        console.error('Error loading:', error);
+        document.getElementById('reservationsList').innerHTML = '<p class="text-center text-red-500">Σφάλμα φόρτωσης</p>';
+    }
 }
 
 function showMessage(text, color) {
@@ -420,67 +486,12 @@ function showMessage(text, color) {
     setTimeout(() => { msg.classList.add('hidden'); }, 3000);
 }
 
-function loadReservations() {
-    let reservations = JSON.parse(localStorage.getItem('mythos_reservations')) || [];
-    let listDiv = document.getElementById('reservationsList');
-    
-    if (reservations.length === 0) {
-        listDiv.innerHTML = '<p class="text-center text-gray-400">Δεν υπάρχουν κρατήσεις</p>';
-        document.getElementById('totalRes').innerHTML = '';
-        return;
-    }
-    
-    let html = '<table><tr><th>Όνομα</th><th>Επίθετο</th><th>Τηλέφωνο</th><th>Άτομα</th><th>Τύπος</th><th>Event</th><th>Κράτηση</th></tr>';
-    
-    [...reservations].reverse().forEach(r => {
-        html += `<tr>
-            <td>${r.ονομα || ''}</td>
-            <td>${r.επωνυμο || ''}</td>
-            <td>${r.τηλεφωνο || ''}</td>
-            <td>${r.ατομα || ''}</td>
-            <td>${r.τυπος || ''}</td>
-            <td>${r.ημερομηνια_event || '25/4/2026'} ${r.ωρα_event || '9:00 μ.μ.'}</td>
-            <td>${r.ημερομηνια_κρατησης || ''} ${r.ωρα_κρατησης || ''}</td>
-        </tr>`;
-    });
-    
-    html += '</table>';
-    listDiv.innerHTML = html;
-    document.getElementById('totalRes').innerHTML = `Σύνολο: ${reservations.length} κρατήσεις`;
-}
-
 function downloadExcel() {
-    let reservations = JSON.parse(localStorage.getItem('mythos_reservations')) || [];
-    if (reservations.length === 0) { 
-        alert('Δεν υπάρχουν κρατήσεις'); 
-        return; 
-    }
-    
-    let csv = 'ΟΝΟΜΑ,ΕΠΙΘΕΤΟ,ΤΗΛΕΦΩΝΟ,ΑΤΟΜΑ,ΤΥΠΟΣ,ΗΜ/ΝΙΑ EVENT,ΩΡΑ EVENT,ΗΜ/ΝΙΑ ΚΡΑΤΗΣΗΣ,ΩΡΑ ΚΡΑΤΗΣΗΣ\n';
-    
-    reservations.forEach(r => { 
-        csv += `${r.ονομα || ''},${r.επωνυμο || ''},${r.τηλεφωνο || ''},${r.ατομα || ''},${r.τυπος || ''},${r.ημερομηνια_event || '25/4/2026'},${r.ωρα_event || '9:00 μ.μ.'},${r.ημερομηνια_κρατησης || ''},${r.ωρα_κρατησης || ''}\n`; 
-    });
-    
-    const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    const today = new Date();
-    const dateStr = today.toISOString().split('T')[0];
-    
-    a.href = url;
-    a.download = `κρατησεις_mythos_${dateStr}.csv`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    window.URL.revokeObjectURL(url);
+    alert('Η λειτουργία Excel θα προστεθεί σύντομα!');
 }
 
 function deleteAllReservations() {
-    if (confirm('Σίγουρα θέλεις να διαγράψεις ΟΛΕΣ τις κρατήσεις;')) {
-        localStorage.removeItem('mythos_reservations');
-        loadReservations();
-    }
+    alert('Η διαγραφή γίνεται μόνο από το Google Sheet');
 }
 
 document.addEventListener('keydown', function(e) { 
