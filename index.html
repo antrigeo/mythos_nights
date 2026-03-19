@@ -486,8 +486,40 @@ function showMessage(text, color) {
     setTimeout(() => { msg.classList.add('hidden'); }, 3000);
 }
 
-function downloadExcel() {
-    alert('Η λειτουργία Excel θα προστεθεί σύντομα!');
+async function downloadExcel() {
+    try {
+        const response = await fetch(GOOGLE_APPS_SCRIPT_URL + '?t=' + Date.now());
+        const reservations = await response.json();
+        
+        if (!reservations || reservations.length === 0) {
+            alert('Δεν υπάρχουν κρατήσεις');
+            return;
+        }
+        
+        let csv = 'Ημερομηνία,Όνομα,Επίθετο,Τηλέφωνο,Άτομα,Τύπος\n';
+        
+        reservations.forEach(r => {
+            const date = r.Ημερομηνία ? new Date(r.Ημερομηνία).toLocaleString('el-GR') : '';
+            csv += `${date},${r.Όνομα || ''},${r.Επίθετο || ''},${r.Τηλέφωνο || ''},${r.Άτομα || ''},${r.Τύπος || ''}\n`;
+        });
+        
+        const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        const today = new Date();
+        const dateStr = today.toISOString().split('T')[0];
+        
+        a.href = url;
+        a.download = `κρατησεις_mythos_${dateStr}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+        
+    } catch(error) {
+        alert('Σφάλμα στο κατέβασμα');
+        console.error(error);
+    }
 }
 
 function deleteAllReservations() {
