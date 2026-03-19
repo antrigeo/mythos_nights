@@ -54,6 +54,7 @@ font-family:'Playfair Display',serif;
 font-weight:700;
 letter-spacing:2px;
 text-transform:uppercase;
+font-style:italic;
 }
 
 .logo-glow{
@@ -195,12 +196,22 @@ display:block;
 
 }
 
-/* Date styling */
-.event-date{
-background:rgba(209,161,75,0.1);
-border-left:4px solid #d1a14b;
-padding:15px;
-margin:20px 0;
+/* Gold touch effect */
+.gold-touch{
+color:#d1a14b;
+font-weight:700;
+position:relative;
+display:inline-block;
+}
+
+.gold-touch::after{
+content:'';
+position:absolute;
+bottom:-5px;
+left:0;
+width:100%;
+height:2px;
+background:linear-gradient(90deg, transparent, #d1a14b, transparent);
 }
 
 </style>
@@ -277,13 +288,6 @@ margin:20px 0;
 
 <img src="image_95cceb.jpg" alt="Mythos Nights" class="w-full max-w-[220px] md:max-w-[380px] h-auto logo-glow mx-auto"/>
 
-<!-- Ημερομηνία & Ώρα Event -->
-<div class="event-date inline-block mt-6">
-<p class="text-[#d1a14b] text-lg md:text-xl font-bold">
-📅 ΠΑΡΑΣΚΕΥΗ 25 ΑΠΡΙΛΙΟΥ 2025 | 🕘 9:00 μ.μ.
-</p>
-</div>
-
 <p class="uppercase tracking-[0.8em] text-[#d1a14b] mt-6 font-bold text-[10px] md:text-xs opacity-80">
 Experience the Legend
 </p>
@@ -340,20 +344,26 @@ class="inline-block bg-[#d1a14b] text-black hover:bg-white px-8 py-4 text-sm md:
 <img src="poster.jpg"
 class="poster w-full max-w-[500px] md:max-w-full mx-auto rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.6)]">
 
-<div class="text-left">
+<div class="text-left space-y-4">
 
 <h3 class="text-2xl mythos-font text-[#d1a14b] mb-4">
 MYTHOS EVENT @ SHAKA
 </h3>
 
-<p class="text-gray-300 leading-relaxed mb-4">
-Ζήσε μια μοναδική experience στο SHAKA με Mythos Nights.
+<p class="text-gray-300 leading-relaxed text-lg">
+"Ό,τι αγγίζουμε <span class="gold-touch">γίνεται χρυσός</span>"
 </p>
 
-<!-- Επανάληψη ημερομηνίας για σιγουριά -->
-<div class="bg-[#d1a14b]/10 p-4 rounded-xl">
-<p class="text-[#d1a14b] font-bold">
-<strong>Παρασκευή 25 Απριλίου 2025 | 9:00 μ.μ.</strong>
+<p class="text-gray-400 text-sm italic mb-4">
+- Η απόλυτη νυχτερινή εμπειρία -
+</p>
+
+<div class="bg-[#d1a14b]/10 p-4 rounded-xl border border-[#d1a14b]/30">
+<p class="text-[#d1a14b] font-bold flex items-center gap-2">
+<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+<path d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"/>
+</svg>
+Παρασκευή 25 Απριλίου 2025 | 9:00 μ.μ.
 </p>
 </div>
 
@@ -372,7 +382,12 @@ MYTHOS EVENT @ SHAKA
 Reservations
 </h2>
 
-<p class="text-sm text-gray-400 mt-2">Παρασκευή 25 Απριλίου 2025 - 9:00 μ.μ.</p>
+<p class="text-sm text-gray-400 mt-2 flex items-center justify-center gap-2">
+<svg class="w-4 h-4 text-[#d1a14b]" fill="currentColor" viewBox="0 0 20 20">
+<path d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"/>
+</svg>
+Παρασκευή 25 Απριλίου 2025 - 9:00 μ.μ.
+</p>
 
 </div>
 
@@ -422,9 +437,9 @@ Reservations
 
 <select id="type" class="w-full p-4 rounded-xl font-bold text-[#d1a14b]">
 
-<option value="Τραπέζι (min 1 μπουκάλι)">🍾 ΤΡΑΠΕΖΙ (min 1 μπουκάλι)</option>
-<option value="Καναπές (min 2 μπουκάλια)">🛋️ ΚΑΝΑΠΕΣ (min 2 μπουκάλια)</option>
-<option value="Ticket">🎟 TICKET</option>
+<option value="Τραπέζι (MIN 1 ΜΠΟΥΚΑΛΙ)">🍾 ΤΡΑΠΕΖΙ • MIN 1 ΜΠΟΥΚΑΛΙ</option>
+<option value="Καναπές (MIN 2 ΜΠΟΥΚΑΛΙΑ)">🛋️ ΚΑΝΑΠΕΣ • MIN 2 ΜΠΟΥΚΑΛΙΑ</option>
+<option value="Ticket">🎟 TICKET • ΕΙΣΟΔΟΣ</option>
 
 </select>
 
@@ -441,6 +456,11 @@ Reservations
 <input type="tel" id="phone" required class="w-full p-4 rounded-xl" placeholder="96807443">
 
 </div>
+
+<!-- Υπενθύμιση για τα μπουκάλια -->
+<p class="text-xs text-[#d1a14b]/70 text-center italic">
+🍾 Για τραπέζι & καναπέ: Η κράτηση ολοκληρώνεται με επιλογή μπουκαλιού στο μαγαζί
+</p>
 
 <button onclick="saveReservation()" id="submitBtn"
 class="w-full bg-[#d1a14b] text-black font-black py-5 rounded-xl uppercase tracking-widest hover:bg-white transition-all shadow-lg mt-4">
@@ -566,7 +586,6 @@ return;
 
 }
 
-// Προσθέτουμε την ημερομηνία του event
 const reservation={
 
 ονομα:name,
