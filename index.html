@@ -485,7 +485,6 @@ function showMessage(text, color) {
     msg.classList.remove('hidden');
     setTimeout(() => { msg.classList.add('hidden'); }, 3000);
 }
-
 async function downloadExcel() {
     try {
         const response = await fetch(GOOGLE_APPS_SCRIPT_URL + '?t=' + Date.now());
@@ -496,19 +495,19 @@ async function downloadExcel() {
             return;
         }
         
-        // Δημιουργία CSV
-        let csv = 'Ημερομηνία,Όνομα,Επίθετο,Τηλέφωνο,Άτομα,Τύπος\n';
+        // ΠΡΟΣΘΗΚΗ: Βάζουμε τίτλους στις στήλες (Greeklish για αποφυγή προβλημάτων)
+        let csv = 'Ημερομηνία,Ονομα,Επιθετο,Τηλεφωνο,Ατομα,Τυπος\n';
         
         reservations.forEach(r => {
-            // ΔΙΟΡΘΩΣΗ: Παίρνουμε τα δεδομένα με τα σωστά ονόματα
+            // Παίρνουμε την ημερομηνία όπως έρχεται
             const fullDate = r.Ημερομηνία || '';
             
-            // Δοκιμάζουμε διαφορετικά ονόματα για το πεδίο (λόγω Greeklish)
-            const name = r.Όνομα || r.ονομα || r.name || '';
-            const surname = r.Επίθετο || r.επίθετο || r.επωνυμο || r.Επιθετο || r.surname || '';
-            const phone = r.Τηλέφωνο || r.τηλέφωνο || r.τηλεφωνο || r.phone || '';
-            const people = r.Άτομα || r.ατομα || r.people || '';
-            const type = r.Τύπος || r.τύπος || r.τυπος || r.type || '';
+            // Βεβαιωνόμαστε ότι δεν υπάρχουν κόμματα μέσα στα κείμενα
+            const name = (r.Όνομα || '').replace(/,/g, ' ');
+            const surname = (r.Επιθετο || '').replace(/,/g, ' ');
+            const phone = (r.Τηλέφωνο || '').replace(/,/g, ' ');
+            const people = r.Άτομα || '';
+            const type = (r.Τύπος || '').replace(/,/g, ' ');
             
             csv += `${fullDate},${name},${surname},${phone},${people},${type}\n`;
         });
@@ -532,7 +531,6 @@ async function downloadExcel() {
         console.error(error);
     }
 }
-
 function deleteAllReservations() {
     alert('Η διαγραφή γίνεται μόνο από το Google Sheet');
 }
