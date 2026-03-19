@@ -495,16 +495,14 @@ async function downloadExcel() {
             return;
         }
         
-        // ΠΡΟΣΘΗΚΗ: Βάζουμε τίτλους στις στήλες (Greeklish για αποφυγή προβλημάτων)
-        let csv = 'Ημερομηνία,Ονομα,Επιθετο,Τηλεφωνο,Ατομα,Τυπος\n';
+        // ΜΟΝΟ 6 στήλες: Ημερομηνία, Όνομα, Επίθετο, Τηλέφωνο, Άτομα, Τύπος
+        let csv = 'Ημερομηνία,Όνομα,Επίθετο,Τηλέφωνο,Άτομα,Τύπος\n';
         
         reservations.forEach(r => {
-            // Παίρνουμε την ημερομηνία όπως έρχεται
+            // Η ημερομηνία περιέχει ήδη και την ώρα μαζί
             const fullDate = r.Ημερομηνία || '';
             
-            // Βεβαιωνόμαστε ότι δεν υπάρχουν κόμματα μέσα στα κείμενα
             const name = (r.Όνομα || '').replace(/,/g, ' ');
-            
             const surname = (r.Επίθετο || r.Επιθετο || '').replace(/,/g, ' ');
             const phone = (r.Τηλέφωνο || '').replace(/,/g, ' ');
             const people = r.Άτομα || '';
@@ -513,7 +511,6 @@ async function downloadExcel() {
             csv += `${fullDate},${name},${surname},${phone},${people},${type}\n`;
         });
         
-        // Κατέβασμα αρχείου
         const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -532,15 +529,6 @@ async function downloadExcel() {
         console.error(error);
     }
 }
-function deleteAllReservations() {
-    alert('Η διαγραφή γίνεται μόνο από το Google Sheet');
-}
-
-document.addEventListener('keydown', function(e) { 
-    if (e.key === 'Escape') { 
-        hideAdmin(); 
-    } 
-});
 </script>
 
 <a href="https://instagram.com/mythos_nights" target="_blank" class="fixed bottom-6 right-6 bg-[#d1a14b] text-black px-5 py-3 rounded-full font-bold shadow-lg hover:bg-white transition z-50">INSTAGRAM</a>
