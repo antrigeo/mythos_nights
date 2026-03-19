@@ -4,13 +4,13 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
 
-<title>MYTHOS NIGHTS @ SHAKA</title>
+<title>MYTHOS NIGHTS @ SHAKA | 25/4 9:00 μ.μ.</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
 
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Inter:wght@300;400;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
 
 <style>
     @keyframes mythosGlow{
@@ -47,6 +47,13 @@ box-shadow:0 40px 120px rgba(0,0,0,0.8);
 
 .mythos-font{
 font-family:'Cinzel',serif;
+}
+
+.shaka-font{
+font-family:'Playfair Display',serif;
+font-weight:700;
+letter-spacing:2px;
+text-transform:uppercase;
 }
 
 .logo-glow{
@@ -180,6 +187,20 @@ max-height:70vh;
 font-size:12px;
 }
 
+.poster{
+max-width:90% !important;
+margin:0 auto;
+display:block;
+}
+
+}
+
+/* Date styling */
+.event-date{
+background:rgba(209,161,75,0.1);
+border-left:4px solid #d1a14b;
+padding:15px;
+margin:20px 0;
 }
 
 </style>
@@ -254,7 +275,14 @@ font-size:12px;
 
 <div class="mb-10 animate-mythos text-center">
 
-<img src="image_95cceb.jpg" alt="Mythos Nights" class="w-full max-w-[280px] md:max-w-[420px] h-auto logo-glow mx-auto"/>
+<img src="image_95cceb.jpg" alt="Mythos Nights" class="w-full max-w-[220px] md:max-w-[380px] h-auto logo-glow mx-auto"/>
+
+<!-- Ημερομηνία & Ώρα Event -->
+<div class="event-date inline-block mt-6">
+<p class="text-[#d1a14b] text-lg md:text-xl font-bold">
+📅 ΠΑΡΑΣΚΕΥΗ 25 ΑΠΡΙΛΙΟΥ 2025 | 🕘 9:00 μ.μ.
+</p>
+</div>
 
 <p class="uppercase tracking-[0.8em] text-[#d1a14b] mt-6 font-bold text-[10px] md:text-xs opacity-80">
 Experience the Legend
@@ -272,7 +300,7 @@ Experience the Legend
 Location
 </span>
 
-<span class="mythos-font tracking-widest text-white uppercase italic">
+<span class="shaka-font text-white uppercase italic">
 SHAKA
 </span>
 
@@ -305,31 +333,36 @@ class="inline-block bg-[#d1a14b] text-black hover:bg-white px-8 py-4 text-sm md:
 
 </section>
 
-<div class="max-w-5xl mx-auto mb-16">
+<div class="max-w-5xl mx-auto mb-16 px-4">
 
 <div class="grid md:grid-cols-2 gap-8 items-center">
 
 <img src="poster.jpg"
-class="poster w-full rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.6)]">
+class="poster w-full max-w-[500px] md:max-w-full mx-auto rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.6)]">
 
 <div class="text-left">
 
 <h3 class="text-2xl mythos-font text-[#d1a14b] mb-4">
-MYTHOS EVENT
+MYTHOS EVENT @ SHAKA
 </h3>
 
-<p class="text-gray-300 leading-relaxed">
-Ζήσε μια μοναδική εμπειρία στο SHAKA με Mythos Nights.
-Κάνε την κράτησή σου για τραπέζι ή tickets και ετοιμάσου
-για μια αξέχαστη βραδιά.
+<p class="text-gray-300 leading-relaxed mb-4">
+Ζήσε μια μοναδική experience στο SHAKA με Mythos Nights.
 </p>
 
+<!-- Επανάληψη ημερομηνίας για σιγουριά -->
+<div class="bg-[#d1a14b]/10 p-4 rounded-xl">
+<p class="text-[#d1a14b] font-bold">
+<strong>Παρασκευή 25 Απριλίου 2025 | 9:00 μ.μ.</strong>
+</p>
 </div>
 
 </div>
 
 </div>
-<section id="booking-form" class="py-24 px-6 relative bg-[#03060a]">
+
+</div>
+
 <section id="booking-form" class="py-24 px-6 relative bg-[#03060a]">
 <div class="max-w-xl mx-auto">
 
@@ -338,6 +371,8 @@ MYTHOS EVENT
 <h2 class="text-3xl md:text-4xl font-bold uppercase tracking-[0.2em] text-[#d1a14b] mythos-font">
 Reservations
 </h2>
+
+<p class="text-sm text-gray-400 mt-2">Παρασκευή 25 Απριλίου 2025 - 9:00 μ.μ.</p>
 
 </div>
 
@@ -382,14 +417,14 @@ Reservations
 <div>
 
 <label class="block text-[10px] uppercase tracking-widest text-[#d1a14b] mb-2 font-bold">
-Τύπος
+Τύπος Κράτησης
 </label>
 
 <select id="type" class="w-full p-4 rounded-xl font-bold text-[#d1a14b]">
 
-<option value="Τραπέζι με Μπουκάλια">🍾 ΤΡΑΠΕΖΙ ΜΕ ΜΠΟΥΚΑΛΙΑ</option>
-<option value="Τραπέζι χωρίς Μπουκάλια">🥂 ΤΡΑΠΕΖΙ ΧΩΡΙΣ ΜΠΟΥΚΑΛΙΑ</option>
-<option value="Tickets">🎟 TICKETS</option>
+<option value="Τραπέζι (min 1 μπουκάλι)">🍾 ΤΡΑΠΕΖΙ (min 1 μπουκάλι)</option>
+<option value="Καναπές (min 2 μπουκάλια)">🛋️ ΚΑΝΑΠΕΣ (min 2 μπουκάλια)</option>
+<option value="Ticket">🎟 TICKET</option>
 
 </select>
 
@@ -531,6 +566,7 @@ return;
 
 }
 
+// Προσθέτουμε την ημερομηνία του event
 const reservation={
 
 ονομα:name,
@@ -538,8 +574,10 @@ const reservation={
 τηλεφωνο:phone,
 ατομα:people,
 τυπος:type,
-ημερομηνια:new Date().toLocaleDateString('el-GR'),
-ωρα:new Date().toLocaleTimeString('el-GR')
+ημερομηνια_κρατησης:new Date().toLocaleDateString('el-GR'),
+ωρα_κρατησης:new Date().toLocaleTimeString('el-GR'),
+ημερομηνια_event:"25/4/2025",
+ωρα_event:"9:00 μ.μ."
 
 };
 
@@ -588,7 +626,7 @@ return;
 
 let html='<table>';
 
-html+='<tr><th>Όνομα</th><th>Επίθετο</th><th>Τηλέφωνο</th><th>Άτομα</th><th>Τύπος</th><th>Ημ/νία</th><th>Ώρα</th></tr>';
+html+='<tr><th>Όνομα</th><th>Επίθετο</th><th>Τηλέφωνο</th><th>Άτομα</th><th>Τύπος</th><th>Event</th><th>Κράτηση</th></tr>';
 
 [...reservations].reverse().forEach(r=>{
 
@@ -598,8 +636,8 @@ html+=`<tr>
 <td>${r.τηλεφωνο||''}</td>
 <td>${r.ατομα||''}</td>
 <td>${r.τυπος||''}</td>
-<td>${r.ημερομηνια||''}</td>
-<td>${r.ωρα||''}</td>
+<td>${r.ημερομηνια_event||'25/4/2025'} ${r.ωρα_event||'9:00 μ.μ.'}</td>
+<td>${r.ημερομηνια_κρατησης||''} ${r.ωρα_κρατησης||''}</td>
 </tr>`;
 
 });
@@ -621,10 +659,10 @@ alert('Δεν υπάρχουν κρατήσεις');
 return;
 }
 
-let csv='ΟΝΟΜΑ,ΕΠΙΘΕΤΟ,ΤΗΛΕΦΩΝΟ,ΑΤΟΜΑ,ΤΥΠΟΣ,ΗΜΕΡΟΜΗΝΙΑ,ΩΡΑ\n';
+let csv='ΟΝΟΜΑ,ΕΠΙΘΕΤΟ,ΤΗΛΕΦΩΝΟ,ΑΤΟΜΑ,ΤΥΠΟΣ,ΗΜ/ΝΙΑ EVENT,ΩΡΑ EVENT,ΗΜ/ΝΙΑ ΚΡΑΤΗΣΗΣ,ΩΡΑ ΚΡΑΤΗΣΗΣ\n';
 
 reservations.forEach(r=>{
-csv+=`${r.ονομα||''},${r.επωνυμο||''},${r.τηλεφωνο||''},${r.ατομα||''},${r.τυπος||''},${r.ημερομηνια||''},${r.ωρα||''}\n`;
+csv+=`${r.ονομα||''},${r.επωνυμο||''},${r.τηλεφωνο||''},${r.ατομα||''},${r.τυπος||''},${r.ημερομηνια_event||'25/4/2025'},${r.ωρα_event||'9:00 μ.μ.'},${r.ημερομηνια_κρατησης||''},${r.ωρα_κρατησης||''}\n`;
 });
 
 const blob=new Blob(["\uFEFF"+csv],{type:'text/csv;charset=utf-8;'});
@@ -675,4 +713,3 @@ class="fixed bottom-6 right-6 bg-[#d1a14b] text-black px-5 py-3 rounded-full fon
 
 </body>
 </html>
-
