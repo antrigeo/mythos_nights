@@ -504,7 +504,8 @@ async function downloadExcel() {
             
             // Βεβαιωνόμαστε ότι δεν υπάρχουν κόμματα μέσα στα κείμενα
             const name = (r.Όνομα || '').replace(/,/g, ' ');
-            const surname = (r.Επιθετο || '').replace(/,/g, ' ');
+            
+            const surname = (r.Επίθετο || r.Επιθετο || '').replace(/,/g, ' ');
             const phone = (r.Τηλέφωνο || '').replace(/,/g, ' ');
             const people = r.Άτομα || '';
             const type = (r.Τύπος || '').replace(/,/g, ' ');
