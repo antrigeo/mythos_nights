@@ -485,7 +485,8 @@ function showMessage(text, color) {
     msg.classList.remove('hidden');
     setTimeout(() => { msg.classList.add('hidden'); }, 3000);
 }
-async function downloadExcel() {
+
+    async function downloadExcel() {
     try {
         const response = await fetch(GOOGLE_APPS_SCRIPT_URL + '?t=' + Date.now());
         const reservations = await response.json();
@@ -495,13 +496,14 @@ async function downloadExcel() {
             return;
         }
         
-        // ΜΟΝΟ 6 στήλες: Ημερομηνία, Όνομα, Επίθετο, Τηλέφωνο, Άτομα, Τύπος
+        // ΜΟΝΟ 6 στήλες όπως τις θες
         let csv = 'Ημερομηνία,Όνομα,Επίθετο,Τηλέφωνο,Άτομα,Τύπος\n';
         
         reservations.forEach(r => {
-            // Η ημερομηνία περιέχει ήδη και την ώρα μαζί
+            // Παίρνουμε την ημερομηνία όπως έρχεται (με ώρα)
             const fullDate = r.Ημερομηνία || '';
             
+            // ΣΩΣΤΑ ονόματα πεδίων
             const name = (r.Όνομα || '').replace(/,/g, ' ');
             const surname = (r.Επίθετο || r.Επιθετο || '').replace(/,/g, ' ');
             const phone = (r.Τηλέφωνο || '').replace(/,/g, ' ');
