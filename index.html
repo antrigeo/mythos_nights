@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="el" class="scroll-smooth">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MYTHOS NIGHTS @ SHAKA</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+
+<style>
+    @keyframes mythosGlow{
+0%{filter:drop-shadow(0 0 20px rgba(209,161,75,0.3));}
+50%{filter:drop-shadow(0 0 60px rgba(209,161,75,0.8));}
+100%{filter:drop-shadow(0 0 20px rgba(209,161,75,0.3));}
+}
+
+.logo-glow{
+animation: mythosGlow 4s infinite ease-in-out;
+}
+
+body{
+font-family:'Inter',sans-serif;
+background-color:#020408;
+color:#e5e7eb;
+margin:0;
+}
+
+@keyframes floatingLights{
+0%{transform:translateY(0px)}
+50%{transform:translateY(-40px)}
+100%{transform:translateY(0px)}
+}
+
+.poster{
+transition:0.5s;
+}
+
+.poster:hover{
+transform:scale(1.05) rotate(-1deg);
+box-shadow:0 40px 120px rgba(0,0,0,0.8);
+}
+
+.mythos-font{
+font-family:'Cinzel',serif;
+}
+
+.logo-glow{
+filter:drop-shadow(0 0 35px rgba(209,161,75,0.4));
+}
+
+.glass{
+background:rgba(255,255,255,0.02);
+backdrop-filter:blur(15px);
+border:1px solid rgba(209,161,75,0.2);
+}
+
+input,select{
+background:rgba(255,255,255,0.05)!important;
+border:1px solid rgba(209,161,75,0.3)!important;
+color:white!important;
+outline:none;
+}
+
+select option{
+background:#020408;
+color:#d1a14b;
+font-weight:bold;
+}
+
+input:focus,select:focus{
+border-color:#d1a14b!important;
+}
+
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(20px)}
+to{opacity:1;transform:translateY(0)}
+}
+
+.animate-mythos{
+animation:fadeIn 1.2s ease-out forwards;
+}
+
+/* ADMIN */
+
+.admin-hidden{
+display:none;
+}
+
+.admin-overlay{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.8);
+z-index:1500;
+}
+
+.admin-overlay.visible{
+display:block;
+}
+
+.admin-table{
+background:#111;
+border:1px solid #d1a14b;
+border-radius:15px;
+padding:20px;
+max-width:90vw;
+max-height:80vh;
+overflow:auto;
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+z-index:2000;
+display:none;
+}
+
+.admin-table.visible{
+display:block;
+}
+
+.admin-table table{
+width:100%;
+border-collapse:collapse;
+}
+
+.admin-table th{
+background:#d1a14b;
+color:black;
+padding:10px;
+}
+
+.admin-table td{
+padding:8px;
+border-bottom:1px solid #333;
+color:white;
+}
+
+.admin-btn{
+background:#d1a14b;
+color:black;
+padding:8px 15px;
+border-radius:8px;
+font-weight:bold;
+cursor:pointer;
+border:none;
+}
+
+.admin-btn:hover{
+background:white;
+}
+
+/* secret area */
+
+.secret-area{
+position:fixed;
+top:10px;
+right:10px;
+width:50px;
+height:50px;
+cursor:pointer;
+z-index:1000;
+opacity:0;
+}
+
+/* MOBILE IMPROVEMENTS */
+
+@media(max-width:640px){
+
+.admin-table{
+width:95%;
+max-height:70vh;
+font-size:12px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body class="overflow-x-hidden">
+
+<div class="secret-area" id="secretArea" onclick="secretClick()"></div>
+
+<div class="admin-overlay" id="adminOverlay" onclick="hideAdmin()"></div>
+
+<div id="adminLogin" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black border-2 border-[#d1a14b] rounded-2xl p-8 z-[2000]" style="display:none;width:320px;">
+
+<h3 class="text-2xl mythos-font text-[#d1a14b] mb-6 text-center">🔐 ADMIN ACCESS</h3>
+
+<input type="password" id="adminPass" placeholder="Κωδικός" class="w-full p-3 rounded-xl mb-4 bg-gray-900 text-white border border-[#d1a14b]">
+
+<button onclick="checkAdminPass()" class="w-full bg-[#d1a14b] text-black font-bold py-3 rounded-xl mb-2">
+ΕΙΣΟΔΟΣ
+</button>
+
+<button onclick="hideAdmin()" class="w-full bg-gray-800 text-white py-2 rounded-xl">
+ΑΚΥΡΩΣΗ
+</button>
+
+<p id="adminMessage" class="text-red-500 text-center mt-2 text-sm"></p>
+
+</div>
+
+<div id="adminTable" class="admin-table">
+
+<div class="flex justify-between items-center mb-4">
+
+<h2 class="text-2xl mythos-font text-[#d1a14b]">
+📊 ΚΡΑΤΗΣΕΙΣ
+</h2>
+
+<div>
+
+<button onclick="downloadExcel()" class="admin-btn mr-2">
+📥 EXCEL
+</button>
+
+<button onclick="deleteAllReservations()" class="admin-btn bg-red-600 text-white hover:bg-red-700">
+🗑️ ΔΙΑΓΡΑΦΗ
+</button>
+
+<button onclick="hideAdminTable()" class="admin-btn bg-gray-600 text-white hover:bg-gray-700 ml-2">
+✕
+</button>
+
+</div>
+
+</div>
+
+<div id="reservationsList"></div>
+
+<p id="totalRes" class="text-right mt-4 text-gray-400"></p>
+
+</div>
+
+<section class="relative min-h-screen flex flex-col items-center justify-center px-6 pt-20">
+
+<div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
+
+<div class="absolute top-1/4 -left-20 w-[500px] h-[500px] bg-blue-900 rounded-full blur-[160px] opacity-20 animate-[floatingLights_12s_infinite]"></div>
+
+<div class="absolute bottom-1/4 -right-20 w-[500px] h-[500px] bg-[#a37828] rounded-full blur-[160px] opacity-10 animate-[floatingLights_16s_infinite]"></div>
+
+</div>
+
+<div class="mb-10 animate-mythos text-center">
+
+<img src="image_95cceb.jpg" alt="Mythos Nights" class="w-full max-w-[280px] md:max-w-[420px] h-auto logo-glow mx-auto"/>
+
+<p class="uppercase tracking-[0.8em] text-[#d1a14b] mt-6 font-bold text-[10px] md:text-xs opacity-80">
+Experience the Legend
+</p>
+
+</div>
+
+<div class="text-center max-w-5xl animate-mythos mb-12">
+
+<div class="flex flex-wrap justify-center items-center gap-6 md:gap-12 text-xl md:text-3xl font-light mb-10">
+
+<div class="flex flex-col text-center">
+
+<span class="text-[9px] text-[#d1a14b] uppercase tracking-[0.4em] mb-2 font-bold">
+Location
+</span>
+
+<span class="mythos-font tracking-widest text-white uppercase italic">
+SHAKA
+</span>
+
+</div>
+
+<div class="hidden md:block w-px h-14 bg-[#d1a14b]/30"></div>
+
+<div class="flex flex-col">
+
+<span class="text-[9px] text-blue-400 uppercase tracking-[0.4em] mb-2 font-bold">
+Phone
+</span>
+
+<a href="tel:96807443" class="mythos-font tracking-widest text-white">
+96807443
+</a>
+
+</div>
+
+</div>
+
+<a href="#booking-form"
+class="inline-block bg-[#d1a14b] text-black hover:bg-white px-8 py-4 text-sm md:px-14 md:py-5 rounded-full font-black uppercase tracking-[0.2em] transition-all shadow-[0_0_40px_rgba(209,161,75,0.6)] hover:shadow-[0_0_80px_rgba(209,161,75,1)]">
+
+ΚΡΑΤΗΣΗ ΤΩΡΑ
+
+</a>
+
+</div>
+
+</section>
+
+<div class="max-w-5xl mx-auto mb-16">
+
+<div class="grid md:grid-cols-2 gap-8 items-center">
+
+<img src="poster.jpg"
+class="poster w-full rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.6)]">
+
+<div class="text-left">
+
+<h3 class="text-2xl mythos-font text-[#d1a14b] mb-4">
+MYTHOS EVENT
+</h3>
+
+<p class="text-gray-300 leading-relaxed">
+Ζήσε μια μοναδική εμπειρία στο SHAKA με Mythos Nights.
+Κάνε την κράτησή σου για τραπέζι ή tickets και ετοιμάσου
+για μια αξέχαστη βραδιά.
+</p>
+
+</div>
+
+</div>
+
+</div>
+<section id="booking-form" class="py-24 px-6 relative bg-[#03060a]">
+<section id="booking-form" class="py-24 px-6 relative bg-[#03060a]">
+<div class="max-w-xl mx-auto">
+
+<div class="text-center mb-12">
+
+<h2 class="text-3xl md:text-4xl font-bold uppercase tracking-[0.2em] text-[#d1a14b] mythos-font">
+Reservations
+</h2>
+
+</div>
+
+<div class="glass p-8 md:p-12 rounded-3xl space-y-6">
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+<div>
+
+<label class="block text-[10px] uppercase tracking-widest text-[#d1a14b] mb-2 font-bold">
+Όνομα
+</label>
+
+<input type="text" id="name" required class="w-full p-4 rounded-xl" placeholder="First Name">
+
+</div>
+
+<div>
+
+<label class="block text-[10px] uppercase tracking-widest text-[#d1a14b] mb-2 font-bold">
+Επίθετο
+</label>
+
+<input type="text" id="surname" required class="w-full p-4 rounded-xl" placeholder="Last Name">
+
+</div>
+
+</div>
+
+<div class="grid grid-cols-2 gap-4">
+
+<div>
+
+<label class="block text-[10px] uppercase tracking-widest text-[#d1a14b] mb-2 font-bold">
+Άτομα
+</label>
+
+<input type="number" id="people" value="2" min="1" max="20" class="w-full p-4 rounded-xl">
+
+</div>
+
+<div>
+
+<label class="block text-[10px] uppercase tracking-widest text-[#d1a14b] mb-2 font-bold">
+Τύπος
+</label>
+
+<select id="type" class="w-full p-4 rounded-xl font-bold text-[#d1a14b]">
+
+<option value="Τραπέζι με Μπουκάλια">🍾 ΤΡΑΠΕΖΙ ΜΕ ΜΠΟΥΚΑΛΙΑ</option>
+<option value="Τραπέζι χωρίς Μπουκάλια">🥂 ΤΡΑΠΕΖΙ ΧΩΡΙΣ ΜΠΟΥΚΑΛΙΑ</option>
+<option value="Tickets">🎟 TICKETS</option>
+
+</select>
+
+</div>
+
+</div>
+
+<div>
+
+<label class="block text-[10px] uppercase tracking-widest text-[#d1a14b] mb-2 font-bold">
+Τηλέφωνο
+</label>
+
+<input type="tel" id="phone" required class="w-full p-4 rounded-xl" placeholder="96807443">
+
+</div>
+
+<button onclick="saveReservation()" id="submitBtn"
+class="w-full bg-[#d1a14b] text-black font-black py-5 rounded-xl uppercase tracking-widest hover:bg-white transition-all shadow-lg mt-4">
+
+ΚΑΤΑΧΩΡΗΣΗ
+
+</button>
+
+<p id="message" class="text-center text-green-500 mt-4 hidden font-bold italic">
+Η κράτηση καταχωρήθηκε!
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<footer class="py-12 text-center opacity-50">
+
+<a href="https://ig.me/m/mythos_nights" target="_blank"
+class="text-[#d1a14b] mythos-font tracking-widest hover:text-white transition-colors">
+
+@mythos_nights
+
+</a>
+
+</footer>
+
+<script>
+
+const ADMIN_PASSWORD="mythos2024";
+
+let clickCount=0;
+let clickTimer;
+
+function secretClick(){
+
+clickCount++;
+
+if(clickCount===1){
+
+clickTimer=setTimeout(()=>{
+clickCount=0
+},2000);
+
+}
+
+if(clickCount===5){
+
+clearTimeout(clickTimer);
+clickCount=0;
+showAdminLogin();
+
+}
+
+}
+
+function showAdminLogin(){
+
+document.getElementById('adminLogin').style.display='block';
+document.getElementById('adminOverlay').classList.add('visible');
+document.getElementById('adminPass').value='';
+document.getElementById('adminMessage').innerHTML='';
+
+}
+
+function hideAdmin(){
+
+document.getElementById('adminLogin').style.display='none';
+document.getElementById('adminOverlay').classList.remove('visible');
+document.getElementById('adminTable').classList.remove('visible');
+
+}
+
+function hideAdminTable(){
+
+document.getElementById('adminTable').classList.remove('visible');
+document.getElementById('adminOverlay').classList.remove('visible');
+
+}
+
+function checkAdminPass(){
+
+const pass=document.getElementById('adminPass').value;
+
+if(pass===ADMIN_PASSWORD){
+
+document.getElementById('adminLogin').style.display='none';
+document.getElementById('adminTable').classList.add('visible');
+document.getElementById('adminOverlay').classList.add('visible');
+loadReservations();
+
+}else{
+
+document.getElementById('adminMessage').innerHTML='Λάθος κωδικός!';
+
+}
+
+}
+
+function saveReservation(){
+
+const name=document.getElementById('name').value.trim();
+const surname=document.getElementById('surname').value.trim();
+const phone=document.getElementById('phone').value.trim();
+const people=document.getElementById('people').value;
+const type=document.getElementById('type').value;
+
+if(!name||!surname||!phone){
+
+showMessage('Συμπληρώστε Όνομα, Επίθετο και Τηλέφωνο!','red');
+return;
+
+}
+
+const phoneRegex=/^[0-9]{8}$/;
+
+if(!phoneRegex.test(phone)){
+
+showMessage('Το τηλέφωνο πρέπει να έχει 8 ψηφία!','red');
+return;
+
+}
+
+const reservation={
+
+ονομα:name,
+επωνυμο:surname,
+τηλεφωνο:phone,
+ατομα:people,
+τυπος:type,
+ημερομηνια:new Date().toLocaleDateString('el-GR'),
+ωρα:new Date().toLocaleTimeString('el-GR')
+
+};
+
+let reservations=JSON.parse(localStorage.getItem('mythos_reservations'))||[];
+
+reservations.push(reservation);
+
+localStorage.setItem('mythos_reservations',JSON.stringify(reservations));
+
+showMessage('Η κράτηση καταχωρήθηκε!','green');
+
+document.getElementById('name').value='';
+document.getElementById('surname').value='';
+document.getElementById('phone').value='';
+document.getElementById('people').value='2';
+
+}
+
+function showMessage(text,color){
+
+const msg=document.getElementById('message');
+
+msg.innerHTML=text;
+msg.style.color=color;
+msg.classList.remove('hidden');
+
+setTimeout(()=>{
+msg.classList.add('hidden')
+},3000);
+
+}
+
+function loadReservations(){
+
+let reservations=JSON.parse(localStorage.getItem('mythos_reservations'))||[];
+
+let listDiv=document.getElementById('reservationsList');
+
+if(reservations.length===0){
+
+listDiv.innerHTML='<p class="text-center text-gray-400">Δεν υπάρχουν κρατήσεις</p>';
+document.getElementById('totalRes').innerHTML='';
+return;
+
+}
+
+let html='<table>';
+
+html+='<tr><th>Όνομα</th><th>Επίθετο</th><th>Τηλέφωνο</th><th>Άτομα</th><th>Τύπος</th><th>Ημ/νία</th><th>Ώρα</th></tr>';
+
+[...reservations].reverse().forEach(r=>{
+
+html+=`<tr>
+<td>${r.ονομα||''}</td>
+<td>${r.επωνυμο||''}</td>
+<td>${r.τηλεφωνο||''}</td>
+<td>${r.ατομα||''}</td>
+<td>${r.τυπος||''}</td>
+<td>${r.ημερομηνια||''}</td>
+<td>${r.ωρα||''}</td>
+</tr>`;
+
+});
+
+html+='</table>';
+
+listDiv.innerHTML=html;
+
+document.getElementById('totalRes').innerHTML=`Σύνολο: ${reservations.length} κρατήσεις`;
+
+}
+
+function downloadExcel(){
+
+let reservations=JSON.parse(localStorage.getItem('mythos_reservations'))||[];
+
+if(reservations.length===0){
+alert('Δεν υπάρχουν κρατήσεις');
+return;
+}
+
+let csv='ΟΝΟΜΑ,ΕΠΙΘΕΤΟ,ΤΗΛΕΦΩΝΟ,ΑΤΟΜΑ,ΤΥΠΟΣ,ΗΜΕΡΟΜΗΝΙΑ,ΩΡΑ\n';
+
+reservations.forEach(r=>{
+csv+=`${r.ονομα||''},${r.επωνυμο||''},${r.τηλεφωνο||''},${r.ατομα||''},${r.τυπος||''},${r.ημερομηνια||''},${r.ωρα||''}\n`;
+});
+
+const blob=new Blob(["\uFEFF"+csv],{type:'text/csv;charset=utf-8;'});
+
+const url=window.URL.createObjectURL(blob);
+
+const a=document.createElement('a');
+
+const today=new Date();
+const dateStr=today.toISOString().split('T')[0];
+
+a.href=url;
+a.download=`κρατησεις_mythos_${dateStr}.csv`;
+
+document.body.appendChild(a);
+a.click();
+document.body.removeChild(a);
+window.URL.revokeObjectURL(url);
+
+}
+
+function deleteAllReservations(){
+
+if(confirm('Σίγουρα θέλεις να διαγράψεις ΟΛΕΣ τις κρατήσεις;')){
+
+localStorage.removeItem('mythos_reservations');
+loadReservations();
+
+}
+
+}
+
+document.addEventListener('keydown',function(e){
+
+if(e.key==='Escape'){
+hideAdmin();
+}
+
+});
+
+</script>
+
+<a href="https://instagram.com/mythos_nights"
+target="_blank"
+class="fixed bottom-6 right-6 bg-[#d1a14b] text-black px-5 py-3 rounded-full font-bold shadow-lg hover:bg-white transition z-50">
+📸 INSTAGRAM
+</a>
+
+</body>
+</html>
+
