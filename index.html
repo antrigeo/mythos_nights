@@ -496,13 +496,24 @@ async function downloadExcel() {
             return;
         }
         
-        let csv = 'Ημερομηνία,Όνομα,Επίθετο,Τηλέφωνο,Άτομα,Τύπος\n';
+        // Δημιουργία CSV με σωστές στήλες
+        let csv = 'Ημερομηνία,Ώρα,Όνομα,Επίθετο,Τηλέφωνο,Άτομα,Τύπος\n';
         
         reservations.forEach(r => {
-            const date = r.Ημερομηνία ? new Date(r.Ημερομηνία).toLocaleString('el-GR') : '';
-            csv += `${date},${r.Όνομα || ''},${r.Επίθετο || ''},${r.Τηλέφωνο || ''},${r.Άτομα || ''},${r.Τύπος || ''}\n`;
+            // Αν η Ημερομηνία περιέχει και ώρα, τη σπάμε
+            let datePart = '';
+            let timePart = '';
+            
+            if (r.Ημερομηνία) {
+                const dateObj = new Date(r.Ημερομηνία);
+                datePart = dateObj.toLocaleDateString('el-GR');
+                timePart = dateObj.toLocaleTimeString('el-GR');
+            }
+            
+            csv += `${datePart},${timePart},${r.Όνομα || ''},${r.Επίθετο || ''},${r.Τηλέφωνο || ''},${r.Άτομα || ''},${r.Τύπος || ''}\n`;
         });
         
+        // Κατέβασμα αρχείου
         const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
