@@ -46,12 +46,12 @@
     }
 
     .shaka-font {
-    font-family: 'Cinzel', serif;
-    font-weight: 900;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    text-shadow: 0 0 10px rgba(209,161,75,0.5);
-}
+        font-family: 'Cinzel', serif;
+        font-weight: 900;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        text-shadow: 0 0 10px rgba(209,161,75,0.5);
+    }
 
     .glass {
         background: rgba(255,255,255,0.02);
@@ -85,7 +85,6 @@
         animation: fadeIn 1.2s ease-out forwards;
     }
 
-    /* ADMIN */
     .admin-hidden {
         display: none;
     }
@@ -156,7 +155,6 @@
         background: white;
     }
 
-    /* secret area */
     .secret-area {
         position: fixed;
         top: 10px;
@@ -168,7 +166,6 @@
         opacity: 0;
     }
 
-    /* ΒΕΛΤΙΩΣΕΙΣ ΓΙΑ ΚΙΝΗΤΑ */
     @media(max-width: 640px) {
         .admin-table {
             width: 95%;
@@ -180,7 +177,6 @@
             margin: 0 auto;
             display: block;
         }
-        /* Επιπλέον βελτιώσεις κινητών */
         input, select, button {
             font-size: 16px !important;
         }
@@ -196,7 +192,6 @@
         }
     }
 
-    /* Gold touch effect */
     .gold-quote {
         color: #d1a14b;
         font-size: 1.3rem;
@@ -217,10 +212,9 @@
 
 <div id="sharePopup" class="fixed inset-0 flex items-center justify-center bg-black/70 z-50 hidden">
   <div class="bg-[#d1a14b]/10 backdrop-blur-lg p-8 rounded-2xl text-center max-w-sm">
-   
-      <div class="text-6xl mb-4">🥳🎶</div>
-    <h3 class="text-2xl font-bold text-white mb-2">Είμαι έτοιμος για το πάρτυ! 🥳</h3>
-    <p class="text-white/80 mb-4">Κοινοποίησέ το στο Instagram σου!</p>
+      <div class="text-6xl mb-4">🎉✨</div>
+    <h3 class="text-2xl font-bold text-white mb-2">Επιτυχής Κράτηση!</h3>
+    <p class="text-white/80 mb-4">Ετοιμαστείτε για τη νύχτα των θρύλων!</p>
     <button onclick="closeSharePopup()" class="bg-white text-black font-bold px-6 py-2 rounded-full hover:bg-gray-200">OK</button>
   </div>
 </div>    
@@ -246,7 +240,6 @@
     <p id="totalRes" class="text-right mt-4 text-gray-400"></p>
 </div>
 
-<!-- ΑΡΧΙΚΗ ΕΝΟΤΗΤΑ -->
 <section class="relative min-h-screen flex flex-col items-center justify-center px-6 pt-20">
     <div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
         <div class="absolute top-1/4 -left-20 w-[500px] h-[500px] bg-blue-900 rounded-full blur-[160px] opacity-20 animate-[floatingLights_12s_infinite]"></div>
@@ -262,7 +255,6 @@
         <div class="flex flex-wrap justify-center items-center gap-6 md:gap-12 text-xl md:text-3xl font-light mb-10">
             <div class="flex flex-col text-center">
                 <span class="text-[9px] text-[#d1a14b] uppercase tracking-[0.4em] mb-2 font-bold">LOCATION</span>
-            
                 <span class="shaka-font text-white uppercase">SHAKA</span>
             </div>
             <div class="hidden md:block w-px h-14 bg-[#d1a14b]/30"></div>
@@ -275,11 +267,9 @@
     </div>
 </section>
 
-<!-- ΕΝΟΤΗΤΑ ΜΕ POSTER -->
 <div class="max-w-5xl mx-auto mb-16 px-4">
     <div class="grid md:grid-cols-2 gap-8 items-center">
         <img src="poster.jpg" class="poster w-full max-w-[500px] md:max-w-full mx-auto rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.6)]">
-
         <div class="text-left">
             <h3 class="text-2xl mythos-font text-[#d1a14b] mb-4">MYTHOS_NIGHTS</h3>
             <p class="text-white text-xl md:text-2xl mb-3 font-light italic tracking-wide">"Ό,τι αγγίζουμε <span class="font-bold text-[#d1a14b]">γίνεται χρυσός</span>"</p>
@@ -293,7 +283,6 @@
     </div>
 </div>
 
-<!-- ΦΟΡΜΑ ΚΡΑΤΗΣΗΣ -->
 <section id="booking-form" class="py-24 px-6 relative bg-[#03060a]">
     <div class="max-w-xl mx-auto">
         <div class="text-center mb-12">
@@ -333,14 +322,13 @@
 
             <div>
                 <label class="block text-[10px] uppercase tracking-widest text-[#d1a14b] mb-2 font-bold">ΤΗΛΕΦΩΝΟ</label>
-                
-               <input type="tel" id="phone" required class="w-full p-4 rounded-xl" placeholder="">
+                <input type="tel" id="phone" required class="w-full p-4 rounded-xl" placeholder="">
             </div>
 
             <p class="text-xs text-[#d1a14b] text-center">Για τραπέζι & καναπέ: επιλέγεις μπουκάλι στο μαγαζί</p>
 
             <button onclick="saveReservation()" id="submitBtn" class="w-full bg-[#d1a14b] text-black font-black py-5 rounded-xl uppercase tracking-widest hover:bg-white transition-all shadow-lg mt-4">ΚΑΤΑΧΩΡΗΣΗ</button>
-            <p id="message" class="text-center text-green-500 mt-4 hidden font-bold italic">Η κράτηση καταχωρήθηκε!</p>
+            <p id="message" class="text-center text-green-500 mt-4 hidden font-bold italic"></p>
         </div>
     </div>
 </section>
@@ -349,7 +337,6 @@
     <a href="https://ig.me/m/mythos_nights" target="_blank" class="text-[#d1a14b] mythos-font tracking-widest hover:text-white transition-colors">mythos_nights</a>
 </footer>
 
-<!-- JAVASCRIPT -->
 <script>
 const ADMIN_PASSWORD = "mythos2024";
 const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzNkcevNtCAAhTQYCelrbTfYcKnTXNrbrcoSzZ9EllStf9pW5lii5Tm7HVC-_1Ry4xlkQ/exec";
@@ -359,25 +346,19 @@ let clickTimer;
 
 function secretClick() {
     clickCount++;
-    if (clickCount === 1) {
-        clickTimer = setTimeout(() => { clickCount = 0; }, 2000);
-    }
-    if (clickCount === 5) {
-        clearTimeout(clickTimer);
-        clickCount = 0;
-        showAdminLogin();
-    }
+    if (clickCount === 1) clickTimer = setTimeout(() => { clickCount = 0; }, 2000);
+    if (clickCount === 5) { clearTimeout(clickTimer); clickCount=0; showAdminLogin(); }
 }
 
 function showAdminLogin() {
-    document.getElementById('adminLogin').style.display = 'block';
+    document.getElementById('adminLogin').style.display='block';
     document.getElementById('adminOverlay').classList.add('visible');
-    document.getElementById('adminPass').value = '';
-    document.getElementById('adminMessage').innerHTML = '';
+    document.getElementById('adminPass').value='';
+    document.getElementById('adminMessage').innerHTML='';
 }
 
 function hideAdmin() {
-    document.getElementById('adminLogin').style.display = 'none';
+    document.getElementById('adminLogin').style.display='none';
     document.getElementById('adminOverlay').classList.remove('visible');
     document.getElementById('adminTable').classList.remove('visible');
 }
@@ -388,171 +369,85 @@ function hideAdminTable() {
 }
 
 function checkAdminPass() {
-    const pass = document.getElementById('adminPass').value;
-    if (pass === ADMIN_PASSWORD) {
-        document.getElementById('adminLogin').style.display = 'none';
-        document.getElementById('adminTable').classList.add('visible');
-        document.getElementById('adminOverlay').classList.add('visible');
-        loadReservations();
-    } else {
-        document.getElementById('adminMessage').innerHTML = 'Λάθος κωδικός!';
-    }
+    const pass=document.getElementById('adminPass').value;
+    if(pass===ADMIN_PASSWORD){document.getElementById('adminLogin').style.display='none';document.getElementById('adminTable').classList.add('visible');document.getElementById('adminOverlay').classList.add('visible');loadReservations();}
+    else document.getElementById('adminMessage').innerHTML='Λάθος κωδικός!';
 }
 
 async function saveReservation() {
-    const name = document.getElementById('name').value.trim();
-    const surname = document.getElementById('surname').value.trim();
-    const phone = document.getElementById('phone').value.trim();
-    const people = document.getElementById('people').value;
-    const type = document.getElementById('type').value;
+    const name=document.getElementById('name').value.trim();
+    const surname=document.getElementById('surname').value.trim();
+    const phone=document.getElementById('phone').value.trim();
+    const people=document.getElementById('people').value;
+    const type=document.getElementById('type').value;
 
-    if (!name || !surname || !phone) {
-        showMessage('Συμπληρώστε Όνομα, Επίθετο και Τηλέφωνο!', 'red');
-        return;
-    }
-    
-    const phoneRegex = /^[0-9]{8}$/;
-    if (!phoneRegex.test(phone)) {
-        showMessage('Το τηλέφωνο πρέπει να έχει 8 ψηφία!', 'red');
-        return;
-    }
+    if(!name||!surname||!phone){showMessage('Συμπληρώστε Όνομα, Επίθετο και Τηλέφωνο!','red');return;}
 
-    const btn = document.getElementById('submitBtn');
-    btn.disabled = true;
-    btn.innerHTML = 'ΑΠΟΘΗΚΕΥΣΗ...';
+    const phoneRegex=/^[0-9]{8}$/;
+    if(!phoneRegex.test(phone)){showMessage('Το τηλέφωνο πρέπει να έχει 8 ψηφία!','red');return;}
 
-    const reservation = {
-        ονομα: name,
-        επωνυμο: surname,
-        τηλεφωνο: phone,
-        ατομα: people,
-        τυπος: type,
-        ημερομηνια_event: "25/4/2026",
-        ωρα_event: "9:00 μ.μ."
-    };
+    const btn=document.getElementById('submitBtn');
+    btn.disabled=true;btn.innerHTML='ΑΠΟΘΗΚΕΥΣΗ...';
+
+    const reservation={ονομα:name,επωνυμο:surname,τηλεφωνο:phone,ατομα:people,τυπος:type,ημερομηνια_event:"25/4/2026",ωρα_event:"9:00 μ.μ."};
 
     try {
-        await fetch(GOOGLE_APPS_SCRIPT_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(reservation)
-        });
-        
-        showMessage('Η κράτηση καταχωρήθηκε!', 'green');
-        showSharePopup(); // Προσθήκη popup μετά την επιτυχή κράτηση
-        document.getElementById('name').value = '';
-        document.getElementById('surname').value = '';
-        document.getElementById('phone').value = '';
-        document.getElementById('people').value = '2';
-    } catch(error) {
-        showMessage('Σφάλμα! Δοκιμάστε ξανά.', 'red');
-        console.error(error);
-    } finally {
-        btn.disabled = false;
-        btn.innerHTML = 'ΚΑΤΑΧΩΡΗΣΗ';
-    }
+        await fetch(GOOGLE_APPS_SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(reservation)});
+        showMessage('Η κράτηση καταχωρήθηκε!','green');
+        showSharePopup();
+        document.getElementById('name').value='';
+        document.getElementById('surname').value='';
+        document.getElementById('phone').value='';
+        document.getElementById('people').value='2';
+    } catch(error){showMessage('Σφάλμα! Δοκιμάστε ξανά.','red');console.error(error);}
+    finally{btn.disabled=false;btn.innerHTML='ΚΑΤΑΧΩΡΗΣΗ';}
 }
 
-async function loadReservations() {
-    try {
-        const response = await fetch(GOOGLE_APPS_SCRIPT_URL + '?t=' + Date.now());
-        const reservations = await response.json();
-        
-        let listDiv = document.getElementById('reservationsList');
-        
-        if (!reservations || reservations.length === 0) {
-            listDiv.innerHTML = '<p class="text-center text-gray-400">Δεν υπάρχουν κρατήσεις</p>';
-            document.getElementById('totalRes').innerHTML = '';
-            return;
-        }
-        
-        let html = '<table><tr><th>Ημ/νία</th><th>Όνομα</th><th>Επίθετο</th><th>Τηλέφωνο</th><th>Άτομα</th><th>Τύπος</th></tr>';
-        
-        [...reservations].reverse().forEach(r => {
-            html += `<tr>
-                <td>${r.Ημερομηνία ? new Date(r.Ημερομηνία).toLocaleString('el-GR') : ''}</td>
-                <td>${r.Όνομα || ''}</td>
-                <td>${r.Επίθετο || ''}</td>
-                <td>${r.Τηλέφωνο || ''}</td>
-                <td>${r.Άτομα || ''}</td>
-                <td>${r.Τύπος || ''}</td>
-            </tr>`;
-        });
-        
-        html += '</table>';
-        listDiv.innerHTML = html;
-        document.getElementById('totalRes').innerHTML = `Σύνολο: ${reservations.length} κρατήσεις`;
-    } catch(error) {
-        console.error('Error loading:', error);
-        document.getElementById('reservationsList').innerHTML = '<p class="text-center text-red-500">Σφάλμα φόρτωσης</p>';
-    }
-}
-
-function showMessage(text, color) {
-    const msg = document.getElementById('message');
-    msg.innerHTML = text;
-    msg.style.color = color;
+function showMessage(text,color){
+    const msg=document.getElementById('message');
+    msg.innerHTML=text;msg.style.color=color;
     msg.classList.remove('hidden');
-    setTimeout(() => { msg.classList.add('hidden'); }, 3000);
+    setTimeout(()=>{msg.classList.add('hidden');},3000);
 }
 
-function showSharePopup() {
-    const popup = document.getElementById('sharePopup');
-    popup.classList.remove('hidden');
+function showSharePopup(){document.getElementById('sharePopup').classList.remove('hidden');}
+function closeSharePopup(){document.getElementById('sharePopup').classList.add('hidden');}
+
+async function loadReservations(){
+    try{
+        const response=await fetch(GOOGLE_APPS_SCRIPT_URL+'?t='+Date.now());
+        const reservations=await response.json();
+        let listDiv=document.getElementById('reservationsList');
+        if(!reservations||reservations.length===0){listDiv.innerHTML='<p class="text-center text-gray-400">Δεν υπάρχουν κρατήσεις</p>';document.getElementById('totalRes').innerHTML='';return;}
+        let html='<table><tr><th>Ημ/νία</th><th>Όνομα</th><th>Επίθετο</th><th>Τηλέφωνο</th><th>Άτομα</th><th>Τύπος</th></tr>';
+        [...reservations].reverse().forEach(r=>{html+=`<tr><td>${r.Ημερομηνία?new Date(r.Ημερομηνία).toLocaleString('el-GR'):''}</td><td>${r.Όνομα||''}</td><td>${r.Επίθετο||''}</td><td>${r.Τηλέφωνο||''}</td><td>${r.Άτομα||''}</td><td>${r.Τύπος||''}</td></tr>`});
+        html+='</table>';listDiv.innerHTML=html;
+        document.getElementById('totalRes').innerHTML=`Σύνολο: ${reservations.length} κρατήσεις`;
+    } catch(error){console.error('Error loading:',error);document.getElementById('reservationsList').innerHTML='<p class="text-center text-red-500">Σφάλμα φόρτωσης</p>';}
 }
 
-function closeSharePopup() {
-    const popup = document.getElementById('sharePopup');
-    popup.classList.add('hidden');
-}
-
-    async function downloadExcel() {
-    try {
-        const response = await fetch(GOOGLE_APPS_SCRIPT_URL + '?t=' + Date.now());
-        const reservations = await response.json();
-        
-        if (!reservations || reservations.length === 0) {
-            alert('Δεν υπάρχουν κρατήσεις');
-            return;
-        }
-        
-        // ΜΟΝΟ 6 στήλες όπως τις θες
-        let csv = 'Ημερομηνία,Όνομα,Επίθετο,Τηλέφωνο,Άτομα,Τύπος\n';
-        
-        reservations.forEach(r => {
-            // Παίρνουμε την ημερομηνία όπως έρχεται (με ώρα)
-            const fullDate = r.Ημερομηνία || '';
-            
-            // ΣΩΣΤΑ ονόματα πεδίων
-            const name = (r.Όνομα || '').replace(/,/g, ' ');
-            const surname = (r.Επίθετο || r.Επιθετο || '').replace(/,/g, ' ');
-            const phone = (r.Τηλέφωνο || '').replace(/,/g, ' ');
-            const people = r.Άτομα || '';
-            const type = (r.Τύπος || '').replace(/,/g, ' ');
-            
-            csv += `${fullDate},${name},${surname},${phone},${people},${type}\n`;
+async function downloadExcel(){
+    try{
+        const response=await fetch(GOOGLE_APPS_SCRIPT_URL+'?t='+Date.now());
+        const reservations=await response.json();
+        if(!reservations||reservations.length===0){alert('Δεν υπάρχουν κρατήσεις');return;}
+        let csv='Ημερομηνία,Όνομα,Επίθετο,Τηλέφωνο,Άτομα,Τύπος\n';
+        reservations.forEach(r=>{
+            const fullDate=r.Ημερομηνία||'';
+            const name=(r.Όνομα||'').replace(/,/g,' ');
+            const surname=(r.Επίθετο||r.Επιθετο||'').replace(/,/g,' ');
+            const phone=(r.Τηλέφωνο||'').replace(/,/g,' ');
+            const people=r.Άτομα||'';
+            const type=(r.Τύπος||'').replace(/,/g,' ');
+            csv+=`${fullDate},${name},${surname},${phone},${people},${type}\n`;
         });
-        
-        const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        const today = new Date();
-        const dateStr = today.toISOString().split('T')[0];
-        
-        a.href = url;
-        a.download = `κρατησεις_mythos_${dateStr}.csv`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        window.URL.revokeObjectURL(url);
-        
-    } catch(error) {
-        alert('Σφάλμα στο κατέβασμα');
-        console.error(error);
-    }
+        const blob=new Blob(["\uFEFF"+csv],{type:'text/csv;charset=utf-8;'});
+        const url=window.URL.createObjectURL(blob);
+        const a=document.createElement('a');
+        const today=new Date();const dateStr=today.toISOString().split('T')[0];
+        a.href=url;a.download=`κρατησεις_mythos_${dateStr}.csv`;
+        document.body.appendChild(a);a.click();document.body.removeChild(a);window.URL.revokeObjectURL(url);
+    } catch(error){alert('Σφάλμα στο κατέβασμα');console.error(error);}
 }
 </script>
 
