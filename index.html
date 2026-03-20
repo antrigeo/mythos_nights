@@ -342,7 +342,7 @@
 <!-- JAVASCRIPT -->
 <script>
 const ADMIN_PASSWORD = "mythos2024";
-const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxzAJ99iItPcwF6uJ-L9iul2I2m_r058s0Z5lJI7Syp1cBKqDixEJc6aORpoH2VoTK_Qw/exec";
+const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzakoT3e7SZYTIH7k68DApQyuaSzzB6VzcR5X0XnQHwDzs4mbg-UIKy7aP61-xPF69z4g/exec";
 
 let clickCount = 0;
 let clickTimer;
@@ -460,9 +460,10 @@ async function loadReservations() {
         
         let html = '<table><tr><th>Ημ/νία</th><th>Όνομα</th><th>Επίθετο</th><th>Τηλέφωνο</th><th>Άτομα</th><th>Τύπος</th></tr>';
         
-        [...reservations].reverse().forEach(r => {
+        
+            [...reservations].reverse().forEach(r => {
             html += `<tr>
-                <td>${r.Ημερομηνία ? new Date(r.Ημερομηνία).toLocaleString('el-GR') : ''}</td>
+                <td>${r.Ημερομηνία || ''}</td>
                 <td>${r.Όνομα || ''}</td>
                 <td>${r.Επίθετο || ''}</td>
                 <td>${r.Τηλέφωνο || ''}</td>
@@ -470,7 +471,7 @@ async function loadReservations() {
                 <td>${r.Τύπος || ''}</td>
             </tr>`;
         });
-        
+
         html += '</table>';
         listDiv.innerHTML = html;
         document.getElementById('totalRes').innerHTML = `Σύνολο: ${reservations.length} κρατήσεις`;
