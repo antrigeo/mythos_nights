@@ -342,7 +342,7 @@
 <!-- JAVASCRIPT -->
 <script>
 const ADMIN_PASSWORD = "mythos2024";
-const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwjYPzF4XODGwYQOU_DzWWLkSrs4AmkOX0n-G39awSkj9znWeWbqO1isLdUi3pZ4krmTg/exec";
+const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwIrj0SDdMpqdgFpIc0XIy05icHjqu2Dtn4bQYavojmRcEX5CbSyE4Pl0xxb2KydPHvug/exec";
 
 let clickCount = 0;
 let clickTimer;
@@ -452,16 +452,16 @@ async function loadReservations() {
         
         let listDiv = document.getElementById('reservationsList');
         
-        if (!reservations || reservations.length === 0) {
+        if (!reservations || reservations.length === 0 || reservations.error) {
             listDiv.innerHTML = '<p class="text-center text-gray-400">Δεν υπάρχουν κρατήσεις</p>';
-            document.getElementById('totalRes').innerHTML = '';
             return;
         }
         
         let html = '<table><tr><th>Ημ/νία</th><th>Όνομα</th><th>Επίθετο</th><th>Τηλέφωνο</th><th>Άτομα</th><th>Τύπος</th></tr>';
+        
         [...reservations].reverse().forEach(r => {
             html += `<tr>
-                <td>${r.reg_date || ''}</td> 
+                <td>${r.reg_date || ''}</td>
                 <td>${r.name || ''}</td>
                 <td>${r.surname || ''}</td>
                 <td>${r.phone || ''}</td>
@@ -469,13 +469,13 @@ async function loadReservations() {
                 <td>${r.type || ''}</td>
             </tr>`;
         });
-
+        
         html += '</table>';
         listDiv.innerHTML = html;
         document.getElementById('totalRes').innerHTML = `Σύνολο: ${reservations.length} κρατήσεις`;
     } catch(error) {
         console.error('Error loading:', error);
-        document.getElementById('reservationsList').innerHTML = '<p class="text-center text-red-500">Σφάλμα φόρτωσης</p>';
+        document.getElementById('reservationsList').innerHTML = '<p class="text-center text-red-500">Σφάλμα σύνδεσης με το Sheet</p>';
     }
 }
 
