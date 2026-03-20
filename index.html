@@ -342,7 +342,7 @@
 <!-- JAVASCRIPT -->
 <script>
 const ADMIN_PASSWORD = "mythos2024";
-const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzakoT3e7SZYTIH7k68DApQyuaSzzB6VzcR5X0XnQHwDzs4mbg-UIKy7aP61-xPF69z4g/exec";
+const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwjYPzF4XODGwYQOU_DzWWLkSrs4AmkOX0n-G39awSkj9znWeWbqO1isLdUi3pZ4krmTg/exec";
 
 let clickCount = 0;
 let clickTimer;
@@ -459,16 +459,14 @@ async function loadReservations() {
         }
         
         let html = '<table><tr><th>Ημ/νία</th><th>Όνομα</th><th>Επίθετο</th><th>Τηλέφωνο</th><th>Άτομα</th><th>Τύπος</th></tr>';
-        
-        
-            [...reservations].reverse().forEach(r => {
+        [...reservations].reverse().forEach(r => {
             html += `<tr>
-                <td>${r.Ημερομηνία || ''}</td>
-                <td>${r.Όνομα || ''}</td>
-                <td>${r.Επίθετο || ''}</td>
-                <td>${r.Τηλέφωνο || ''}</td>
-                <td>${r.Άτομα || ''}</td>
-                <td>${r.Τύπος || ''}</td>
+                <td>${r.reg_date || ''}</td> 
+                <td>${r.name || ''}</td>
+                <td>${r.surname || ''}</td>
+                <td>${r.phone || ''}</td>
+                <td>${r.people || ''}</td>
+                <td>${r.type || ''}</td>
             </tr>`;
         });
 
@@ -502,14 +500,13 @@ function showMessage(text, color) {
         // Κεφαλίδες CSV
         let csv = 'Ημερομηνία,Όνομα,Επίθετο,Τηλέφωνο,Άτομα,Τύπος\n';
         
-        reservations.forEach(r => {
-            const date = r.Ημερομηνία || '';
-            const name = (r.Όνομα || '').toString().replace(/,/g, ' ');
-            // Εδώ ελέγχουμε όλα τα πιθανά κλειδιά για σιγουριά
-            const surname = (r.Επίθετο || r.Επιθετο || r.επωνυμο || '').toString().replace(/,/g, ' ');
-            const phone = (r.Τηλέφωνο || '').toString().replace(/,/g, ' ');
-            const people = r.Άτομα || '';
-            const type = (r.Τύπος || '').toString().replace(/,/g, ' ');
+       reservations.forEach(r => {
+            const date = r.reg_date || '';
+            const name = (r.name || '').toString().replace(/,/g, ' ');
+            const surname = (r.surname || '').toString().replace(/,/g, ' ');
+            const phone = (r.phone || '').toString().replace(/,/g, ' ');
+            const people = r.people || '';
+            const type = (r.type || '').toString().replace(/,/g, ' ');
             
             csv += `${date},${name},${surname},${phone},${people},${type}\n`;
         });
