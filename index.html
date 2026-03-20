@@ -431,11 +431,21 @@ async function saveReservation() {
             body: JSON.stringify(reservation)
         });
         
-        showMessage('Η κράτηση καταχωρήθηκε!', 'green');
+        // ΕΜΦΑΝΙΣΗ ΤΟΥ POP-UP
+        const modal = document.getElementById('successModal');
+        if(modal) {
+            modal.classList.remove('hidden');
+        } else {
+            // Αν ξέχασες να βάλεις το HTML του modal, θα δείξει το παλιό μήνυμα
+            showMessage('Η κράτηση καταχωρήθηκε!', 'green');
+        }
+
+        // ΚΑΘΑΡΙΣΜΟΣ ΠΕΔΙΩΝ
         document.getElementById('name').value = '';
         document.getElementById('surname').value = '';
         document.getElementById('phone').value = '';
         document.getElementById('people').value = '2';
+
     } catch(error) {
         showMessage('Σφάλμα! Δοκιμάστε ξανά.', 'red');
         console.error(error);
@@ -443,29 +453,11 @@ async function saveReservation() {
         btn.disabled = false;
         btn.innerHTML = 'ΚΑΤΑΧΩΡΗΣΗ';
     }
-    try {
-        await fetch(GOOGLE_APPS_SCRIPT_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(reservation)
-        });
-        
-        // Εμφάνιση του Pop-up αντί για το απλό μήνυμα
-        document.getElementById('successModal').classList.remove('hidden');
-        
-        // Καθαρισμός πεδίων
-        document.getElementById('name').value = '';
-        document.getElementById('surname').value = '';
-        document.getElementById('phone').value = '';
-        document.getElementById('people').value = '2';
-    } catch(error) {
-        showMessage('Σφάλμα! Δοκιμάστε ξανά.', 'red');
-        console.error(error);
-    } finally {
-        btn.disabled = false;
-        btn.innerHTML = 'ΚΑΤΑΧΩΡΗΣΗ';
-    }
+}
+
+// ΠΡΟΣΘΕΣΕ ΚΑΙ ΑΥΤΗ ΤΗ ΣΥΝΑΡΤΗΣΗ ΓΙΑ ΝΑ ΚΛΕΙΝΕΙ
+function closeSuccessModal() {
+    document.getElementById('successModal').classList.add('hidden');
 }
 
 // Συνάρτηση για να κλείνει το Pop-up
