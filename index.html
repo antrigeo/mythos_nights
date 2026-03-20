@@ -431,21 +431,11 @@ async function saveReservation() {
             body: JSON.stringify(reservation)
         });
         
-        // ΕΜΦΑΝΙΣΗ ΤΟΥ POP-UP
-        const modal = document.getElementById('successModal');
-        if(modal) {
-            modal.classList.remove('hidden');
-        } else {
-            // Αν ξέχασες να βάλεις το HTML του modal, θα δείξει το παλιό μήνυμα
-            showMessage('Η κράτηση καταχωρήθηκε!', 'green');
-        }
-
-        // ΚΑΘΑΡΙΣΜΟΣ ΠΕΔΙΩΝ
+        showMessage('Η κράτηση καταχωρήθηκε!', 'green');
         document.getElementById('name').value = '';
         document.getElementById('surname').value = '';
         document.getElementById('phone').value = '';
         document.getElementById('people').value = '2';
-
     } catch(error) {
         showMessage('Σφάλμα! Δοκιμάστε ξανά.', 'red');
         console.error(error);
@@ -453,17 +443,6 @@ async function saveReservation() {
         btn.disabled = false;
         btn.innerHTML = 'ΚΑΤΑΧΩΡΗΣΗ';
     }
-}
-
-// ΠΡΟΣΘΕΣΕ ΚΑΙ ΑΥΤΗ ΤΗ ΣΥΝΑΡΤΗΣΗ ΓΙΑ ΝΑ ΚΛΕΙΝΕΙ
-function closeSuccessModal() {
-    document.getElementById('successModal').classList.add('hidden');
-}
-
-// Συνάρτηση για να κλείνει το Pop-up
-function closeSuccessModal() {
-    document.getElementById('successModal').classList.add('hidden');
-}
 }
 
 async function loadReservations() {
@@ -563,22 +542,4 @@ function showMessage(text, color) {
       </a>
     </footer>
 
-    <div id="successModal" class="fixed inset-0 z-[3000] flex items-center justify-center px-4 bg-black/90 hidden backdrop-blur-md">
-    <div class="glass max-w-sm w-full p-8 rounded-3xl border-2 border-[#d1a14b] text-center animate-mythos">
-        <div class="mb-4">
-            <img src="image_95cceb.jpg" alt="Logo" class="w-24 h-auto mx-auto logo-glow rounded-full">
-        </div>
-        <h3 class="mythos-font text-[#d1a14b] text-2xl mb-2 uppercase tracking-widest">ΕΥΧΑΡΙΣΤΟΥΜΕ!</h3>
-        <p class="text-white text-lg font-light mb-6">
-            Η κράτησή σου στο <span class="text-[#d1a14b] font-bold">SHAKA</span> καταχωρήθηκε με επιτυχία.
-        </p>
-        <div class="bg-[#d1a14b]/10 p-4 rounded-xl border border-[#d1a14b]/30 mb-8">
-            <p class="text-[10px] text-[#d1a14b] uppercase tracking-[0.3em] mb-1">Ημερομηνία Event</p>
-            <p class="text-white font-bold">Παρασκευή 25 Απριλίου 2026</p>
-        </div>
-        <button onclick="closeSuccessModal()" class="w-full bg-[#d1a14b] text-black font-black py-4 rounded-xl uppercase tracking-widest hover:bg-white transition-all shadow-lg">ΚΛΕΙΣΙΜΟ</button>
-    </div>
-</div>
-
-  </body>
-</html>
+  </body> </html>
