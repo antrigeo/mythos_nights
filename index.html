@@ -215,6 +215,15 @@
 <div class="secret-area" id="secretArea" onclick="secretClick()"></div>
 <div class="admin-overlay" id="adminOverlay" onclick="hideAdmin()"></div>
 
+<div id="sharePopup" class="fixed inset-0 flex items-center justify-center bg-black/70 z-50 hidden">
+  <div class="bg-[#d1a14b]/10 backdrop-blur-lg p-8 rounded-2xl text-center max-w-sm">
+    <img src="party_emoji.png" alt="Party" class="mx-auto w-20 h-20 mb-4">
+    <h3 class="text-2xl font-bold text-white mb-2">Είμαι έτοιμος για το πάρτυ! 🥳</h3>
+    <p class="text-white/80 mb-4">Κοινοποίησέ το στο Instagram σου!</p>
+    <button onclick="closeSharePopup()" class="bg-white text-black font-bold px-6 py-2 rounded-full hover:bg-gray-200">OK</button>
+  </div>
+</div>    
+
 <div id="adminLogin" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black border-2 border-[#d1a14b] rounded-2xl p-8 z-[2000]" style="display:none;width:320px;">
     <h3 class="text-2xl mythos-font text-[#d1a14b] mb-6 text-center">ADMIN ACCESS</h3>
     <input type="password" id="adminPass" placeholder="Κωδικός" class="w-full p-3 rounded-xl mb-4 bg-gray-900 text-white border border-[#d1a14b]">
@@ -432,6 +441,7 @@ async function saveReservation() {
         });
         
         showMessage('Η κράτηση καταχωρήθηκε!', 'green');
+        showSharePopup(); // Προσθήκη popup μετά την επιτυχή κράτηση
         document.getElementById('name').value = '';
         document.getElementById('surname').value = '';
         document.getElementById('phone').value = '';
@@ -486,6 +496,16 @@ function showMessage(text, color) {
     msg.style.color = color;
     msg.classList.remove('hidden');
     setTimeout(() => { msg.classList.add('hidden'); }, 3000);
+}
+
+function showSharePopup() {
+    const popup = document.getElementById('sharePopup');
+    popup.classList.remove('hidden');
+}
+
+function closeSharePopup() {
+    const popup = document.getElementById('sharePopup');
+    popup.classList.add('hidden');
 }
 
     async function downloadExcel() {
