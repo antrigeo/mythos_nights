@@ -498,21 +498,19 @@ function showMessage(text, color) {
             return;
         }
         
-        // ΜΟΝΟ 6 στήλες όπως τις θες
+        // Κεφαλίδες CSV
         let csv = 'Ημερομηνία,Όνομα,Επίθετο,Τηλέφωνο,Άτομα,Τύπος\n';
         
         reservations.forEach(r => {
-            // Παίρνουμε την ημερομηνία όπως έρχεται (με ώρα)
-            const fullDate = r.Ημερομηνία || '';
-            
-            // ΣΩΣΤΑ ονόματα πεδίων
-            const name = (r.Όνομα || '').replace(/,/g, ' ');
-            const surname = (r.Επίθετο || r.Επιθετο || '').replace(/,/g, ' ');
-            const phone = (r.Τηλέφωνο || '').replace(/,/g, ' ');
+            const date = r.Ημερομηνία || '';
+            const name = (r.Όνομα || '').toString().replace(/,/g, ' ');
+            // Εδώ ελέγχουμε όλα τα πιθανά κλειδιά για σιγουριά
+            const surname = (r.Επίθετο || r.Επιθετο || r.επωνυμο || '').toString().replace(/,/g, ' ');
+            const phone = (r.Τηλέφωνο || '').toString().replace(/,/g, ' ');
             const people = r.Άτομα || '';
-            const type = (r.Τύπος || '').replace(/,/g, ' ');
+            const type = (r.Τύπος || '').toString().replace(/,/g, ' ');
             
-            csv += `${fullDate},${name},${surname},${phone},${people},${type}\n`;
+            csv += `${date},${name},${surname},${phone},${people},${type}\n`;
         });
         
         const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
