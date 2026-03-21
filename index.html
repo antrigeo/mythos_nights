@@ -389,16 +389,18 @@
                 <div>
                     <label class="block text-[10px] uppercase tracking-widest text-[#d1a14b] mb-2 font-bold">ΤΥΠΟΣ ΚΡΑΤΗΣΗΣ</label>
                     <select id="type" class="w-full p-4 rounded-xl font-bold text-[#d1a14b]">
-                        <option value="Τραπέζι - MIN 1 ΜΠΟΥΚΑΛΙ">ΤΡΑΠΕΖΙ - MIN 1 ΜΠΟΥΚΑΛΙ</option>
-                        <option value="Καναπές - MIN 2 ΜΠΟΥΚΑΛΙΑ">ΚΑΝΑΠΕΣ - MIN 2 ΜΠΟΥΚΑΛΙΑ</option>
+                        <option id="opt-trapezi" value="Τραπέζι - MIN 1 ΜΠΟΥΚΑΛΙ">ΤΡΑΠΕΖΙ - MIN 1 ΜΠΟΥΚΑΛΙ</option>
+                        <option id="opt-kanapes" value="Καναπές - MIN 2 ΜΠΟΥΚΑΛΙΑ">ΚΑΝΑΠΕΣ - MIN 2 ΜΠΟΥΚΑΛΙΑ</option>
                         <option value="Ticket">TICKET - ΕΙΣΟΔΟΣ</option>
                     </select>
+                    <p id="avail-trapezi" class="text-xs mt-1 hidden"></p>
+                    <p id="avail-kanapes" class="text-xs mt-1 hidden"></p>
                 </div>
             </div>
 
             <div>
                 <label class="block text-[10px] uppercase tracking-widest text-[#d1a14b] mb-2 font-bold">ΤΗΛΕΦΩΝΟ</label>
-                <input type="tel" id="phone" required class="w-full p-4 rounded-xl" >
+                <input type="tel" id="phone" required class="w-full p-4 rounded-xl" placeholder="99999999">
             </div>
 
             <p class="text-xs text-[#d1a14b] text-center">Για τραπέζι & καναπέ: επιλέγεις μπουκάλι στο μαγαζί</p>
@@ -451,11 +453,61 @@
 ════════════════════════════════════════ -->
 <script>
 const ADMIN_PASSWORD       = "mythos2024";
-const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxxs5TyN4kj0-2RKInmIcfHDKCki88b4Fo-6Iif6vCE5H4ua8rHx2GVoM2udTOZeYFHyQ/exec";
-const EVENT_PHONE          = "96807443"; // αριθμός επιβεβαίωσης
+const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzQs7CnghdoUj51fbr1iUuqvHwukOUjv0nUgeJA1p4q6k9Dj3ioPqFqL8xVlynDjnlu1w/exec";
+const EVENT_PHONE          = "99533804"; // αριθμός επιβεβαίωσης
+
+// ── Όρια διαθεσιμότητας
+const LIMITS = { trapezi: 20, kanapes: 5 };
 
 // ── Κρατάμε τα στοιχεία για το SMS modal
 let pendingSMSData = {};
+
+// ── Φόρτωση διαθεσιμότητας κατά την εκκίνηση
+window.addEventListener('DOMContentLoaded', checkAvailability);
+
+async function checkAvailability() {
+    try {
+        const response = await fetch(GOOGLE_APPS_SCRIPT_URL + '?t=' + Date.now());
+        const data = await response.json();
+        if (!Array.isArray(data)) return;
+
+        // Μέτρησε κρατήσεις ανά τύπο
+        let countTrapezi = 0, countKanapes = 0;
+        data.forEach(r => {
+            const t = (r.type || '').toLowerCase();
+            if (t.includes('τραπέζι') || t.includes('τραπεζι')) countTrapezi++;
+            if (t.includes('καναπές') || t.includes('καναπε')) countKanapes++;
+        });
+
+        updateAvailability('trapezi', countTrapezi, LIMITS.trapezi, 'opt-trapezi', 'avail-trapezi', 'ΤΡΑΠΕΖΙ');
+        updateAvailability('kanapes', countKanapes, LIMITS.kanapes, 'opt-kanapes', 'avail-kanapes', 'ΚΑΝΑΠΕΣ');
+    } catch(e) {
+        console.log('Availability check failed:', e);
+    }
+}
+
+function updateAvailability(key, count, limit, optId, msgId, label) {
+    const remaining = limit - count;
+    const opt = document.getElementById(optId);
+    const msg = document.getElementById(msgId);
+    if (!opt || !msg) return;
+
+    if (remaining <= 0) {
+        opt.textContent = label + ' — SOLD OUT';
+        opt.disabled = true;
+        opt.style.color = '#ef4444';
+        msg.textContent = '🔴 SOLD OUT — Δεν υπάρχουν διαθέσιμες θέσεις';
+        msg.style.color = '#ef4444';
+        msg.classList.remove('hidden');
+    } else if (remaining <= 2) {
+        opt.textContent = label + ' — ⚠️ ΤΕΛΕΥΤΑΙΕΣ ΘΕΣΕΙΣ';
+        msg.textContent = '⚠️ Τελευταίες θέσεις!';
+        msg.style.color = '#eab308';
+        msg.classList.remove('hidden');
+    } else {
+        msg.classList.add('hidden');
+    }
+}
 
 // ── Admin secret click
 let clickCount = 0, clickTimer;
@@ -516,6 +568,13 @@ async function saveReservation() {
     }
     if (!/^[0-9]{8}$/.test(phone)) {
         showMessage('Το τηλέφωνο πρέπει να έχει 8 ψηφία!', 'red');
+        return;
+    }
+
+    // Έλεγχος αν η επιλογή είναι SOLD OUT
+    const selectedOpt = document.getElementById('type').selectedOptions[0];
+    if (selectedOpt && selectedOpt.disabled) {
+        showMessage('Δυστυχώς αυτή η κατηγορία είναι SOLD OUT!', 'red');
         return;
     }
 
