@@ -313,8 +313,18 @@
         </div>
 
         <button class="sms-btn" onclick="openSMS()">
-            📩 &nbsp;ΑΠΟΣΤΟΛΗ SMS ΕΠΙΒΕΒΑΙΩΣΗΣ
+            📩 &nbsp;ΑΝΟΙΓΜΑ SMS
         </button>
+
+        <!-- Copy text για Android -->
+        <div id="copyBox" style="display:none; margin-top:14px; background:#111; border:1px solid #d1a14b33; border-radius:12px; padding:14px;">
+            <p class="text-[10px] text-[#d1a14b] uppercase tracking-widest mb-2 font-bold">Αντέγραψε και επικόλλησε στο SMS:</p>
+            <p id="copyText" class="text-white text-xs font-mono leading-relaxed mb-3"></p>
+            <button onclick="copyToClipboard()" style="background:#d1a14b;color:black;border:none;padding:8px 16px;border-radius:8px;font-weight:bold;font-size:12px;cursor:pointer;width:100%;" id="copyBtn">
+                📋 ΑΝΤΙΓΡΑΦΗ ΚΕΙΜΕΝΟΥ
+            </button>
+        </div>
+
         <p class="text-[10px] text-gray-600 mt-3">Ανοίγει αυτόματα η εφαρμογή SMS του κινητού σου</p>
     </div>
 </div>
@@ -591,11 +601,35 @@ function openSMS() {
     const { name, surname, phone, people, type } = pendingSMSData;
     const text = buildSMSText(name, surname, phone, people, type);
     const encoded = encodeURIComponent(text);
-    // iOS χρειάζεται ";" — Android χρειάζεται "?"
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    const sep = isIOS ? ';' : '?';
-    window.location.href = `sms:+357${EVENT_PHONE}${sep}body=${encoded}`;
-    setTimeout(closeSMSModal, 1500);
+
+    // Δείχνουμε πάντα το copy box για Android
+    if (!isIOS) {
+        document.getElementById('copyBox').style.display = 'block';
+        document.getElementById('copyText').innerText = text;
+    }
+
+    // Ανοίγουμε SMS app (iOS προ-συμπληρώνει, Android απλώς ανοίγει)
+    if (isIOS) {
+        window.location.href = `sms:+357${EVENT_PHONE};body=${encoded}`;
+        setTimeout(closeSMSModal, 1500);
+    } else {
+        window.location.href = `sms:+357${EVENT_PHONE}`;
+    }
+}
+
+function copyToClipboard() {
+    const { name, surname, phone, people, type } = pendingSMSData;
+    const text = buildSMSText(name, surname, phone, people, type);
+    navigator.clipboard.writeText(text).then(() => {
+        const btn = document.getElementById('copyBtn');
+        btn.innerHTML = '✅ ΑΝΤΙΓΡΑΦΗΚΕ!';
+        btn.style.background = '#22c55e';
+        setTimeout(() => {
+            btn.innerHTML = '📋 ΑΝΤΙΓΡΑΦΗ ΚΕΙΜΕΝΟΥ';
+            btn.style.background = '#d1a14b';
+        }, 2000);
+    });
 }
 
 function closeSMSModal() {
