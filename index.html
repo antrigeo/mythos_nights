@@ -1,6 +1,6 @@
+
 <!DOCTYPE html>
 <html lang="el" class="scroll-smooth">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
@@ -14,10 +14,7 @@
         50% { filter: drop-shadow(0 0 60px rgba(209,161,75,0.8)); }
         100% { filter: drop-shadow(0 0 20px rgba(209,161,75,0.3)); }
     }
-
-    .logo-glow {
-        animation: mythosGlow 4s infinite ease-in-out;
-    }
+    .logo-glow { animation: mythosGlow 4s infinite ease-in-out; }
 
     body {
         font-family: 'Inter', sans-serif;
@@ -32,26 +29,20 @@
         100% { transform: translateY(0px); }
     }
 
-    .poster {
-        transition: 0.5s;
-    }
-
+    .poster { transition: 0.5s; }
     .poster:hover {
         transform: scale(1.05) rotate(-1deg);
         box-shadow: 0 40px 120px rgba(0,0,0,0.8);
     }
 
-    .mythos-font {
-        font-family: 'Cinzel', serif;
-    }
-
+    .mythos-font { font-family: 'Cinzel', serif; }
     .shaka-font {
-    font-family: 'Cinzel', serif;
-    font-weight: 900;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    text-shadow: 0 0 10px rgba(209,161,75,0.5);
-}
+        font-family: 'Cinzel', serif;
+        font-weight: 900;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        text-shadow: 0 0 10px rgba(209,161,75,0.5);
+    }
 
     .glass {
         background: rgba(255,255,255,0.02);
@@ -65,178 +56,273 @@
         color: white !important;
         outline: none;
     }
-
-    select option {
-        background: #020408;
-        color: #d1a14b;
-        font-weight: bold;
-    }
-
-    input:focus, select:focus {
-        border-color: #d1a14b !important;
-    }
+    select option { background: #020408; color: #d1a14b; font-weight: bold; }
+    input:focus, select:focus { border-color: #d1a14b !important; }
 
     @keyframes fadeIn {
         from { opacity: 0; transform: translateY(20px); }
         to { opacity: 1; transform: translateY(0); }
     }
+    .animate-mythos { animation: fadeIn 1.2s ease-out forwards; }
 
-    .animate-mythos {
-        animation: fadeIn 1.2s ease-out forwards;
-    }
-
-    /* ADMIN */
-    .admin-hidden {
-        display: none;
-    }
-
+    /* ── ADMIN ── */
     .admin-overlay {
         display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.8);
+        position: fixed; top:0; left:0; width:100%; height:100%;
+        background: rgba(0,0,0,0.85);
         z-index: 1500;
     }
-
-    .admin-overlay.visible {
-        display: block;
-    }
+    .admin-overlay.visible { display: block; }
 
     .admin-table {
-        background: #111;
+        background: #0d0d0d;
         border: 1px solid #d1a14b;
-        border-radius: 15px;
-        padding: 20px;
-        max-width: 90vw;
-        max-height: 80vh;
+        border-radius: 16px;
+        padding: 24px;
+        max-width: 95vw;
+        max-height: 82vh;
         overflow: auto;
         position: fixed;
-        top: 50%;
-        left: 50%;
+        top: 50%; left: 50%;
         transform: translate(-50%,-50%);
         z-index: 2000;
         display: none;
     }
-
-    .admin-table.visible {
-        display: block;
-    }
-
-    .admin-table table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
+    .admin-table.visible { display: block; }
+    .admin-table table { width: 100%; border-collapse: collapse; min-width: 700px; }
     .admin-table th {
-        background: #d1a14b;
-        color: black;
-        padding: 10px;
+        background: #d1a14b; color: black;
+        padding: 10px 14px; font-size: 12px;
+        text-transform: uppercase; letter-spacing: 0.05em;
+        position: sticky; top: 0;
     }
-
-    .admin-table td {
-        padding: 8px;
-        border-bottom: 1px solid #333;
-        color: white;
-    }
+    .admin-table td { padding: 9px 14px; border-bottom: 1px solid #222; color: #e5e7eb; font-size: 13px; }
+    .admin-table tr:hover td { background: rgba(209,161,75,0.06); }
 
     .admin-btn {
-        background: #d1a14b;
-        color: black;
-        padding: 8px 15px;
-        border-radius: 8px;
-        font-weight: bold;
-        cursor: pointer;
-        border: none;
+        background: #d1a14b; color: black;
+        padding: 8px 16px; border-radius: 8px;
+        font-weight: bold; cursor: pointer; border: none;
+        font-size: 12px; transition: background 0.2s;
     }
+    .admin-btn:hover { background: white; }
 
-    .admin-btn:hover {
-        background: white;
+    /* Status badges */
+    .badge {
+        display: inline-block;
+        padding: 3px 10px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: bold;
+        letter-spacing: 0.05em;
     }
+    .badge-pending  { background: rgba(234,179,8,0.15);  color: #eab308; border: 1px solid #eab308; }
+    .badge-confirmed{ background: rgba(34,197,94,0.15);  color: #22c55e; border: 1px solid #22c55e; }
+
+    /* Filter tabs */
+    .filter-tab {
+        padding: 6px 16px; border-radius: 20px; font-size: 12px;
+        font-weight: bold; cursor: pointer; border: 1px solid #333;
+        color: #888; transition: all 0.2s;
+    }
+    .filter-tab.active { background: #d1a14b; color: black; border-color: #d1a14b; }
 
     /* secret area */
     .secret-area {
-        position: fixed;
-        top: 10px;
-        right: 10px;
-        width: 50px;
-        height: 50px;
-        cursor: pointer;
-        z-index: 1000;
-        opacity: 0;
+        position: fixed; top:10px; right:10px;
+        width:50px; height:50px;
+        cursor:pointer; z-index:1000; opacity:0;
     }
 
-    /* ΒΕΛΤΙΩΣΕΙΣ ΓΙΑ ΚΙΝΗΤΑ */
-    @media(max-width: 640px) {
-        .admin-table {
-            width: 95%;
-            max-height: 70vh;
-            font-size: 12px;
-        }
-        .poster {
-            max-width: 90% !important;
-            margin: 0 auto;
-            display: block;
-        }
-        /* Επιπλέον βελτιώσεις κινητών */
-        input, select, button {
-            font-size: 16px !important;
-        }
-        .shaka-font {
-            font-size: 24px !important;
-            letter-spacing: 2px !important;
-        }
-        .fixed.bottom-6.right-6 {
-            bottom: 15px !important;
-            right: 15px !important;
-            padding: 10px 15px !important;
-            font-size: 12px !important;
-        }
+    /* ── SMS CONFIRMATION MODAL ── */
+    .sms-modal {
+        display: none;
+        position: fixed; top:0; left:0; width:100%; height:100%;
+        background: rgba(0,0,0,0.92);
+        z-index: 3000;
+        align-items: center; justify-content: center;
+    }
+    .sms-modal.visible {
+        display: flex;
     }
 
-    /* Gold touch effect */
-    .gold-quote {
-        color: #d1a14b;
-        font-size: 1.3rem;
-        font-weight: 500;
+    @keyframes modalPop {
+        from { opacity:0; transform: scale(0.85) translateY(30px); }
+        to   { opacity:1; transform: scale(1) translateY(0); }
+    }
+
+    .sms-modal-box {
+        background: #0a0c10;
+        border: 1px solid #d1a14b;
+        border-radius: 24px;
+        padding: 36px 32px;
+        max-width: 420px;
+        width: 90%;
+        text-align: center;
+        animation: modalPop 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards;
         position: relative;
-        display: inline-block;
-        border-left: 3px solid #d1a14b;
-        padding-left: 15px;
-        margin: 10px 0;
+    }
+
+    .sms-icon {
+        width: 70px; height: 70px;
+        background: linear-gradient(135deg, #d1a14b22, #d1a14b44);
+        border: 2px solid #d1a14b;
+        border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        margin: 0 auto 20px;
+        font-size: 28px;
+    }
+
+    @keyframes pulse-gold {
+        0%,100% { box-shadow: 0 0 0 0 rgba(209,161,75,0.4); }
+        50%      { box-shadow: 0 0 0 14px rgba(209,161,75,0); }
+    }
+    .sms-icon { animation: pulse-gold 2s infinite; }
+
+    .sms-btn {
+        display: block; width: 100%;
+        background: #d1a14b; color: black;
+        font-family: 'Cinzel', serif;
+        font-weight: 900; font-size: 15px;
+        letter-spacing: 0.1em;
+        padding: 16px; border-radius: 14px;
+        cursor: pointer; border: none;
+        transition: all 0.25s;
+        margin-top: 10px;
+        box-shadow: 0 0 30px rgba(209,161,75,0.4);
+    }
+    .sms-btn:hover {
+        background: white;
+        box-shadow: 0 0 50px rgba(255,255,255,0.3);
+        transform: translateY(-2px);
+    }
+    .sms-skip-btn {
+        background: transparent;
+        color: #555;
+        border: 1px solid #333;
+        font-size: 12px;
+        padding: 10px;
+        border-radius: 10px;
+        cursor: pointer;
+        margin-top: 10px;
+        width: 100%;
+        transition: all 0.2s;
+    }
+    .sms-skip-btn:hover { color: #888; border-color: #555; }
+
+    .step-dots {
+        display: flex; gap: 6px; justify-content: center; margin-bottom: 20px;
+    }
+    .step-dot {
+        width: 8px; height: 8px; border-radius: 50%;
+        background: #333;
+        transition: background 0.3s;
+    }
+    .step-dot.active { background: #d1a14b; }
+
+    /* Admin login */
+    #adminLogin {
+        background: #0d0d0d;
+        border: 2px solid #d1a14b;
+        border-radius: 20px;
+        padding: 32px;
+        position: fixed;
+        top:50%; left:50%;
+        transform: translate(-50%,-50%);
+        z-index: 2000;
+        width: 320px;
+        display: none;
+    }
+
+    @media(max-width:640px){
+        .admin-table { width:95%; max-height:70vh; font-size:11px; }
+        .poster { max-width:90% !important; margin:0 auto; display:block; }
+        input, select, button { font-size:16px !important; }
+        .shaka-font { font-size:24px !important; letter-spacing:2px !important; }
+        .fixed.bottom-6.right-6 { bottom:15px !important; right:15px !important; padding:10px 15px !important; font-size:12px !important; }
+        .sms-modal-box { padding: 28px 20px; }
     }
 </style>
 </head>
-
 <body class="overflow-x-hidden">
 
+<!-- Secret admin trigger -->
 <div class="secret-area" id="secretArea" onclick="secretClick()"></div>
 <div class="admin-overlay" id="adminOverlay" onclick="hideAdmin()"></div>
 
-<div id="adminLogin" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black border-2 border-[#d1a14b] rounded-2xl p-8 z-[2000]" style="display:none;width:320px;">
+<!-- Admin Login -->
+<div id="adminLogin">
     <h3 class="text-2xl mythos-font text-[#d1a14b] mb-6 text-center">ADMIN ACCESS</h3>
-    <input type="password" id="adminPass" placeholder="Κωδικός" class="w-full p-3 rounded-xl mb-4 bg-gray-900 text-white border border-[#d1a14b]">
+    <input type="password" id="adminPass" placeholder="Κωδικός"
+           class="w-full p-3 rounded-xl mb-4 bg-gray-900 text-white border border-[#d1a14b]"
+           onkeydown="if(event.key==='Enter') checkAdminPass()">
     <button onclick="checkAdminPass()" class="w-full bg-[#d1a14b] text-black font-bold py-3 rounded-xl mb-2">ΕΙΣΟΔΟΣ</button>
     <button onclick="hideAdmin()" class="w-full bg-gray-800 text-white py-2 rounded-xl">ΑΚΥΡΩΣΗ</button>
     <p id="adminMessage" class="text-red-500 text-center mt-2 text-sm"></p>
 </div>
 
+<!-- Admin Table -->
 <div id="adminTable" class="admin-table">
-    <div class="flex justify-between items-center mb-4">
-        <h2 class="text-2xl mythos-font text-[#d1a14b]">ΚΡΑΤΗΣΕΙΣ</h2>
-        <div>
-            <button onclick="downloadExcel()" class="admin-btn mr-2">EXCEL</button>
-            <button onclick="deleteAllReservations()" class="admin-btn bg-red-600 text-white hover:bg-red-700">ΔΙΑΓΡΑΦΗ</button>
-            <button onclick="hideAdminTable()" class="admin-btn bg-gray-600 text-white hover:bg-gray-700 ml-2">✕</button>
+    <div class="flex flex-wrap justify-between items-center mb-5 gap-3">
+        <h2 class="text-xl mythos-font text-[#d1a14b]">ΚΡΑΤΗΣΕΙΣ</h2>
+
+        <!-- Filter tabs -->
+        <div class="flex gap-2">
+            <button class="filter-tab active" id="tab-all"       onclick="setFilter('all')">ΟΛΑ</button>
+            <button class="filter-tab"        id="tab-pending"   onclick="setFilter('pending')">PENDING</button>
+            <button class="filter-tab"        id="tab-confirmed" onclick="setFilter('confirmed')">CONFIRMED</button>
+        </div>
+
+        <div class="flex gap-2">
+            <button onclick="loadReservations()" class="admin-btn" style="background:#333;color:#d1a14b;">↻ REFRESH</button>
+            <button onclick="downloadExcel()"    class="admin-btn">EXCEL</button>
+            <button onclick="hideAdminTable()"   class="admin-btn" style="background:#333;color:white;">✕</button>
         </div>
     </div>
+
     <div id="reservationsList"></div>
-    <p id="totalRes" class="text-right mt-4 text-gray-400"></p>
+    <p id="totalRes" class="text-right mt-4 text-gray-500 text-sm"></p>
 </div>
 
-<!-- ΑΡΧΙΚΗ ΕΝΟΤΗΤΑ -->
+<!-- ── SMS CONFIRMATION MODAL ── -->
+<div class="sms-modal" id="smsModal">
+    <div class="sms-modal-box">
+
+        <div class="step-dots">
+            <div class="step-dot active"></div>
+            <div class="step-dot active"></div>
+            <div class="step-dot"></div>
+        </div>
+
+        <div class="sms-icon">📱</div>
+
+        <h2 class="mythos-font text-[#d1a14b] text-xl mb-3">ΤΕΛΕΥΤΑΙΟ ΒΗΜΑ</h2>
+        <p class="text-gray-300 text-sm mb-2 leading-relaxed">
+            Η κράτησή σου <strong class="text-white">καταχωρήθηκε</strong> επιτυχώς!
+        </p>
+        <p class="text-gray-400 text-sm mb-4 leading-relaxed">
+            Για να <strong class="text-[#d1a14b]">επιβεβαιωθεί η κράτησή σου</strong> και να συνεννοηθούμε για τον τρόπο πληρωμής, στείλε μας SMS τώρα.
+        </p>
+        <p class="text-gray-500 text-xs mb-6 leading-relaxed">
+            Μετά την αποστολή θα επικοινωνήσουμε μαζί σου για τα υπόλοιπα. <strong class="text-white">Χωρίς SMS η κράτηση δεν επιβεβαιώνεται.</strong>
+        </p>
+
+        <div class="bg-[#d1a14b]/10 border border-[#d1a14b]/30 rounded-xl p-4 mb-6 text-left">
+            <p class="text-[10px] text-[#d1a14b] uppercase tracking-widest mb-2 font-bold">ΤΟ SMS ΘΑ ΠΕΡΙΕΧΕΙ:</p>
+            <p id="smsPrev" class="text-white text-xs leading-relaxed font-mono"></p>
+        </div>
+
+        <button class="sms-btn" onclick="openSMS()">
+            📩 &nbsp;ΑΠΟΣΤΟΛΗ SMS ΕΠΙΒΕΒΑΙΩΣΗΣ
+        </button>
+        <p class="text-[10px] text-gray-600 mt-3">Ανοίγει αυτόματα η εφαρμογή SMS του κινητού σου</p>
+    </div>
+</div>
+
+
+<!-- ════════════════════════════════════════
+     HERO SECTION
+════════════════════════════════════════ -->
 <section class="relative min-h-screen flex flex-col items-center justify-center px-6 pt-20">
     <div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
         <div class="absolute top-1/4 -left-20 w-[500px] h-[500px] bg-blue-900 rounded-full blur-[160px] opacity-20 animate-[floatingLights_12s_infinite]"></div>
@@ -244,7 +330,8 @@
     </div>
 
     <div class="mb-10 animate-mythos text-center">
-        <img src="image_95cceb.jpg" alt="Mythos Nights" class="w-full max-w-[220px] md:max-w-[380px] h-auto logo-glow mx-auto"/>
+        <img src="image_95cceb.jpg" alt="Mythos Nights"
+             class="w-full max-w-[220px] md:max-w-[380px] h-auto logo-glow mx-auto"/>
         <p class="uppercase tracking-[0.8em] text-[#d1a14b] mt-6 font-bold text-[10px] md:text-xs opacity-80">EXPERIENCE THE LEGEND</p>
     </div>
 
@@ -252,7 +339,6 @@
         <div class="flex flex-wrap justify-center items-center gap-6 md:gap-12 text-xl md:text-3xl font-light mb-10">
             <div class="flex flex-col text-center">
                 <span class="text-[9px] text-[#d1a14b] uppercase tracking-[0.4em] mb-2 font-bold">LOCATION</span>
-            
                 <span class="shaka-font text-white uppercase">SHAKA</span>
             </div>
             <div class="hidden md:block w-px h-14 bg-[#d1a14b]/30"></div>
@@ -261,21 +347,27 @@
                 <a href="tel:96807443" class="mythos-font tracking-widest text-white">96807443</a>
             </div>
         </div>
-        <a href="#booking-form" class="inline-block bg-[#d1a14b] text-black hover:bg-white px-8 py-4 text-sm md:px-14 md:py-5 rounded-full font-black uppercase tracking-[0.2em] transition-all shadow-[0_0_40px_rgba(209,161,75,0.6)] hover:shadow-[0_0_80px_rgba(209,161,75,1)]">ΚΡΑΤΗΣΗ ΤΩΡΑ</a>
+        <a href="#booking-form"
+           class="inline-block bg-[#d1a14b] text-black hover:bg-white px-8 py-4 text-sm md:px-14 md:py-5 rounded-full font-black uppercase tracking-[0.2em] transition-all shadow-[0_0_40px_rgba(209,161,75,0.6)] hover:shadow-[0_0_80px_rgba(209,161,75,1)]">
+            ΚΡΑΤΗΣΗ ΤΩΡΑ
+        </a>
     </div>
 </section>
 
-<!-- ΕΝΟΤΗΤΑ ΜΕ POSTER -->
+<!-- POSTER -->
 <div class="max-w-5xl mx-auto mb-16 px-4">
     <div class="grid md:grid-cols-2 gap-8 items-center">
         <img src="poster.jpg" class="poster w-full max-w-[500px] md:max-w-full mx-auto rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.6)]">
-
         <div class="text-left">
             <h3 class="text-2xl mythos-font text-[#d1a14b] mb-4">MYTHOS_NIGHTS</h3>
-            <p class="text-white text-xl md:text-2xl mb-3 font-light italic tracking-wide">"Ό,τι αγγίζουμε <span class="font-bold text-[#d1a14b]">γίνεται χρυσός</span>"</p>
+            <p class="text-white text-xl md:text-2xl mb-3 font-light italic tracking-wide">
+                "Ό,τι αγγίζουμε <span class="font-bold text-[#d1a14b]">γίνεται χρυσός</span>"
+            </p>
             <div class="bg-[#d1a14b]/10 p-4 rounded-xl border border-[#d1a14b]/30 inline-block">
                 <p class="text-[#d1a14b] font-bold flex items-center gap-2">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"/></svg>
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"/>
+                    </svg>
                     Παρασκευή 25 Απριλίου 2026 | 9:00 μ.μ.
                 </p>
             </div>
@@ -283,13 +375,17 @@
     </div>
 </div>
 
-<!-- ΦΟΡΜΑ ΚΡΑΤΗΣΗΣ -->
+<!-- ════════════════════════════════════════
+     BOOKING FORM
+════════════════════════════════════════ -->
 <section id="booking-form" class="py-24 px-6 relative bg-[#03060a]">
     <div class="max-w-xl mx-auto">
         <div class="text-center mb-12">
             <h2 class="text-3xl md:text-4xl font-bold uppercase tracking-[0.2em] text-[#d1a14b] mythos-font">RESERVATIONS</h2>
             <p class="text-sm text-gray-400 mt-2 flex items-center justify-center gap-2">
-                <svg class="w-4 h-4 text-[#d1a14b]" fill="currentColor" viewBox="0 0 20 20"><path d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"/></svg>
+                <svg class="w-4 h-4 text-[#d1a14b]" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"/>
+                </svg>
                 Παρασκευή 25 Απριλίου 2026 - 9:00 μ.μ.
             </p>
         </div>
@@ -299,7 +395,6 @@
                 <div>
                     <label class="block text-[10px] uppercase tracking-widest text-[#d1a14b] mb-2 font-bold">ΟΝΟΜΑ</label>
                     <input type="text" id="name" required class="w-full p-4 rounded-xl" placeholder="First Name">
-                
                 </div>
                 <div>
                     <label class="block text-[10px] uppercase tracking-widest text-[#d1a14b] mb-2 font-bold">ΕΠΙΘΕΤΟ</label>
@@ -324,40 +419,71 @@
 
             <div>
                 <label class="block text-[10px] uppercase tracking-widest text-[#d1a14b] mb-2 font-bold">ΤΗΛΕΦΩΝΟ</label>
-                
-                <input type="tel" id="phone" name="phone" required class="w-full p-4 rounded-xl">
+                <input type="tel" id="phone" required class="w-full p-4 rounded-xl" placeholder="99999999">
             </div>
 
             <p class="text-xs text-[#d1a14b] text-center">Για τραπέζι & καναπέ: επιλέγεις μπουκάλι στο μαγαζί</p>
 
-            <button onclick="saveReservation()" id="submitBtn" class="w-full bg-[#d1a14b] text-black font-black py-5 rounded-xl uppercase tracking-widest hover:bg-white transition-all shadow-lg mt-4">ΚΑΤΑΧΩΡΗΣΗ</button>
-            <p id="message" class="text-center text-green-500 mt-4 hidden font-bold italic">Η κράτηση καταχωρήθηκε!</p>
+            <!-- Steps info -->
+            <div class="flex items-start gap-3 bg-white/5 rounded-xl p-4 border border-white/10">
+                <span class="text-lg mt-0.5">💡</span>
+                <div>
+                    <p class="text-white text-xs font-bold mb-1">Πώς λειτουργεί η κράτηση:</p>
+                    <p class="text-gray-400 text-xs leading-relaxed">
+                        1. Συμπλήρωσε τη φόρμα<br>
+                        2. Μετά την καταχώρηση, θα σου ζητηθεί να στείλεις <strong class="text-[#d1a14b]">SMS επιβεβαίωσης</strong><br>
+                        3. Επικοινωνούμε μαζί σου για τα υπόλοιπα!
+                    </p>
+                </div>
+            </div>
+
+            <button onclick="saveReservation()" id="submitBtn"
+                    class="w-full bg-[#d1a14b] text-black font-black py-5 rounded-xl uppercase tracking-widest hover:bg-white transition-all shadow-lg mt-4">
+                ΚΑΤΑΧΩΡΗΣΗ
+            </button>
+            <p id="message" class="text-center mt-4 hidden font-bold italic text-sm"></p>
         </div>
     </div>
 </section>
 
 <footer class="py-12 text-center opacity-50">
-    <a href="https://ig.me/m/mythos_nights" target="_blank" class="text-[#d1a14b] mythos-font tracking-widest hover:text-white transition-colors">mythos_nights</a>
+    <a href="https://ig.me/m/mythos_nights" target="_blank"
+       class="text-[#d1a14b] mythos-font tracking-widest hover:text-white transition-colors">
+        mythos_nights
+    </a>
 </footer>
 
-<!-- JAVASCRIPT -->
+<a href="https://instagram.com/mythos_nights" target="_blank"
+   class="fixed bottom-6 right-6 bg-[#d1a14b] text-black px-5 py-3 rounded-full font-bold shadow-lg hover:bg-white transition z-50">
+    INSTAGRAM
+</a>
+
+<footer class="mt-12 pb-6 text-center">
+    <p class="text-xs text-gray-400 tracking-wide uppercase">Sponsored by</p>
+    <a href="https://www.instagram.com/sumoeventproductions" target="_blank"
+       class="text-sm font-medium text-gray-600 hover:text-black transition-colors duration-300">
+        @sumoeventproductions
+    </a>
+</footer>
+
+
+<!-- ════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════ -->
 <script>
-const ADMIN_PASSWORD = "mythos2024";
+const ADMIN_PASSWORD       = "mythos2024";
 const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzQs7CnghdoUj51fbr1iUuqvHwukOUjv0nUgeJA1p4q6k9Dj3ioPqFqL8xVlynDjnlu1w/exec";
+const EVENT_PHONE          = "99533804"; // αριθμός επιβεβαίωσης
 
-let clickCount = 0;
-let clickTimer;
+// ── Κρατάμε τα στοιχεία για το SMS modal
+let pendingSMSData = {};
 
+// ── Admin secret click
+let clickCount = 0, clickTimer;
 function secretClick() {
     clickCount++;
-    if (clickCount === 1) {
-        clickTimer = setTimeout(() => { clickCount = 0; }, 2000);
-    }
-    if (clickCount === 5) {
-        clearTimeout(clickTimer);
-        clickCount = 0;
-        showAdminLogin();
-    }
+    if (clickCount === 1) clickTimer = setTimeout(() => { clickCount = 0; }, 2000);
+    if (clickCount === 5) { clearTimeout(clickTimer); clickCount = 0; showAdminLogin(); }
 }
 
 function showAdminLogin() {
@@ -365,22 +491,19 @@ function showAdminLogin() {
     document.getElementById('adminOverlay').classList.add('visible');
     document.getElementById('adminPass').value = '';
     document.getElementById('adminMessage').innerHTML = '';
+    setTimeout(() => document.getElementById('adminPass').focus(), 100);
 }
-
 function hideAdmin() {
     document.getElementById('adminLogin').style.display = 'none';
     document.getElementById('adminOverlay').classList.remove('visible');
     document.getElementById('adminTable').classList.remove('visible');
 }
-
 function hideAdminTable() {
     document.getElementById('adminTable').classList.remove('visible');
     document.getElementById('adminOverlay').classList.remove('visible');
 }
-
 function checkAdminPass() {
-    const pass = document.getElementById('adminPass').value;
-    if (pass === ADMIN_PASSWORD) {
+    if (document.getElementById('adminPass').value === ADMIN_PASSWORD) {
         document.getElementById('adminLogin').style.display = 'none';
         document.getElementById('adminTable').classList.add('visible');
         document.getElementById('adminOverlay').classList.add('visible');
@@ -390,20 +513,29 @@ function checkAdminPass() {
     }
 }
 
+// ── Filter
+let currentFilter = 'all';
+function setFilter(f) {
+    currentFilter = f;
+    ['all','pending','confirmed'].forEach(t => {
+        document.getElementById('tab-'+t).classList.toggle('active', t === f);
+    });
+    renderTable(window._allReservations || []);
+}
+
+// ── Save reservation → show SMS modal
 async function saveReservation() {
-    const name = document.getElementById('name').value.trim();
+    const name    = document.getElementById('name').value.trim();
     const surname = document.getElementById('surname').value.trim();
-    const phone = document.getElementById('phone').value.trim();
-    const people = document.getElementById('people').value;
-    const type = document.getElementById('type').value;
+    const phone   = document.getElementById('phone').value.trim();
+    const people  = document.getElementById('people').value;
+    const type    = document.getElementById('type').value;
 
     if (!name || !surname || !phone) {
         showMessage('Συμπληρώστε Όνομα, Επίθετο και Τηλέφωνο!', 'red');
         return;
     }
-    
-    const phoneRegex = /^[0-9]{8}$/;
-    if (!phoneRegex.test(phone)) {
+    if (!/^[0-9]{8}$/.test(phone)) {
         showMessage('Το τηλέφωνο πρέπει να έχει 8 ψηφία!', 'red');
         return;
     }
@@ -413,30 +545,35 @@ async function saveReservation() {
     btn.innerHTML = 'ΑΠΟΘΗΚΕΥΣΗ...';
 
     const reservation = {
-        ονομα: name,
-        επωνυμο: surname,
-        τηλεφωνο: phone,
-        ατομα: people,
-        τυπος: type,
-        ημερομηνια_event: "25/4/2026",
-        ωρα_event: "9:00 μ.μ."
+        ονομα: name, επωνυμο: surname,
+        τηλεφωνο: phone, ατομα: people, τυπος: type,
+        ημερομηνια_event: "25/4/2026", ωρα_event: "9:00 μ.μ.",
+        status: "pending"
     };
 
     try {
         await fetch(GOOGLE_APPS_SCRIPT_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            method: 'POST', mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(reservation)
         });
-        
-        showMessage('Η κράτηση καταχωρήθηκε!', 'green');
-        document.getElementById('name').value = '';
+
+        // Αποθηκεύουμε για το SMS
+        pendingSMSData = { name, surname, phone, people, type };
+
+        // Ετοιμάζουμε preview SMS
+        const smsText = buildSMSText(name, surname, phone, people, type);
+        document.getElementById('smsPrev').innerText = smsText;
+
+        // Reset φόρμα
+        document.getElementById('name').value    = '';
         document.getElementById('surname').value = '';
-        document.getElementById('phone').value = '';
-        document.getElementById('people').value = '2';
+        document.getElementById('phone').value   = '';
+        document.getElementById('people').value  = '2';
+
+        // Εμφανίζουμε modal
+        document.getElementById('smsModal').classList.add('visible');
+
     } catch(error) {
         showMessage('Σφάλμα! Δοκιμάστε ξανά.', 'red');
         console.error(error);
@@ -446,101 +583,155 @@ async function saveReservation() {
     }
 }
 
-async function loadReservations() {
-    try {
-        const response = await fetch(GOOGLE_APPS_SCRIPT_URL + '?t=' + Date.now());
-        const reservations = await response.json();
-        
-        let listDiv = document.getElementById('reservationsList');
-        
-        if (!reservations || reservations.length === 0 || reservations.error) {
-            listDiv.innerHTML = '<p class="text-center text-gray-400">Δεν υπάρχουν κρατήσεις</p>';
-            return;
-        }
-        
-        let html = '<table><tr><th>Ημ/νία</th><th>Όνομα</th><th>Επίθετο</th><th>Τηλέφωνο</th><th>Άτομα</th><th>Τύπος</th></tr>';
-        
-        [...reservations].reverse().forEach(r => {
-            html += `<tr>
-                <td>${r.reg_date || ''}</td>
-                <td>${r.name || ''}</td>
-                <td>${r.surname || ''}</td>
-                <td>${r.phone || ''}</td>
-                <td>${r.people || ''}</td>
-                <td>${r.type || ''}</td>
-            </tr>`;
-        });
-        
-        html += '</table>';
-        listDiv.innerHTML = html;
-        document.getElementById('totalRes').innerHTML = `Σύνολο: ${reservations.length} κρατήσεις`;
-    } catch(error) {
-        console.error('Error loading:', error);
-        document.getElementById('reservationsList').innerHTML = '<p class="text-center text-red-500">Σφάλμα σύνδεσης με το Sheet</p>';
-    }
+function buildSMSText(name, surname, phone, people, type) {
+    return `MYTHOS NIGHTS - Κράτηση\nΌνομα: ${name} ${surname}\nΤηλ: ${phone}\nΆτομα: ${people}\nΤύπος: ${type}\nΗμ/νία: 25/4/2026`;
+}
+
+function openSMS() {
+    const { name, surname, phone, people, type } = pendingSMSData;
+    const text = buildSMSText(name, surname, phone, people, type);
+    const encoded = encodeURIComponent(text);
+    // iOS χρειάζεται ";" — Android χρειάζεται "?"
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    const sep = isIOS ? ';' : '?';
+    window.location.href = `sms:+357${EVENT_PHONE}${sep}body=${encoded}`;
+    setTimeout(closeSMSModal, 1500);
+}
+
+function closeSMSModal() {
+    document.getElementById('smsModal').classList.remove('visible');
+    showMessage('Κράτηση καταχωρήθηκε! Περιμένουμε το SMS σου 📱', 'gold');
 }
 
 function showMessage(text, color) {
     const msg = document.getElementById('message');
     msg.innerHTML = text;
-    msg.style.color = color;
+    msg.style.color = color === 'green' ? '#22c55e'
+                    : color === 'red'   ? '#ef4444'
+                    : color === 'gold'  ? '#d1a14b'
+                    : color;
     msg.classList.remove('hidden');
-    setTimeout(() => { msg.classList.add('hidden'); }, 3000);
+    setTimeout(() => msg.classList.add('hidden'), 5000);
 }
 
-    async function downloadExcel() {
+// ── Load & render reservations
+async function loadReservations() {
+    document.getElementById('reservationsList').innerHTML =
+        '<p class="text-center text-gray-500 py-8">Φόρτωση...</p>';
     try {
         const response = await fetch(GOOGLE_APPS_SCRIPT_URL + '?t=' + Date.now());
-        const reservations = await response.json();
-        
-        if (!reservations || reservations.length === 0) {
-            alert('Δεν υπάρχουν κρατήσεις');
-            return;
-        }
-        
-        // Κεφαλίδες CSV
-        let csv = 'Ημερομηνία,Όνομα,Επίθετο,Τηλέφωνο,Άτομα,Τύπος\n';
-        
-       reservations.forEach(r => {
-            const date = r.reg_date || '';
-            const name = (r.name || '').toString().replace(/,/g, ' ');
-            const surname = (r.surname || '').toString().replace(/,/g, ' ');
-            const phone = (r.phone || '').toString().replace(/,/g, ' ');
-            const people = r.people || '';
-            const type = (r.type || '').toString().replace(/,/g, ' ');
-            
-            csv += `${date},${name},${surname},${phone},${people},${type}\n`;
+        const data     = await response.json();
+        window._allReservations = Array.isArray(data) ? data : [];
+        renderTable(window._allReservations);
+    } catch(e) {
+        document.getElementById('reservationsList').innerHTML =
+            '<p class="text-center text-red-500 py-6">Σφάλμα σύνδεσης με το Sheet</p>';
+    }
+}
+
+function renderTable(reservations) {
+    const listDiv = document.getElementById('reservationsList');
+
+    // Filter
+    const filtered = currentFilter === 'all'
+        ? reservations
+        : reservations.filter(r => (r.status || 'pending').toLowerCase() === currentFilter);
+
+    if (!filtered.length) {
+        listDiv.innerHTML = '<p class="text-center text-gray-500 py-8">Δεν υπάρχουν κρατήσεις</p>';
+        document.getElementById('totalRes').innerHTML = '';
+        return;
+    }
+
+    let html = `<table>
+        <tr>
+            <th>Timestamp</th>
+            <th>Όνομα</th>
+            <th>Επίθετο</th>
+            <th>Τηλέφωνο</th>
+            <th>Άτομα</th>
+            <th>Τύπος</th>
+            <th>Status</th>
+            <th>Αλλαγή</th>
+        </tr>`;
+
+    [...filtered].reverse().forEach((r, i) => {
+        const status  = (r.status || 'pending').toLowerCase();
+        const badgeClass = status === 'confirmed' ? 'badge-confirmed' : 'badge-pending';
+        const badgeLabel = status === 'confirmed' ? 'CONFIRMED' : 'PENDING';
+        const realIdx = reservations.length - 1 - i; // index στο original array
+
+        html += `<tr>
+            <td style="white-space:nowrap">${r.reg_date || '—'}</td>
+            <td>${r.name    || ''}</td>
+            <td>${r.surname || ''}</td>
+            <td><a href="tel:${r.phone}" style="color:#d1a14b">${r.phone || ''}</a></td>
+            <td style="text-align:center">${r.people || ''}</td>
+            <td style="font-size:11px">${r.type || ''}</td>
+            <td><span class="badge ${badgeClass}">${badgeLabel}</span></td>
+            <td>
+                ${status === 'pending'
+                    ? `<button class="admin-btn" style="font-size:10px;padding:5px 10px;background:#22c55e"
+                         onclick="updateStatus(${realIdx},'confirmed')">✓ CONFIRM</button>`
+                    : `<button class="admin-btn" style="font-size:10px;padding:5px 10px;background:#555;color:#fff"
+                         onclick="updateStatus(${realIdx},'pending')">↩ PENDING</button>`
+                }
+            </td>
+        </tr>`;
+    });
+
+    html += '</table>';
+    listDiv.innerHTML = html;
+
+    const confirmed = reservations.filter(r => (r.status||'pending') === 'confirmed').length;
+    document.getElementById('totalRes').innerHTML =
+        `Σύνολο: <strong style="color:#e5e7eb">${reservations.length}</strong> &nbsp;|&nbsp; 
+         Confirmed: <strong style="color:#22c55e">${confirmed}</strong> &nbsp;|&nbsp; 
+         Pending: <strong style="color:#eab308">${reservations.length - confirmed}</strong>`;
+}
+
+async function updateStatus(index, newStatus) {
+    // Στέλνουμε update στο Google Apps Script
+    const res = window._allReservations[index];
+    if (!res) return;
+    res.status = newStatus;
+
+    try {
+        await fetch(GOOGLE_APPS_SCRIPT_URL, {
+            method: 'POST', mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'updateStatus', rowIndex: index, status: newStatus })
         });
-        
+    } catch(e) { /* no-cors — αγνοούμε */ }
+
+    renderTable(window._allReservations);
+}
+
+// ── Excel / CSV download
+async function downloadExcel() {
+    try {
+        const response     = await fetch(GOOGLE_APPS_SCRIPT_URL + '?t=' + Date.now());
+        const reservations = await response.json();
+        if (!reservations || !reservations.length) { alert('Δεν υπάρχουν κρατήσεις'); return; }
+
+        let csv = 'Ημερομηνία,Όνομα,Επίθετο,Τηλέφωνο,Άτομα,Τύπος,Status\n';
+        reservations.forEach(r => {
+            const clean = v => (v||'').toString().replace(/,/g,' ');
+            csv += `${clean(r.reg_date)},${clean(r.name)},${clean(r.surname)},${clean(r.phone)},${r.people||''},${clean(r.type)},${r.status||'pending'}\n`;
+        });
+
         const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        const today = new Date();
-        const dateStr = today.toISOString().split('T')[0];
-        
-        a.href = url;
-        a.download = `κρατησεις_mythos_${dateStr}.csv`;
+        const url  = URL.createObjectURL(blob);
+        const a    = document.createElement('a');
+        a.href     = url;
+        a.download = `κρατησεις_mythos_${new Date().toISOString().split('T')[0]}.csv`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-        window.URL.revokeObjectURL(url);
-        
-    } catch(error) {
-        alert('Σφάλμα στο κατέβασμα');
-        console.error(error);
-    }
+        URL.revokeObjectURL(url);
+    } catch(e) { alert('Σφάλμα στο κατέβασμα'); }
 }
 </script>
 
-<a href="https://instagram.com/mythos_nights" target="_blank" class="fixed bottom-6 right-6 bg-[#d1a14b] text-black px-5 py-3 rounded-full font-bold shadow-lg hover:bg-white transition z-50">INSTAGRAM</a>
-
-<footer class="mt-12 pb-6 text-center">
-      <p class="text-xs text-gray-400 tracking-wide uppercase">Sponsored by</p>
-      <a href="https://www.instagram.com/sumoeventproductions" 
-         target="_blank" 
-         class="text-sm font-medium text-gray-600 hover:text-black transition-colors duration-300">
-         @sumoeventproductions
-      </a>
-    </footer>
-
-  </body> </html>
+</body>
+</html>
