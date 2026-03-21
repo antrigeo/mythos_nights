@@ -288,44 +288,64 @@
 <div class="sms-modal" id="smsModal">
     <div class="sms-modal-box">
 
-        <div class="step-dots">
-            <div class="step-dot active"></div>
-            <div class="step-dot active"></div>
-            <div class="step-dot"></div>
-        </div>
+        <!-- ΒΗΜΑ 1: COPY -->
+        <div id="step1">
+            <div class="step-dots">
+                <div class="step-dot active"></div>
+                <div class="step-dot active"></div>
+                <div class="step-dot"></div>
+            </div>
 
-        <div class="sms-icon">📱</div>
+            <div class="sms-icon">✅</div>
 
-        <h2 class="mythos-font text-[#d1a14b] text-xl mb-3">ΤΕΛΕΥΤΑΙΟ ΒΗΜΑ</h2>
-        <p class="text-gray-300 text-sm mb-2 leading-relaxed">
-            Η κράτησή σου <strong class="text-white">καταχωρήθηκε</strong> επιτυχώς!
-        </p>
-        <p class="text-gray-400 text-sm mb-4 leading-relaxed">
-            Για να <strong class="text-[#d1a14b]">επιβεβαιωθεί η κράτησή σου</strong> και να συνεννοηθούμε για τον τρόπο πληρωμής, στείλε μας SMS τώρα.
-        </p>
-        <p class="text-gray-500 text-xs mb-6 leading-relaxed">
-            Μετά την αποστολή θα επικοινωνήσουμε μαζί σου για τα υπόλοιπα. <strong class="text-white">Χωρίς SMS η κράτηση δεν επιβεβαιώνεται.</strong>
-        </p>
+            <h2 class="mythos-font text-[#d1a14b] text-xl mb-2">ΒΗΜΑ 1 / 2</h2>
+            <p class="text-gray-300 text-sm mb-1 leading-relaxed">
+                Η κράτησή σου <strong class="text-white">καταχωρήθηκε</strong> επιτυχώς!
+            </p>
+            <p class="text-gray-400 text-sm mb-4 leading-relaxed">
+                Για να επιβεβαιωθεί και να συνεννοηθούμε για την <strong class="text-[#d1a14b]">πληρωμή</strong>, πρέπει να μας στείλεις SMS.
+            </p>
 
-        <div class="bg-[#d1a14b]/10 border border-[#d1a14b]/30 rounded-xl p-4 mb-6 text-left">
-            <p class="text-[10px] text-[#d1a14b] uppercase tracking-widest mb-2 font-bold">ΤΟ SMS ΘΑ ΠΕΡΙΕΧΕΙ:</p>
-            <p id="smsPrev" class="text-white text-xs leading-relaxed font-mono"></p>
-        </div>
+            <p class="text-white text-xs font-bold mb-2 text-left">① Αντέγραψε το παρακάτω κείμενο:</p>
+            <div class="bg-[#d1a14b]/10 border border-[#d1a14b]/40 rounded-xl p-4 mb-3 text-left">
+                <p id="smsPrev" class="text-white text-xs leading-relaxed font-mono whitespace-pre-line"></p>
+            </div>
 
-        <button class="sms-btn" onclick="openSMS()">
-            📩 &nbsp;ΑΝΟΙΓΜΑ SMS
-        </button>
+            <button onclick="copyToClipboard()" id="copyBtn" class="sms-btn" style="margin-bottom:10px;">
+                📋 &nbsp;ΑΝΤΙΓΡΑΦΗ ΚΕΙΜΕΝΟΥ
+            </button>
 
-        <!-- Copy text για Android -->
-        <div id="copyBox" style="display:none; margin-top:14px; background:#111; border:1px solid #d1a14b33; border-radius:12px; padding:14px;">
-            <p class="text-[10px] text-[#d1a14b] uppercase tracking-widest mb-2 font-bold">Αντέγραψε και επικόλλησε στο SMS:</p>
-            <p id="copyText" class="text-white text-xs font-mono leading-relaxed mb-3"></p>
-            <button onclick="copyToClipboard()" style="background:#d1a14b;color:black;border:none;padding:8px 16px;border-radius:8px;font-weight:bold;font-size:12px;cursor:pointer;width:100%;" id="copyBtn">
-                📋 ΑΝΤΙΓΡΑΦΗ ΚΕΙΜΕΝΟΥ
+            <p id="copiedMsg" style="display:none; color:#22c55e; font-size:12px; font-weight:bold; margin-bottom:8px;">
+                ✅ Αντιγράφηκε! Τώρα πάτα Επόμενο →
+            </p>
+
+            <button onclick="goToStep2()" class="sms-btn" style="background:#222; color:#d1a14b; border:1px solid #d1a14b; box-shadow:none;">
+                ΕΠΟΜΕΝΟ →
             </button>
         </div>
 
-        <p class="text-[10px] text-gray-600 mt-3">Ανοίγει αυτόματα η εφαρμογή SMS του κινητού σου</p>
+        <!-- ΒΗΜΑ 2: OPEN SMS -->
+        <div id="step2" style="display:none;">
+            <div class="step-dots">
+                <div class="step-dot active"></div>
+                <div class="step-dot active"></div>
+                <div class="step-dot active"></div>
+            </div>
+
+            <div class="sms-icon">📩</div>
+
+            <h2 class="mythos-font text-[#d1a14b] text-xl mb-2">ΒΗΜΑ 2 / 2</h2>
+            <p class="text-gray-300 text-sm mb-4 leading-relaxed">
+                Τώρα άνοιξε τα SMS. Ο αριθμός μας είναι <strong class="text-white">ήδη συμπληρωμένος</strong>.<br><br>
+                Απλά κάνε <strong class="text-[#d1a14b]">Paste</strong> (πατηστά-κράτα στο πεδίο κειμένου) και στείλε!
+            </p>
+
+            <button onclick="openSMS()" class="sms-btn">
+                📱 &nbsp;ΑΝΟΙΓΜΑ SMS ΤΩΡΑ
+            </button>
+            <p class="text-[10px] text-gray-600 mt-3">Ανοίγει αυτόματα η εφαρμογή SMS με τον αριθμό μας</p>
+        </div>
+
     </div>
 </div>
 
@@ -581,6 +601,11 @@ async function saveReservation() {
         document.getElementById('phone').value   = '';
         document.getElementById('people').value  = '2';
 
+        // Reset modal στο βήμα 1
+        document.getElementById('step1').style.display = 'block';
+        document.getElementById('step2').style.display = 'none';
+        document.getElementById('copiedMsg').style.display = 'none';
+
         // Εμφανίζουμε modal
         document.getElementById('smsModal').classList.add('visible');
 
@@ -597,25 +622,23 @@ function buildSMSText(name, surname, phone, people, type) {
     return `MYTHOS NIGHTS - Κράτηση\nΌνομα: ${name} ${surname}\nΤηλ: ${phone}\nΆτομα: ${people}\nΤύπος: ${type}\nΗμ/νία: 25/4/2026`;
 }
 
+function goToStep2() {
+    document.getElementById('step1').style.display = 'none';
+    document.getElementById('step2').style.display = 'block';
+}
+
 function openSMS() {
-    const { name, surname, phone, people, type } = pendingSMSData;
-    const text = buildSMSText(name, surname, phone, people, type);
-    const encoded = encodeURIComponent(text);
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-
-    // Δείχνουμε πάντα το copy box για Android
-    if (!isIOS) {
-        document.getElementById('copyBox').style.display = 'block';
-        document.getElementById('copyText').innerText = text;
-    }
-
-    // Ανοίγουμε SMS app (iOS προ-συμπληρώνει, Android απλώς ανοίγει)
     if (isIOS) {
+        const { name, surname, phone, people, type } = pendingSMSData;
+        const text = buildSMSText(name, surname, phone, people, type);
+        const encoded = encodeURIComponent(text);
         window.location.href = `sms:+357${EVENT_PHONE};body=${encoded}`;
-        setTimeout(closeSMSModal, 1500);
     } else {
+        // Android — ανοίγει SMS με αριθμό συμπληρωμένο, ο χρήστης κάνει paste
         window.location.href = `sms:+357${EVENT_PHONE}`;
     }
+    setTimeout(closeSMSModal, 1500);
 }
 
 function copyToClipboard() {
@@ -625,10 +648,15 @@ function copyToClipboard() {
         const btn = document.getElementById('copyBtn');
         btn.innerHTML = '✅ ΑΝΤΙΓΡΑΦΗΚΕ!';
         btn.style.background = '#22c55e';
+        document.getElementById('copiedMsg').style.display = 'block';
         setTimeout(() => {
             btn.innerHTML = '📋 ΑΝΤΙΓΡΑΦΗ ΚΕΙΜΕΝΟΥ';
             btn.style.background = '#d1a14b';
-        }, 2000);
+        }, 3000);
+    }).catch(() => {
+        // Fallback αν δεν επιτρέπεται clipboard
+        const btn = document.getElementById('copyBtn');
+        btn.innerHTML = '⚠️ Πάτα παρακάτω παρακράτηση';
     });
 }
 
