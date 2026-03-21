@@ -622,17 +622,7 @@ async function saveReservation() {
 
 // ── Close window button
 function closeWindow() {
-    // Προσπαθεί να κλείσει το παράθυρο/tab
-    window.close();
-
-    // Αν το window.close() δεν λειτουργήσει (πχ direct navigation),
-    // κλείνουμε το modal και δείχνουμε μήνυμα
-    setTimeout(() => {
-        if (!document.hidden) {
-            document.getElementById('smsModal').classList.remove('visible');
-            showMessage('Η κράτησή σας καταχωρήθηκε επιτυχώς! ✅', 'gold');
-        }
-    }, 300);
+    document.getElementById('smsModal').classList.remove('visible');
 }
 
 function showMessage(text, color) {
