@@ -196,19 +196,27 @@
         box-shadow: 0 0 50px rgba(255,255,255,0.3);
         transform: translateY(-2px);
     }
-    .sms-skip-btn {
+
+    /* ── CLOSE BUTTON ── */
+    .close-window-btn {
+        display: block; width: 100%;
         background: transparent;
-        color: #555;
+        color: #888;
         border: 1px solid #333;
-        font-size: 12px;
-        padding: 10px;
-        border-radius: 10px;
+        font-family: 'Cinzel', serif;
+        font-size: 13px;
+        letter-spacing: 0.08em;
+        padding: 13px;
+        border-radius: 12px;
         cursor: pointer;
         margin-top: 10px;
-        width: 100%;
-        transition: all 0.2s;
+        transition: all 0.25s;
     }
-    .sms-skip-btn:hover { color: #888; border-color: #555; }
+    .close-window-btn:hover {
+        color: #e5e7eb;
+        border-color: #555;
+        background: rgba(255,255,255,0.04);
+    }
 
     .step-dots {
         display: flex; gap: 6px; justify-content: center; margin-bottom: 20px;
@@ -291,9 +299,13 @@
         <div class="sms-icon">✅</div>
 
         <h2 class="mythos-font text-[#d1a14b] text-xl mb-4">ΚΡΑΤΗΣΗ ΕΠΙΤΥΧΗΣ!</h2>
-        <p class="text-gray-300 text-sm leading-relaxed">
+        <p class="text-gray-300 text-sm leading-relaxed mb-6">
             Σας ευχαριστούμε! Θα σας στείλουμε μήνυμα για τον τρόπο πληρωμής.
         </p>
+
+        <button class="close-window-btn" onclick="closeWindow()">
+            ✕ &nbsp; Μπορείτε να κλείσετε το παράθυρο
+        </button>
 
     </div>
 </div>
@@ -461,15 +473,12 @@
 <script>
 const ADMIN_PASSWORD       = "mythos2024";
 const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxexJccleulEj8HjqdixQCr6BO_hK2ey43KkzYKsbWgtCCS6wD4WRdHrN9ZEsiOMcIFmg/exec";
-const EVENT_PHONE          = "99533804"; // αριθμός επιβεβαίωσης
+const EVENT_PHONE          = "99533804";
 
-// ── Όρια διαθεσιμότητας
 const LIMITS = { trapezi: 20, kanapes: 5 };
 
-// ── Κρατάμε τα στοιχεία για το SMS modal
 let pendingSMSData = {};
 
-// ── Φόρτωση διαθεσιμότητας κατά την εκκίνηση
 window.addEventListener('DOMContentLoaded', checkAvailability);
 
 async function checkAvailability() {
@@ -478,7 +487,6 @@ async function checkAvailability() {
         const data = await response.json();
         if (!Array.isArray(data)) return;
 
-        // Μέτρησε κρατήσεις ανά τύπο
         let countTrapezi = 0, countKanapes = 0;
         data.forEach(r => {
             const t = (r.type || '').toLowerCase();
@@ -561,7 +569,7 @@ function setFilter(f) {
     renderTable(window._allReservations || []);
 }
 
-// ── Save reservation → show SMS modal
+// ── Save reservation
 async function saveReservation() {
     const name    = document.getElementById('name').value.trim();
     const surname = document.getElementById('surname').value.trim();
@@ -578,7 +586,6 @@ async function saveReservation() {
         return;
     }
 
-    // Έλεγχος αν η επιλογή είναι SOLD OUT
     const selectedOpt = document.getElementById('type').selectedOptions[0];
     if (selectedOpt && selectedOpt.disabled) {
         showMessage('Δυστυχώς αυτή η κατηγορία είναι SOLD OUT!', 'red');
@@ -596,14 +603,12 @@ async function saveReservation() {
         status: "pending"
     };
 
-    // no-cors: δεν παίρνουμε response — θεωρούμε πάντα επιτυχία
     fetch(GOOGLE_APPS_SCRIPT_URL, {
         method: 'POST', mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(reservation)
     });
 
-    // Reset φόρμα
     document.getElementById('name').value    = '';
     document.getElementById('surname').value = '';
     document.getElementById('phone').value   = '';
@@ -612,50 +617,22 @@ async function saveReservation() {
     btn.disabled = false;
     btn.innerHTML = 'ΚΑΤΑΧΩΡΗΣΗ';
 
-    // Εμφανίζουμε modal επιτυχίας
     document.getElementById('smsModal').classList.add('visible');
 }
 
-function buildSMSText(name, surname, phone, people, type) {
-    return `MYTHOS NIGHTS - Κράτηση\nΌνομα: ${name} ${surname}\nΤηλ: ${phone}\nΆτομα: ${people}\nΤύπος: ${type}\nΗμ/νία: 25/4/2026`;
-}
+// ── Close window button
+function closeWindow() {
+    // Προσπαθεί να κλείσει το παράθυρο/tab
+    window.close();
 
-function openSMS() {
-    const { name, surname, phone, people, type } = pendingSMSData;
-    const text = buildSMSText(name, surname, phone, people, type);
-    const encoded = encodeURIComponent(text);
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    // Βάζουμε το κείμενο στο body — ο αριθμός συμπληρώνεται από τον χρήστη
-    if (isIOS) {
-        window.location.href = `sms:+357${EVENT_PHONE};body=${encoded}`;
-    } else {
-        window.location.href = `sms:?body=${encoded}`;
-    }
-    setTimeout(closeSMSModal, 1500);
-}
-
-function copyToClipboard() {
-    const { name, surname, phone, people, type } = pendingSMSData;
-    const text = buildSMSText(name, surname, phone, people, type);
-    navigator.clipboard.writeText(text).then(() => {
-        const btn = document.getElementById('copyBtn');
-        btn.innerHTML = '✅ ΑΝΤΙΓΡΑΦΗΚΕ!';
-        btn.style.background = '#22c55e';
-        document.getElementById('copiedMsg').style.display = 'block';
-        setTimeout(() => {
-            btn.innerHTML = '📋 ΑΝΤΙΓΡΑΦΗ ΚΕΙΜΕΝΟΥ';
-            btn.style.background = '#d1a14b';
-        }, 3000);
-    }).catch(() => {
-        // Fallback αν δεν επιτρέπεται clipboard
-        const btn = document.getElementById('copyBtn');
-        btn.innerHTML = '⚠️ Πάτα παρακάτω παρακράτηση';
-    });
-}
-
-function closeSMSModal() {
-    document.getElementById('smsModal').classList.remove('visible');
-    showMessage('Κράτηση καταχωρήθηκε! Περιμένουμε το SMS σου 📱', 'gold');
+    // Αν το window.close() δεν λειτουργήσει (πχ direct navigation),
+    // κλείνουμε το modal και δείχνουμε μήνυμα
+    setTimeout(() => {
+        if (!document.hidden) {
+            document.getElementById('smsModal').classList.remove('visible');
+            showMessage('Η κράτησή σας καταχωρήθηκε επιτυχώς! ✅', 'gold');
+        }
+    }, 300);
 }
 
 function showMessage(text, color) {
@@ -687,7 +664,6 @@ async function loadReservations() {
 function renderTable(reservations) {
     const listDiv = document.getElementById('reservationsList');
 
-    // Filter
     const filtered = currentFilter === 'all'
         ? reservations
         : reservations.filter(r => (r.status || 'pending').toLowerCase() === currentFilter);
@@ -714,7 +690,7 @@ function renderTable(reservations) {
         const status  = (r.status || 'pending').toLowerCase();
         const badgeClass = status === 'confirmed' ? 'badge-confirmed' : 'badge-pending';
         const badgeLabel = status === 'confirmed' ? 'CONFIRMED' : 'PENDING';
-        const realIdx = reservations.length - 1 - i; // index στο original array
+        const realIdx = reservations.length - 1 - i;
 
         html += `<tr>
             <td style="white-space:nowrap">${r.reg_date || '—'}</td>
@@ -746,7 +722,6 @@ function renderTable(reservations) {
 }
 
 async function updateStatus(index, newStatus) {
-    // Στέλνουμε update στο Google Apps Script
     const res = window._allReservations[index];
     if (!res) return;
     res.status = newStatus;
