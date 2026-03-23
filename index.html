@@ -7,7 +7,7 @@
 <title>MYTHOS NIGHTS</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Inter:wght@300;400;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
-window.formLoadTime = Date.now();
+
 <style>
     @keyframes mythosGlow {
         0% { filter: drop-shadow(0 0 20px rgba(209,161,75,0.3)); }
@@ -385,7 +385,6 @@ window.formLoadTime = Date.now();
         </div>
 
         <div class="glass p-8 md:p-12 rounded-3xl space-y-6">
-            <input type="text" id="honeypot" style="display:none" autocomplete="off">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label class="block text-[10px] uppercase tracking-widest text-[#d1a14b] mb-2 font-bold">ΟΝΟΜΑ</label>
@@ -559,18 +558,7 @@ function checkAdminPass() {
         document.getElementById('adminMessage').innerHTML = 'Λάθος κωδικός!';
     }
 }
-async function getUserIP() {
-  const res = await fetch('https://ipinfo.io/json?token=YOUR_TOKEN');
-  const data = await res.json();
-  return data; // έχει ip, city, region, country
-}
 
-// Χρήση μέσα στο saveReservation:
-const userLocation = await getUserIP();
-reservation.ip = userLocation.ip;
-reservation.city = userLocation.city;
-reservation.region = userLocation.region;
-reservation.country = userLocation.country;
 // ── Filter
 let currentFilter = 'all';
 function setFilter(f) {
@@ -765,5 +753,3 @@ async function downloadExcel() {
 }
 </script>
 
-</body>
-</html>
