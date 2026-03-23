@@ -7,7 +7,7 @@
 <title>MYTHOS NIGHTS</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Inter:wght@300;400;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
-
+window.formLoadTime = Date.now();
 <style>
     @keyframes mythosGlow {
         0% { filter: drop-shadow(0 0 20px rgba(209,161,75,0.3)); }
@@ -385,6 +385,7 @@
         </div>
 
         <div class="glass p-8 md:p-12 rounded-3xl space-y-6">
+            <input type="text" id="honeypot" style="display:none" autocomplete="off">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label class="block text-[10px] uppercase tracking-widest text-[#d1a14b] mb-2 font-bold">ΟΝΟΜΑ</label>
