@@ -617,30 +617,26 @@ function setFilter(f) {
 
 // ════════════════════════════════
 // SAVE RESERVATION — με security data
-// ════════════════════════════════
 
 async function saveReservation() {
+
+    const lastBooking = localStorage.getItem("last_booking_time");
+    if (lastBooking && Date.now() - lastBooking < 10000) {
+        showMessage('Περίμενε λίγα δευτερόλεπτα πριν ξανακάνεις κράτηση.', 'red');
+        return;
+    }
+
+    localStorage.setItem("last_booking_time", Date.now());
+
+    if (_userIP === 'unknown') {
+        await collectUserIP();
+    }
+
     const name    = document.getElementById('name').value.trim();
     const surname = document.getElementById('surname').value.trim();
     const phone   = document.getElementById('phone').value.trim();
     const people  = document.getElementById('people').value;
     const type    = document.getElementById('type').value;
-
-    if (!name || !surname || !phone) {
-        showMessage('Συμπληρώστε Όνομα, Επίθετο και Τηλέφωνο!', 'red');
-        return;
-    }
-    if (!/^[0-9]{8}$/.test(phone)) {
-        showMessage('Το τηλέφωνο πρέπει να έχει 8 ψηφία!', 'red');
-        return;
-    }
-
-    // ── Έλεγχος 1: Η συσκευή έχει ήδη κάνει κράτηση;
-    if (localStorage.getItem(STORAGE_KEY)) {
-        showMessage('📱 Έχεις ήδη κάνει κράτηση από αυτή τη συσκευή.', 'gold');
-        return;
-    }
-
     // ── Έλεγχος 2: Duplicate τηλέφωνο
     const existing = window._allReservations || [];
     const duplicate = existing.find(r => (r.phone || '').replace(/\s/g,'') === phone);
@@ -667,6 +663,8 @@ async function saveReservation() {
     device_info: getDeviceInfo(),
     reg_timestamp: new Date().toISOString()
 };
+
+    
 
     fetch(GOOGLE_APPS_SCRIPT_URL, {
         method: 'POST',
