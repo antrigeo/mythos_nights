@@ -117,9 +117,6 @@
     }
     .badge-pending  { background: rgba(234,179,8,0.15);  color: #eab308; border: 1px solid #eab308; }
     .badge-confirmed{ background: rgba(34,197,94,0.15);  color: #22c55e; border: 1px solid #22c55e; }
-    .badge-suspect  { background: rgba(239,68,68,0.15);  color: #ef4444; border: 1px solid #ef4444; }
-    .row-suspect td { background: rgba(239,68,68,0.04) !important; }
-    .ip-cell { font-size: 10px; color: #9ca3af; font-family: monospace; }
 
     /* Filter tabs */
     .filter-tab {
@@ -281,7 +278,6 @@
             <button class="filter-tab active" id="tab-all"       onclick="setFilter('all')">ΟΛΑ</button>
             <button class="filter-tab"        id="tab-pending"   onclick="setFilter('pending')">PENDING</button>
             <button class="filter-tab"        id="tab-confirmed" onclick="setFilter('confirmed')">CONFIRMED</button>
-            <button class="filter-tab"        id="tab-suspect"   onclick="setFilter('suspect')" style="border-color:#ef4444;color:#ef4444">⚠️ ΥΠΟΠΤΕΣ</button>
         </div>
 
         <div class="flex gap-2">
@@ -437,16 +433,7 @@
                     </p>
                 </div>
             </div>
-const lastBooking = localStorage.getItem("last_booking_time");
-if (lastBooking && Date.now() - lastBooking < 10000) {
-    showMessage('Περίμενε λίγα δευτερόλεπτα πριν ξανακάνεις κράτηση.', 'red');
-    return;
-}
-localStorage.setItem("last_booking_time", Date.now());
-    
-            if (_userIP === 'unknown') {
-    await collectUserIP();
-}
+
             <button onclick="saveReservation()" id="submitBtn"
                     class="w-full bg-[#d1a14b] text-black font-black py-5 rounded-xl uppercase tracking-widest hover:bg-white transition-all shadow-lg mt-4">
                 ΚΑΤΑΧΩΡΗΣΗ
@@ -481,95 +468,16 @@ localStorage.setItem("last_booking_time", Date.now());
      JAVASCRIPT
 ════════════════════════════════════════ -->
 <script>
-const ADMIN_PASSWORD         = "mythos2024";
+const ADMIN_PASSWORD       = "mythos2024";
 const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyAuzeEbHm1UDzyBOWxL0BsXhlkXBnh8k8OuZZ04arM7ssfblIRCwjoHDMVF0GDRZ3-uQ/exec";
-const EVENT_PHONE            = "99533804";
+const EVENT_PHONE          = "99533804";
 
 // ── ΚΑΝΕΝΑ ΟΡΙΟ ΓΙΑ ΤΡΑΠΕΖΙΑ ΚΑΙ ΚΑΝΑΠΕΔΕΣ ──
+// Τα tickets παραμένουν απεριόριστα όπως πριν
 
-let _userIP = 'unknown';
+let pendingSMSData = {};
 
-// ════════════════════════════════
-// SECURITY: Συλλογή πληροφοριών
-// ════════════════════════════════
-
-async function collectUserIP() {
-    try {
-        const r = await fetch('https://api.ipify.org?format=json');
-        const d = await r.json();
-        _userIP = d.ip;
-    } catch(e) { _userIP = 'unknown'; }
-}
-
-function getDeviceInfo() {
-    const ua = navigator.userAgent;
-    let os = 'Unknown';
-    if      (/Windows NT 10/.test(ua)) os = 'Win10';
-    else if (/Windows NT 6/.test(ua))  os = 'Win8/7';
-    else if (/Windows/.test(ua))       os = 'Windows';
-    else if (/iPhone/.test(ua))        os = 'iPhone';
-    else if (/iPad/.test(ua))          os = 'iPad';
-    else if (/Android/.test(ua))       os = 'Android';
-    else if (/Mac OS X/.test(ua))      os = 'Mac';
-    else if (/Linux/.test(ua))         os = 'Linux';
-
-    let browser = 'Unknown';
-    if      (/OPR\//.test(ua))                           browser = 'Opera';
-    else if (/Edg\//.test(ua))                           browser = 'Edge';
-    else if (/Chrome\//.test(ua))                        browser = 'Chrome';
-    else if (/Safari\//.test(ua) && !/Chrome/.test(ua)) browser = 'Safari';
-    else if (/Firefox\//.test(ua))                       browser = 'Firefox';
-
-    const mobile = /Mobi|Android|iPhone|iPad/.test(ua) ? 'Mobile' : 'Desktop';
-    const tz     = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const lang   = navigator.language || 'unknown';
-    const screen = `${window.screen.width}x${window.screen.height}`;
-
-    return `${mobile}|${os}|${browser}|${lang}|${tz}|${screen}`;
-}
-
-// Εκτέλεση αμέσως κατά το φόρτωμα — αθόρυβα
-window.addEventListener('DOMContentLoaded', () => {
-    collectUserIP();
-    checkDeviceBlock();
-});
-
-// ════════════════════════════════
-// DEVICE BLOCK — localStorage
-// ════════════════════════════════
-
-const STORAGE_KEY = 'mythos_nights_booked_2026';
-
-function checkDeviceBlock() {
-    const booked = localStorage.getItem(STORAGE_KEY);
-    if (!booked) return;
-
-    const btn = document.getElementById('submitBtn');
-    if (btn) {
-        btn.disabled = true;
-        btn.innerHTML = '✓ ΕΧΕΙΣ ΗΔΗ ΚΡΑΤΗΣΗ';
-        btn.style.background = '#333';
-        btn.style.color = '#888';
-        btn.style.cursor = 'not-allowed';
-        btn.style.boxShadow = 'none';
-    }
-
-    const msg = document.getElementById('message');
-    if (msg) {
-        msg.innerHTML = '📱 Έχεις ήδη κάνει κράτηση από αυτή τη συσκευή.';
-        msg.style.color = '#d1a14b';
-        msg.classList.remove('hidden');
-    }
-}
-
-function markDeviceAsBooked() {
-    localStorage.setItem(STORAGE_KEY, '1');
-}
-
-// ════════════════════════════════
-// ADMIN — Secret click
-// ════════════════════════════════
-
+// ── Admin secret click
 let clickCount = 0, clickTimer;
 function secretClick() {
     clickCount++;
@@ -608,40 +516,26 @@ function checkAdminPass() {
 let currentFilter = 'all';
 function setFilter(f) {
     currentFilter = f;
-    ['all','pending','confirmed','suspect'].forEach(t => {
-        const el = document.getElementById('tab-'+t);
-        if (el) el.classList.toggle('active', t === f);
+    ['all','pending','confirmed'].forEach(t => {
+        document.getElementById('tab-'+t).classList.toggle('active', t === f);
     });
     renderTable(window._allReservations || []);
 }
 
-// ════════════════════════════════
-// SAVE RESERVATION — με security data
-
+// ── Save reservation
 async function saveReservation() {
-
-    const lastBooking = localStorage.getItem("last_booking_time");
-    if (lastBooking && Date.now() - lastBooking < 10000) {
-        showMessage('Περίμενε λίγα δευτερόλεπτα πριν ξανακάνεις κράτηση.', 'red');
-        return;
-    }
-
-    localStorage.setItem("last_booking_time", Date.now());
-
-    if (_userIP === 'unknown') {
-        await collectUserIP();
-    }
-
     const name    = document.getElementById('name').value.trim();
     const surname = document.getElementById('surname').value.trim();
     const phone   = document.getElementById('phone').value.trim();
     const people  = document.getElementById('people').value;
     const type    = document.getElementById('type').value;
-    // ── Έλεγχος 2: Duplicate τηλέφωνο
-    const existing = window._allReservations || [];
-    const duplicate = existing.find(r => (r.phone || '').replace(/\s/g,'') === phone);
-    if (duplicate) {
-        showMessage('⚠️ Αυτό το τηλέφωνο έχει ήδη χρησιμοποιηθεί για κράτηση!', 'red');
+
+    if (!name || !surname || !phone) {
+        showMessage('Συμπληρώστε Όνομα, Επίθετο και Τηλέφωνο!', 'red');
+        return;
+    }
+    if (!/^[0-9]{8}$/.test(phone)) {
+        showMessage('Το τηλέφωνο πρέπει να έχει 8 ψηφία!', 'red');
         return;
     }
 
@@ -650,36 +544,22 @@ async function saveReservation() {
     btn.innerHTML = 'ΑΠΟΘΗΚΕΥΣΗ...';
 
     const reservation = {
-    name: name,
-    surname: surname,
-    phone: phone,
-    people: people,
-    type: type,
-    event_date: "25/4/2026",
-    event_time: "9:00 μ.μ.",
-    status: "pending",
-
-    ip_address: _userIP,
-    device_info: getDeviceInfo(),
-    reg_timestamp: new Date().toISOString()
-};
-
-    
+        ονομα: name, επωνυμο: surname,
+        τηλεφωνο: phone, ατομα: people, τυπος: type,
+        ημερομηνια_event: "25/4/2026", ωρα_event: "9:00 μ.μ.",
+        status: "pending"
+    };
 
     fetch(GOOGLE_APPS_SCRIPT_URL, {
-        method: 'POST',
+        method: 'POST', mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(reservation)
     });
-    
 
     document.getElementById('name').value    = '';
     document.getElementById('surname').value = '';
     document.getElementById('phone').value   = '';
     document.getElementById('people').value  = '2';
-
-    // ── Σημειώνουμε τη συσκευή ως "έχει κάνει κράτηση"
-    markDeviceAsBooked();
 
     btn.disabled = false;
     btn.innerHTML = 'ΚΑΤΑΧΩΡΗΣΗ';
@@ -700,13 +580,10 @@ function showMessage(text, color) {
                     : color === 'gold'  ? '#d1a14b'
                     : color;
     msg.classList.remove('hidden');
-    setTimeout(() => msg.classList.add('hidden'), 6000);
+    setTimeout(() => msg.classList.add('hidden'), 5000);
 }
 
-// ════════════════════════════════
-// ADMIN TABLE — με IP, device, suspect detection
-// ════════════════════════════════
-
+// ── Load & render reservations
 async function loadReservations() {
     document.getElementById('reservationsList').innerHTML =
         '<p class="text-center text-gray-500 py-8">Φόρτωση...</p>';
@@ -721,61 +598,12 @@ async function loadReservations() {
     }
 }
 
-// Ανίχνευση ύποπτων εγγραφών: ίδια IP με διαφορετικό τηλέφωνο
-function detectSuspects(reservations) {
-
-    const ipMap = {};
-    const deviceMap = {};
-
-    reservations.forEach(r => {
-
-        const ip = r.ip_address || '';
-        const device = r.device_info || '';
-
-        if (ip && ip !== 'unknown') {
-            if (!ipMap[ip]) ipMap[ip] = [];
-            ipMap[ip].push(r.phone || '');
-        }
-
-        if (device) {
-            if (!deviceMap[device]) deviceMap[device] = [];
-            deviceMap[device].push(r.phone || '');
-        }
-    });
-
-    const suspectIPs = new Set();
-
-    Object.entries(ipMap).forEach(([ip, phones]) => {
-        const unique = new Set(phones);
-        if (unique.size >= 2) suspectIPs.add(ip);
-    });
-
-    Object.entries(deviceMap).forEach(([device, phones]) => {
-        const unique = new Set(phones);
-        if (unique.size >= 2) {
-            reservations.forEach(r => {
-                if (r.device_info === device) {
-                    suspectIPs.add(r.ip_address);
-                }
-            });
-        }
-    });
-
-    return suspectIPs;
-}
-
 function renderTable(reservations) {
     const listDiv = document.getElementById('reservationsList');
-    const suspectIPs = detectSuspects(reservations);
 
-    let filtered = reservations;
-    if (currentFilter === 'confirmed') {
-        filtered = reservations.filter(r => (r.status||'pending').toLowerCase() === 'confirmed');
-    } else if (currentFilter === 'pending') {
-        filtered = reservations.filter(r => (r.status||'pending').toLowerCase() === 'pending');
-    } else if (currentFilter === 'suspect') {
-        filtered = reservations.filter(r => suspectIPs.has(r.ip_address || ''));
-    }
+    const filtered = currentFilter === 'all'
+        ? reservations
+        : reservations.filter(r => (r.status || 'pending').toLowerCase() === currentFilter);
 
     if (!filtered.length) {
         listDiv.innerHTML = '<p class="text-center text-gray-500 py-8">Δεν υπάρχουν κρατήσεις</p>';
@@ -791,47 +619,30 @@ function renderTable(reservations) {
             <th>Τηλέφωνο</th>
             <th>Άτομα</th>
             <th>Τύπος</th>
-            <th>IP / Συσκευή</th>
             <th>Status</th>
             <th>Αλλαγή</th>
         </tr>`;
 
     [...filtered].reverse().forEach((r, i) => {
-        const status     = (r.status || 'pending').toLowerCase();
-        const ip         = r.ip_address || '—';
-        const device     = r.device_info || '—';
-        const isSuspect  = suspectIPs.has(ip);
-        const rowClass   = isSuspect ? 'row-suspect' : '';
-
+        const status  = (r.status || 'pending').toLowerCase();
         const badgeClass = status === 'confirmed' ? 'badge-confirmed' : 'badge-pending';
         const badgeLabel = status === 'confirmed' ? 'CONFIRMED' : 'PENDING';
+        const realIdx = reservations.length - 1 - i;
 
-        // Εύρεση realIdx στο πλήρες array
-        const realIdx = reservations.indexOf(
-            reservations.slice().reverse().find((x,j) => j === i) ||
-            reservations[reservations.length - 1 - i]
-        );
-        const trueIdx = reservations.length - 1 -
-            [...filtered].reverse().indexOf([...filtered].reverse()[i]);
-
-        html += `<tr class="${rowClass}">
-            <td style="white-space:nowrap;font-size:11px">${r.reg_date || r.reg_timestamp?.slice(0,16).replace('T',' ') || '—'}</td>
-            <td>${r.name    || ''} ${isSuspect ? '<span title="Ύποπτη εγγραφή: ίδια IP με πολλά τηλέφωνα" style="color:#ef4444;cursor:help">⚠️</span>' : ''}</td>
+        html += `<tr>
+            <td style="white-space:nowrap">${r.reg_date || '—'}</td>
+            <td>${r.name    || ''}</td>
             <td>${r.surname || ''}</td>
             <td><a href="tel:${r.phone}" style="color:#d1a14b">${r.phone || ''}</a></td>
             <td style="text-align:center">${r.people || ''}</td>
             <td style="font-size:11px">${r.type || ''}</td>
-            <td class="ip-cell" style="max-width:160px">
-                <div title="${device}">${ip}</div>
-                <div style="font-size:9px;color:#666;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${device}">${device.split('|').slice(0,3).join(' · ')}</div>
-            </td>
             <td><span class="badge ${badgeClass}">${badgeLabel}</span></td>
             <td>
                 ${status === 'pending'
                     ? `<button class="admin-btn" style="font-size:10px;padding:5px 10px;background:#22c55e"
-                         onclick="updateStatus(${reservations.length-1-i},'confirmed')">✓ CONFIRM</button>`
+                         onclick="updateStatus(${realIdx},'confirmed')">✓ CONFIRM</button>`
                     : `<button class="admin-btn" style="font-size:10px;padding:5px 10px;background:#555;color:#fff"
-                         onclick="updateStatus(${reservations.length-1-i},'pending')">↩ PENDING</button>`
+                         onclick="updateStatus(${realIdx},'pending')">↩ PENDING</button>`
                 }
             </td>
         </tr>`;
@@ -841,13 +652,10 @@ function renderTable(reservations) {
     listDiv.innerHTML = html;
 
     const confirmed = reservations.filter(r => (r.status||'pending') === 'confirmed').length;
-    const suspects  = reservations.filter(r => suspectIPs.has(r.ip_address||'')).length;
-
     document.getElementById('totalRes').innerHTML =
-        `Σύνολο: <strong style="color:#e5e7eb">${reservations.length}</strong> &nbsp;|&nbsp;
-         Confirmed: <strong style="color:#22c55e">${confirmed}</strong> &nbsp;|&nbsp;
-         Pending: <strong style="color:#eab308">${reservations.length - confirmed}</strong>
-         ${suspects > 0 ? `&nbsp;|&nbsp; <strong style="color:#ef4444">⚠️ Ύποπτες: ${suspects}</strong>` : ''}`;
+        `Σύνολο: <strong style="color:#e5e7eb">${reservations.length}</strong> &nbsp;|&nbsp; 
+         Confirmed: <strong style="color:#22c55e">${confirmed}</strong> &nbsp;|&nbsp; 
+         Pending: <strong style="color:#eab308">${reservations.length - confirmed}</strong>`;
 }
 
 async function updateStatus(index, newStatus) {
@@ -866,19 +674,17 @@ async function updateStatus(index, newStatus) {
     renderTable(window._allReservations);
 }
 
-// ════════════════════════════════
-// EXCEL — συμπεριλαμβάνει IP + device
-// ════════════════════════════════
+// ── Excel / CSV download
 async function downloadExcel() {
     try {
         const response     = await fetch(GOOGLE_APPS_SCRIPT_URL + '?t=' + Date.now());
         const reservations = await response.json();
         if (!reservations || !reservations.length) { alert('Δεν υπάρχουν κρατήσεις'); return; }
 
-        let csv = 'Ημερομηνία,Όνομα,Επίθετο,Τηλέφωνο,Άτομα,Τύπος,Status,IP Address,Συσκευή\n';
+        let csv = 'Ημερομηνία,Όνομα,Επίθετο,Τηλέφωνο,Άτομα,Τύπος,Status\n';
         reservations.forEach(r => {
             const clean = v => (v||'').toString().replace(/,/g,' ');
-            csv += `${clean(r.reg_date)},${clean(r.name)},${clean(r.surname)},${clean(r.phone)},${r.people||''},${clean(r.type)},${r.status||'pending'},${clean(r.ip_address)},${clean(r.device_info)}\n`;
+            csv += `${clean(r.reg_date)},${clean(r.name)},${clean(r.surname)},${clean(r.phone)},${r.people||''},${clean(r.type)},${r.status||'pending'}\n`;
         });
 
         const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
@@ -895,4 +701,3 @@ async function downloadExcel() {
 </script>
 </body>
 </html>
-
