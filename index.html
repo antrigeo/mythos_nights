@@ -106,6 +106,7 @@
     }
     .admin-btn:hover { background: white; }
 
+    /* Status badges */
     .badge {
         display: inline-block;
         padding: 3px 10px;
@@ -114,9 +115,10 @@
         font-weight: bold;
         letter-spacing: 0.05em;
     }
-    .badge-pending { background: rgba(234,179,8,0.15); color: #eab308; border: 1px solid #eab308; }
-    .badge-confirmed{ background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid #22c55e; }
+    .badge-pending  { background: rgba(234,179,8,0.15);  color: #eab308; border: 1px solid #eab308; }
+    .badge-confirmed{ background: rgba(34,197,94,0.15);  color: #22c55e; border: 1px solid #22c55e; }
 
+    /* Filter tabs */
     .filter-tab {
         padding: 6px 16px; border-radius: 20px; font-size: 12px;
         font-weight: bold; cursor: pointer; border: 1px solid #333;
@@ -124,6 +126,7 @@
     }
     .filter-tab.active { background: #d1a14b; color: black; border-color: #d1a14b; }
 
+    /* secret area */
     .secret-area {
         position: fixed; top:10px; right:10px;
         width:50px; height:50px;
@@ -174,24 +177,6 @@
         50%      { box-shadow: 0 0 0 14px rgba(209,161,75,0); }
     }
     .sms-icon { animation: pulse-gold 2s infinite; }
-
-    .sms-btn {
-        display: block; width: 100%;
-        background: #d1a14b; color: black;
-        font-family: 'Cinzel', serif;
-        font-weight: 900; font-size: 15px;
-        letter-spacing: 0.1em;
-        padding: 16px; border-radius: 14px;
-        cursor: pointer; border: none;
-        transition: all 0.25s;
-        margin-top: 10px;
-        box-shadow: 0 0 30px rgba(209,161,75,0.4);
-    }
-    .sms-btn:hover {
-        background: white;
-        box-shadow: 0 0 50px rgba(255,255,255,0.3);
-        transform: translateY(-2px);
-    }
 
     .close-window-btn {
         display: block; width: 100%;
@@ -377,8 +362,8 @@
                 <div>
                     <label class="block text-[10px] uppercase tracking-widest text-[#d1a14b] mb-2 font-bold">ΤΥΠΟΣ ΚΡΑΤΗΣΗΣ</label>
                     <select id="type" required class="w-full p-4 rounded-xl font-bold text-[#d1a14b]">
-                        <option id="opt-trapezi" value="Τραπέζι - MIN 1 ΜΠΟΥΚΑΛΙ">ΤΡΑΠΕΖΙ - MIN 1 ΜΠΟΥΚΑΛΙ</option>
-                        <option id="opt-kanapes" value="Καναπές - MIN 2 ΜΠΟΥΚΑΛΙΑ">ΚΑΝΑΠΕΣ - MIN 2 ΜΠΟΥΚΑΛΙΑ</option>
+                        <option value="Τραπέζι - MIN 1 ΜΠΟΥΚΑΛΙ">ΤΡΑΠΕΖΙ - MIN 1 ΜΠΟΥΚΑΛΙ</option>
+                        <option value="Καναπές - MIN 2 ΜΠΟΥΚΑΛΙΑ">ΚΑΝΑΠΕΣ - MIN 2 ΜΠΟΥΚΑΛΙΑ</option>
                         <option value="Ticket">TICKET - ΕΙΣΟΔΟΣ</option>
                     </select>
                 </div>
@@ -398,9 +383,7 @@
             </div>
 
             <p class="text-xs text-[#d1a14b] text-center">Για τραπέζι & καναπέ: επιλέγεις μπουκάλι στο venue</p>
-            <p class="text-xs text-gray-300 text-center">
-                🎟️ Η παραλαβή των εισιτηριών θα γίνεται στην είσοδο του SHAKA την ημερα του event.
-            </p>
+            <p class="text-xs text-gray-300 text-center">🎟️ Η παραλαβή των εισιτηριών θα γίνεται στην είσοδο του SHAKA την ημερα του event.</p>
 
             <div class="flex items-start gap-3 bg-white/5 rounded-xl p-4 border border-white/10">
                 <span class="text-lg mt-0.5">💡</span>
@@ -415,7 +398,8 @@
                 </div>
             </div>
 
-            <button onclick="saveReservation()" id="submitBtn" class="w-full bg-[#d1a14b] text-black font-black py-5 rounded-xl uppercase tracking-widest hover:bg-white transition-all shadow-lg mt-4">
+            <button onclick="saveReservation()" id="submitBtn"
+                    class="w-full bg-[#d1a14b] text-black font-black py-5 rounded-xl uppercase tracking-widest hover:bg-white transition-all shadow-lg mt-4">
                 ΚΑΤΑΧΩΡΗΣΗ
             </button>
             <p id="message" class="text-center mt-4 hidden font-bold italic text-sm"></p>
@@ -424,18 +408,21 @@
 </section>
 
 <footer class="py-12 text-center opacity-50">
-    <a href="https://ig.me/m/mythos_nights" target="_blank" class="text-[#d1a14b] mythos-font tracking-widest hover:text-white transition-colors">
+    <a href="https://ig.me/m/mythos_nights" target="_blank"
+       class="text-[#d1a14b] mythos-font tracking-widest hover:text-white transition-colors">
         mythos_nights
     </a>
 </footer>
 
-<a href="https://instagram.com/mythos_nights" target="_blank" class="fixed bottom-6 right-6 bg-[#d1a14b] text-black px-5 py-3 rounded-full font-bold shadow-lg hover:bg-white transition z-50">
-    INSTAGRAM
+<a href="https://instagram.com/mythos_nights" target="_blank"
+class="fixed bottom-6 right-6 bg-[#d1a14b] text-black px-5 py-3 rounded-full font-bold shadow-lg hover:bg-white transition z-50">
+INSTAGRAM
 </a>
 
 <footer class="mt-12 pb-6 text-center">
     <p class="text-xs text-gray-400 tracking-wide uppercase">Sponsored by</p>
-    <a href="https://www.instagram.com/sumoeventproductions" target="_blank" class="text-sm font-medium text-gray-600 hover:text-black transition-colors duration-300">
+    <a href="https://www.instagram.com/sumoeventproductions" target="_blank"
+       class="text-sm font-medium text-gray-600 hover:text-black transition-colors duration-300">
         @sumoeventproductions
     </a>
 </footer>
@@ -443,9 +430,6 @@
 <script>
 const ADMIN_PASSWORD = "mythos2024";
 const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyAuzeEbHm1UDzyBOWxL0BsXhlkXBnh8k8OuZZ04arM7ssfblIRCwjoHDMVF0GDRZ3-uQ/exec";
-const EVENT_PHONE = "99533804";
-
-let pendingSMSData = {};
 
 let clickCount = 0, clickTimer;
 function secretClick() {
@@ -498,7 +482,7 @@ async function saveReservation() {
     const type = document.getElementById('type').value;
     const instagram = document.getElementById('instagram').value.trim().replace(/^@/, '');
 
-    // Εδώ προστέθηκε ο έλεγχος για το Instagram account
+    // CHECK ALL FIELDS (Including Instagram)
     if (!name || !surname || !phone || !instagram) {
         showMessage('Συμπληρώστε όλα τα πεδία!', 'red');
         return;
@@ -520,11 +504,13 @@ async function saveReservation() {
         status: "pending"
     };
 
-    fetch(GOOGLE_APPS_SCRIPT_URL, {
-        method: 'POST', mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(reservation)
-    });
+    try {
+        await fetch(GOOGLE_APPS_SCRIPT_URL, {
+            method: 'POST', mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(reservation)
+        });
+    } catch(e) { console.log(e); }
 
     document.getElementById('name').value = '';
     document.getElementById('surname').value = '';
@@ -534,7 +520,6 @@ async function saveReservation() {
 
     btn.disabled = false;
     btn.innerHTML = 'ΚΑΤΑΧΩΡΗΣΗ';
-
     document.getElementById('smsModal').classList.add('visible');
 }
 
@@ -545,10 +530,7 @@ function closeWindow() {
 function showMessage(text, color) {
     const msg = document.getElementById('message');
     msg.innerHTML = text;
-    msg.style.color = color === 'green' ? '#22c55e'
-                    : color === 'red'   ? '#ef4444'
-                    : color === 'gold'  ? '#d1a14b'
-                    : color;
+    msg.style.color = color === 'red' ? '#ef4444' : '#22c55e';
     msg.classList.remove('hidden');
     setTimeout(() => msg.classList.add('hidden'), 5000);
 }
@@ -561,7 +543,7 @@ async function loadReservations() {
         window._allReservations = Array.isArray(data) ? data : [];
         renderTable(window._allReservations);
     } catch(e) {
-        document.getElementById('reservationsList').innerHTML = '<p class="text-center text-red-500 py-6">Σφάλμα σύνδεσης με το Sheet</p>';
+        document.getElementById('reservationsList').innerHTML = '<p class="text-center text-red-500 py-6">Σφάλμα σύνδεσης</p>';
     }
 }
 
@@ -594,7 +576,7 @@ function renderTable(reservations) {
         const badgeLabel = status === 'confirmed' ? 'CONFIRMED' : 'PENDING';
         const realIdx = reservations.length - 1 - i;
         const igVal = r.instagram ? r.instagram.replace(/^@/, '') : '';
-        const igLink = igVal ? `<a href="https://instagram.com/${igVal}" target="_blank" style="color:#d1a14b">@${igVal}</a>` : '<span style="color:#555">—</span>';
+        const igLink = igVal ? `<a href="https://instagram.com/${igVal}" target="_blank" style="color:#d1a14b">@${igVal}</a>` : '—';
 
         html += `<tr>
             <td style="white-space:nowrap">${r.reg_date || '—'}</td>
@@ -618,7 +600,7 @@ function renderTable(reservations) {
     listDiv.innerHTML = html;
 
     const confirmed = reservations.filter(r => (r.status||'pending') === 'confirmed').length;
-    document.getElementById('totalRes').innerHTML = `Σύνολο: <strong style="color:#e5e7eb">${reservations.length}</strong> &nbsp;|&nbsp Confirmed: <strong style="color:#22c55e">${confirmed}</strong> &nbsp;|&nbsp Pending: <strong style="color:#eab308">${reservations.length - confirmed}</strong>`;
+    document.getElementById('totalRes').innerHTML = `Σύνολο: ${reservations.length} | Confirmed: ${confirmed} | Pending: ${reservations.length - confirmed}`;
 }
 
 async function updateStatus(index, newStatus) {
@@ -639,23 +621,18 @@ async function downloadExcel() {
     try {
         const response = await fetch(GOOGLE_APPS_SCRIPT_URL + '?t=' + Date.now());
         const reservations = await response.json();
-        if (!reservations || !reservations.length) { alert('Δεν υπάρχουν κρατήσεις'); return; }
         let csv = 'Ημερομηνία,Όνομα,Επίθετο,Τηλέφωνο,Άτομα,Τύπος,Instagram,Status\n';
         reservations.forEach(r => {
             const clean = v => (v||'').toString().replace(/,/g,' ');
-            const ig = r.instagram ? '@' + r.instagram.replace(/^@/, '') : '';
-            csv += `${clean(r.reg_date)},${clean(r.name)},${clean(r.surname)},${clean(r.phone)},${r.people||''},${clean(r.type)},${clean(ig)},${r.status||'pending'}\n`;
+            csv += `${clean(r.reg_date)},${clean(r.name)},${clean(r.surname)},${clean(r.phone)},${r.people},${clean(r.type)},${clean(r.instagram)},${r.status}\n`;
         });
         const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `κρατησεις_mythos_${new Date().toISOString().split('T')[0]}.csv`;
-        document.body.appendChild(a);
+        a.download = `reservations.csv`;
         a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-    } catch(e) { alert('Σφάλμα στο κατέβασμα'); }
+    } catch(e) { alert('Σφάλμα'); }
 }
 </script>
 
