@@ -88,7 +88,7 @@
         display: none;
     }
     .admin-table.visible { display: block; }
-    .admin-table table { width: 100%; border-collapse: collapse; min-width: 700px; }
+    .admin-table table { width: 100%; border-collapse: collapse; min-width: 800px; }
     .admin-table th {
         background: #d1a14b; color: black;
         padding: 10px 14px; font-size: 12px;
@@ -106,7 +106,6 @@
     }
     .admin-btn:hover { background: white; }
 
-    /* Status badges */
     .badge {
         display: inline-block;
         padding: 3px 10px;
@@ -115,10 +114,9 @@
         font-weight: bold;
         letter-spacing: 0.05em;
     }
-    .badge-pending  { background: rgba(234,179,8,0.15);  color: #eab308; border: 1px solid #eab308; }
-    .badge-confirmed{ background: rgba(34,197,94,0.15);  color: #22c55e; border: 1px solid #22c55e; }
+    .badge-pending { background: rgba(234,179,8,0.15); color: #eab308; border: 1px solid #eab308; }
+    .badge-confirmed{ background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid #22c55e; }
 
-    /* Filter tabs */
     .filter-tab {
         padding: 6px 16px; border-radius: 20px; font-size: 12px;
         font-weight: bold; cursor: pointer; border: 1px solid #333;
@@ -126,7 +124,6 @@
     }
     .filter-tab.active { background: #d1a14b; color: black; border-color: #d1a14b; }
 
-    /* secret area */
     .secret-area {
         position: fixed; top:10px; right:10px;
         width:50px; height:50px;
@@ -196,7 +193,6 @@
         transform: translateY(-2px);
     }
 
-    /* ── CLOSE BUTTON ── */
     .close-window-btn {
         display: block; width: 100%;
         background: transparent;
@@ -217,16 +213,6 @@
         background: rgba(255,255,255,0.04);
     }
 
-    .step-dots {
-        display: flex; gap: 6px; justify-content: center; margin-bottom: 20px;
-    }
-    .step-dot {
-        width: 8px; height: 8px; border-radius: 50%;
-        background: #333;
-        transition: background 0.3s;
-    }
-    .step-dot.active { background: #d1a14b; }
-
     /* Admin login */
     #adminLogin {
         background: #0d0d0d;
@@ -241,6 +227,15 @@
         display: none;
     }
 
+    /* Instagram @ prefix */
+    .instagram-wrapper { position: relative; }
+    .instagram-prefix {
+        position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+        color: #d1a14b; font-weight: bold; font-size: 14px;
+        pointer-events: none; user-select: none;
+    }
+    .instagram-input { padding-left: 28px !important; }
+
     @media(max-width:640px){
         .admin-table { width:95%; max-height:70vh; font-size:11px; }
         .poster { max-width:90% !important; margin:0 auto; display:block; }
@@ -250,14 +245,13 @@
         .sms-modal-box { padding: 28px 20px; }
     }
 </style>
+
 </head>
 <body class="overflow-x-hidden">
 
-<!-- Secret admin trigger -->
 <div class="secret-area" id="secretArea" onclick="secretClick()"></div>
 <div class="admin-overlay" id="adminOverlay" onclick="hideAdmin()"></div>
 
-<!-- Admin Login -->
 <div id="adminLogin">
     <h3 class="text-2xl mythos-font text-[#d1a14b] mb-6 text-center">ADMIN ACCESS</h3>
     <input type="password" id="adminPass" placeholder="Κωδικός"
@@ -268,51 +262,37 @@
     <p id="adminMessage" class="text-red-500 text-center mt-2 text-sm"></p>
 </div>
 
-<!-- Admin Table -->
 <div id="adminTable" class="admin-table">
     <div class="flex flex-wrap justify-between items-center mb-5 gap-3">
         <h2 class="text-xl mythos-font text-[#d1a14b]">ΚΡΑΤΗΣΕΙΣ</h2>
-
-        <!-- Filter tabs -->
         <div class="flex gap-2">
-            <button class="filter-tab active" id="tab-all"       onclick="setFilter('all')">ΟΛΑ</button>
-            <button class="filter-tab"        id="tab-pending"   onclick="setFilter('pending')">PENDING</button>
-            <button class="filter-tab"        id="tab-confirmed" onclick="setFilter('confirmed')">CONFIRMED</button>
+            <button class="filter-tab active" id="tab-all" onclick="setFilter('all')">ΟΛΑ</button>
+            <button class="filter-tab" id="tab-pending" onclick="setFilter('pending')">PENDING</button>
+            <button class="filter-tab" id="tab-confirmed" onclick="setFilter('confirmed')">CONFIRMED</button>
         </div>
-
         <div class="flex gap-2">
             <button onclick="loadReservations()" class="admin-btn" style="background:#333;color:#d1a14b;">↻ REFRESH</button>
-            <button onclick="downloadExcel()"    class="admin-btn">EXCEL</button>
-            <button onclick="hideAdminTable()"   class="admin-btn" style="background:#333;color:white;">✕</button>
+            <button onclick="downloadExcel()" class="admin-btn">EXCEL</button>
+            <button onclick="hideAdminTable()" class="admin-btn" style="background:#333;color:white;">✕</button>
         </div>
     </div>
-
     <div id="reservationsList"></div>
     <p id="totalRes" class="text-right mt-4 text-gray-500 text-sm"></p>
 </div>
 
-<!-- ── SMS CONFIRMATION MODAL ── -->
 <div class="sms-modal" id="smsModal">
     <div class="sms-modal-box">
-
         <div class="sms-icon">✅</div>
-
         <h2 class="mythos-font text-[#d1a14b] text-xl mb-4">ΚΡΑΤΗΣΗ ΕΠΙΤΥΧΗΣ!</h2>
         <p class="text-gray-300 text-sm leading-relaxed mb-6">
             Σας ευχαριστούμε! Θα σας στείλουμε μήνυμα για τον τρόπο πληρωμής.
         </p>
-
         <button class="close-window-btn" onclick="closeWindow()">
             ✕ &nbsp; Μπορείτε να κλείσετε το παράθυρο
         </button>
-
     </div>
 </div>
 
-
-<!-- ════════════════════════════════════════
-     HERO SECTION
-════════════════════════════════════════ -->
 <section class="relative min-h-screen flex flex-col items-center justify-center px-6 pt-20">
     <div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
         <div class="absolute top-1/4 -left-20 w-[500px] h-[500px] bg-blue-900 rounded-full blur-[160px] opacity-20 animate-[floatingLights_12s_infinite]"></div>
@@ -320,8 +300,7 @@
     </div>
 
     <div class="mb-10 animate-mythos text-center">
-        <img src="image_95cceb.jpg" alt="Mythos Nights"
-             class="w-full max-w-[220px] md:max-w-[380px] h-auto logo-glow mx-auto"/>
+        <img src="image_95cceb.jpg" alt="Mythos Nights" class="w-full max-w-[220px] md:max-w-[380px] h-auto logo-glow mx-auto"/>
         <p class="uppercase tracking-[0.8em] text-[#d1a14b] mt-6 font-bold text-[10px] md:text-xs opacity-80">EXPERIENCE THE LEGEND</p>
     </div>
 
@@ -337,14 +316,12 @@
                 <a href="tel:96807443" class="mythos-font tracking-widest text-white">96807443</a>
             </div>
         </div>
-        <a href="#booking-form"
-           class="inline-block bg-[#d1a14b] text-black hover:bg-white px-8 py-4 text-sm md:px-14 md:py-5 rounded-full font-black uppercase tracking-[0.2em] transition-all shadow-[0_0_40px_rgba(209,161,75,0.6)] hover:shadow-[0_0_80px_rgba(209,161,75,1)]">
+        <a href="#booking-form" class="inline-block bg-[#d1a14b] text-black hover:bg-white px-8 py-4 text-sm md:px-14 md:py-5 rounded-full font-black uppercase tracking-[0.2em] transition-all shadow-[0_0_40px_rgba(209,161,75,0.6)] hover:shadow-[0_0_80px_rgba(209,161,75,1)]">
             ΚΡΑΤΗΣΗ ΤΩΡΑ
         </a>
     </div>
 </section>
 
-<!-- POSTER -->
 <div class="max-w-5xl mx-auto mb-16 px-4">
     <div class="grid md:grid-cols-2 gap-8 items-center">
         <img src="poster.jpg" class="poster w-full max-w-[500px] md:max-w-full mx-auto rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.6)]">
@@ -362,15 +339,12 @@
                 </p>
             </div>
             <p class="text-sm text-gray-300 mt-3 flex items-center gap-2">
-    🎟️  Η παραλαβή των εισιτηριών θα γίνεται στην είσοδο του SHAKA την ημερα του event.
-</p>
+                🎟️ Η παραλαβή των εισιτηριών θα γίνεται στην είσοδο του SHAKA την ημερα του event.
+            </p>
         </div>
     </div>
 </div>
 
-<!-- ════════════════════════════════════════
-     BOOKING FORM
-════════════════════════════════════════ -->
 <section id="booking-form" class="py-24 px-6 relative bg-[#03060a]">
     <div class="max-w-xl mx-auto">
         <div class="text-center mb-12">
@@ -398,11 +372,11 @@
             <div class="grid grid-cols-2 gap-4">
                 <div>
                     <label class="block text-[10px] uppercase tracking-widest text-[#d1a14b] mb-2 font-bold">ΑΤΟΜΑ</label>
-                    <input type="number" id="people" value="2" min="1" max="20" class="w-full p-4 rounded-xl">
+                    <input type="number" id="people" required value="2" min="1" max="20" class="w-full p-4 rounded-xl">
                 </div>
                 <div>
                     <label class="block text-[10px] uppercase tracking-widest text-[#d1a14b] mb-2 font-bold">ΤΥΠΟΣ ΚΡΑΤΗΣΗΣ</label>
-                    <select id="type" class="w-full p-4 rounded-xl font-bold text-[#d1a14b]">
+                    <select id="type" required class="w-full p-4 rounded-xl font-bold text-[#d1a14b]">
                         <option id="opt-trapezi" value="Τραπέζι - MIN 1 ΜΠΟΥΚΑΛΙ">ΤΡΑΠΕΖΙ - MIN 1 ΜΠΟΥΚΑΛΙ</option>
                         <option id="opt-kanapes" value="Καναπές - MIN 2 ΜΠΟΥΚΑΛΙΑ">ΚΑΝΑΠΕΣ - MIN 2 ΜΠΟΥΚΑΛΙΑ</option>
                         <option value="Ticket">TICKET - ΕΙΣΟΔΟΣ</option>
@@ -415,12 +389,19 @@
                 <input type="tel" id="phone" required class="w-full p-4 rounded-xl" placeholder="99999999">
             </div>
 
+            <div>
+                <label class="block text-[10px] uppercase tracking-widest text-[#d1a14b] mb-2 font-bold">INSTAGRAM ACCOUNT</label>
+                <div class="instagram-wrapper">
+                    <span class="instagram-prefix">@</span>
+                    <input type="text" id="instagram" required class="w-full p-4 rounded-xl instagram-input" placeholder="username">
+                </div>
+            </div>
+
             <p class="text-xs text-[#d1a14b] text-center">Για τραπέζι & καναπέ: επιλέγεις μπουκάλι στο venue</p>
             <p class="text-xs text-gray-300 text-center">
-🎟️ Η παραλαβή των εισιτηριών θα γίνεται στην είσοδο του SHAKA την ημερα του event. 
-</p>
+                🎟️ Η παραλαβή των εισιτηριών θα γίνεται στην είσοδο του SHAKA την ημερα του event.
+            </p>
 
-            <!-- Steps info -->
             <div class="flex items-start gap-3 bg-white/5 rounded-xl p-4 border border-white/10">
                 <span class="text-lg mt-0.5">💡</span>
                 <div>
@@ -434,8 +415,7 @@
                 </div>
             </div>
 
-            <button onclick="saveReservation()" id="submitBtn"
-                    class="w-full bg-[#d1a14b] text-black font-black py-5 rounded-xl uppercase tracking-widest hover:bg-white transition-all shadow-lg mt-4">
+            <button onclick="saveReservation()" id="submitBtn" class="w-full bg-[#d1a14b] text-black font-black py-5 rounded-xl uppercase tracking-widest hover:bg-white transition-all shadow-lg mt-4">
                 ΚΑΤΑΧΩΡΗΣΗ
             </button>
             <p id="message" class="text-center mt-4 hidden font-bold italic text-sm"></p>
@@ -444,40 +424,29 @@
 </section>
 
 <footer class="py-12 text-center opacity-50">
-    <a href="https://ig.me/m/mythos_nights" target="_blank"
-       class="text-[#d1a14b] mythos-font tracking-widest hover:text-white transition-colors">
+    <a href="https://ig.me/m/mythos_nights" target="_blank" class="text-[#d1a14b] mythos-font tracking-widest hover:text-white transition-colors">
         mythos_nights
     </a>
 </footer>
 
-<a href="https://instagram.com/mythos_nights" target="_blank"
-   class="fixed bottom-6 right-6 bg-[#d1a14b] text-black px-5 py-3 rounded-full font-bold shadow-lg hover:bg-white transition z-50">
+<a href="https://instagram.com/mythos_nights" target="_blank" class="fixed bottom-6 right-6 bg-[#d1a14b] text-black px-5 py-3 rounded-full font-bold shadow-lg hover:bg-white transition z-50">
     INSTAGRAM
 </a>
 
 <footer class="mt-12 pb-6 text-center">
     <p class="text-xs text-gray-400 tracking-wide uppercase">Sponsored by</p>
-    <a href="https://www.instagram.com/sumoeventproductions" target="_blank"
-       class="text-sm font-medium text-gray-600 hover:text-black transition-colors duration-300">
+    <a href="https://www.instagram.com/sumoeventproductions" target="_blank" class="text-sm font-medium text-gray-600 hover:text-black transition-colors duration-300">
         @sumoeventproductions
     </a>
 </footer>
 
-
-<!-- ════════════════════════════════════════
-     JAVASCRIPT
-════════════════════════════════════════ -->
 <script>
-const ADMIN_PASSWORD       = "mythos2024";
+const ADMIN_PASSWORD = "mythos2024";
 const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyAuzeEbHm1UDzyBOWxL0BsXhlkXBnh8k8OuZZ04arM7ssfblIRCwjoHDMVF0GDRZ3-uQ/exec";
-const EVENT_PHONE          = "99533804";
-
-// ── ΚΑΝΕΝΑ ΟΡΙΟ ΓΙΑ ΤΡΑΠΕΖΙΑ ΚΑΙ ΚΑΝΑΠΕΔΕΣ ──
-// Τα tickets παραμένουν απεριόριστα όπως πριν
+const EVENT_PHONE = "99533804";
 
 let pendingSMSData = {};
 
-// ── Admin secret click
 let clickCount = 0, clickTimer;
 function secretClick() {
     clickCount++;
@@ -512,7 +481,6 @@ function checkAdminPass() {
     }
 }
 
-// ── Filter
 let currentFilter = 'all';
 function setFilter(f) {
     currentFilter = f;
@@ -522,16 +490,17 @@ function setFilter(f) {
     renderTable(window._allReservations || []);
 }
 
-// ── Save reservation
 async function saveReservation() {
-    const name    = document.getElementById('name').value.trim();
+    const name = document.getElementById('name').value.trim();
     const surname = document.getElementById('surname').value.trim();
-    const phone   = document.getElementById('phone').value.trim();
-    const people  = document.getElementById('people').value;
-    const type    = document.getElementById('type').value;
+    const phone = document.getElementById('phone').value.trim();
+    const people = document.getElementById('people').value;
+    const type = document.getElementById('type').value;
+    const instagram = document.getElementById('instagram').value.trim().replace(/^@/, '');
 
-    if (!name || !surname || !phone) {
-        showMessage('Συμπληρώστε Όνομα, Επίθετο και Τηλέφωνο!', 'red');
+    // Εδώ προστέθηκε ο έλεγχος για το Instagram account
+    if (!name || !surname || !phone || !instagram) {
+        showMessage('Συμπληρώστε όλα τα πεδία!', 'red');
         return;
     }
     if (!/^[0-9]{8}$/.test(phone)) {
@@ -546,6 +515,7 @@ async function saveReservation() {
     const reservation = {
         ονομα: name, επωνυμο: surname,
         τηλεφωνο: phone, ατομα: people, τυπος: type,
+        instagram: instagram,
         ημερομηνια_event: "25/4/2026", ωρα_event: "9:00 μ.μ.",
         status: "pending"
     };
@@ -556,10 +526,11 @@ async function saveReservation() {
         body: JSON.stringify(reservation)
     });
 
-    document.getElementById('name').value    = '';
+    document.getElementById('name').value = '';
     document.getElementById('surname').value = '';
-    document.getElementById('phone').value   = '';
-    document.getElementById('people').value  = '2';
+    document.getElementById('phone').value = '';
+    document.getElementById('people').value = '2';
+    document.getElementById('instagram').value = '';
 
     btn.disabled = false;
     btn.innerHTML = 'ΚΑΤΑΧΩΡΗΣΗ';
@@ -567,7 +538,6 @@ async function saveReservation() {
     document.getElementById('smsModal').classList.add('visible');
 }
 
-// ── Close window button
 function closeWindow() {
     document.getElementById('smsModal').classList.remove('visible');
 }
@@ -583,27 +553,21 @@ function showMessage(text, color) {
     setTimeout(() => msg.classList.add('hidden'), 5000);
 }
 
-// ── Load & render reservations
 async function loadReservations() {
-    document.getElementById('reservationsList').innerHTML =
-        '<p class="text-center text-gray-500 py-8">Φόρτωση...</p>';
+    document.getElementById('reservationsList').innerHTML = '<p class="text-center text-gray-500 py-8">Φόρτωση...</p>';
     try {
         const response = await fetch(GOOGLE_APPS_SCRIPT_URL + '?t=' + Date.now());
-        const data     = await response.json();
+        const data = await response.json();
         window._allReservations = Array.isArray(data) ? data : [];
         renderTable(window._allReservations);
     } catch(e) {
-        document.getElementById('reservationsList').innerHTML =
-            '<p class="text-center text-red-500 py-6">Σφάλμα σύνδεσης με το Sheet</p>';
+        document.getElementById('reservationsList').innerHTML = '<p class="text-center text-red-500 py-6">Σφάλμα σύνδεσης με το Sheet</p>';
     }
 }
 
 function renderTable(reservations) {
     const listDiv = document.getElementById('reservationsList');
-
-    const filtered = currentFilter === 'all'
-        ? reservations
-        : reservations.filter(r => (r.status || 'pending').toLowerCase() === currentFilter);
+    const filtered = currentFilter === 'all' ? reservations : reservations.filter(r => (r.status || 'pending').toLowerCase() === currentFilter);
 
     if (!filtered.length) {
         listDiv.innerHTML = '<p class="text-center text-gray-500 py-8">Δεν υπάρχουν κρατήσεις</p>';
@@ -619,30 +583,32 @@ function renderTable(reservations) {
             <th>Τηλέφωνο</th>
             <th>Άτομα</th>
             <th>Τύπος</th>
+            <th>Instagram</th>
             <th>Status</th>
             <th>Αλλαγή</th>
         </tr>`;
 
     [...filtered].reverse().forEach((r, i) => {
-        const status  = (r.status || 'pending').toLowerCase();
+        const status = (r.status || 'pending').toLowerCase();
         const badgeClass = status === 'confirmed' ? 'badge-confirmed' : 'badge-pending';
         const badgeLabel = status === 'confirmed' ? 'CONFIRMED' : 'PENDING';
         const realIdx = reservations.length - 1 - i;
+        const igVal = r.instagram ? r.instagram.replace(/^@/, '') : '';
+        const igLink = igVal ? `<a href="https://instagram.com/${igVal}" target="_blank" style="color:#d1a14b">@${igVal}</a>` : '<span style="color:#555">—</span>';
 
         html += `<tr>
             <td style="white-space:nowrap">${r.reg_date || '—'}</td>
-            <td>${r.name    || ''}</td>
+            <td>${r.name || ''}</td>
             <td>${r.surname || ''}</td>
             <td><a href="tel:${r.phone}" style="color:#d1a14b">${r.phone || ''}</a></td>
             <td style="text-align:center">${r.people || ''}</td>
             <td style="font-size:11px">${r.type || ''}</td>
+            <td style="font-size:11px">${igLink}</td>
             <td><span class="badge ${badgeClass}">${badgeLabel}</span></td>
             <td>
                 ${status === 'pending'
-                    ? `<button class="admin-btn" style="font-size:10px;padding:5px 10px;background:#22c55e"
-                         onclick="updateStatus(${realIdx},'confirmed')">✓ CONFIRM</button>`
-                    : `<button class="admin-btn" style="font-size:10px;padding:5px 10px;background:#555;color:#fff"
-                         onclick="updateStatus(${realIdx},'pending')">↩ PENDING</button>`
+                    ? `<button class="admin-btn" style="font-size:10px;padding:5px 10px;background:#22c55e" onclick="updateStatus(${realIdx},'confirmed')">✓ CONFIRM</button>`
+                    : `<button class="admin-btn" style="font-size:10px;padding:5px 10px;background:#555;color:#fff" onclick="updateStatus(${realIdx},'pending')">↩ PENDING</button>`
                 }
             </td>
         </tr>`;
@@ -652,45 +618,38 @@ function renderTable(reservations) {
     listDiv.innerHTML = html;
 
     const confirmed = reservations.filter(r => (r.status||'pending') === 'confirmed').length;
-    document.getElementById('totalRes').innerHTML =
-        `Σύνολο: <strong style="color:#e5e7eb">${reservations.length}</strong> &nbsp;|&nbsp; 
-         Confirmed: <strong style="color:#22c55e">${confirmed}</strong> &nbsp;|&nbsp; 
-         Pending: <strong style="color:#eab308">${reservations.length - confirmed}</strong>`;
+    document.getElementById('totalRes').innerHTML = `Σύνολο: <strong style="color:#e5e7eb">${reservations.length}</strong> &nbsp;|&nbsp Confirmed: <strong style="color:#22c55e">${confirmed}</strong> &nbsp;|&nbsp Pending: <strong style="color:#eab308">${reservations.length - confirmed}</strong>`;
 }
 
 async function updateStatus(index, newStatus) {
     const res = window._allReservations[index];
     if (!res) return;
     res.status = newStatus;
-
     try {
         await fetch(GOOGLE_APPS_SCRIPT_URL, {
             method: 'POST', mode: 'no-cors',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ action: 'updateStatus', rowIndex: index, status: newStatus })
         });
-    } catch(e) { /* no-cors — αγνοούμε */ }
-
+    } catch(e) {}
     renderTable(window._allReservations);
 }
 
-// ── Excel / CSV download
 async function downloadExcel() {
     try {
-        const response     = await fetch(GOOGLE_APPS_SCRIPT_URL + '?t=' + Date.now());
+        const response = await fetch(GOOGLE_APPS_SCRIPT_URL + '?t=' + Date.now());
         const reservations = await response.json();
         if (!reservations || !reservations.length) { alert('Δεν υπάρχουν κρατήσεις'); return; }
-
-        let csv = 'Ημερομηνία,Όνομα,Επίθετο,Τηλέφωνο,Άτομα,Τύπος,Status\n';
+        let csv = 'Ημερομηνία,Όνομα,Επίθετο,Τηλέφωνο,Άτομα,Τύπος,Instagram,Status\n';
         reservations.forEach(r => {
             const clean = v => (v||'').toString().replace(/,/g,' ');
-            csv += `${clean(r.reg_date)},${clean(r.name)},${clean(r.surname)},${clean(r.phone)},${r.people||''},${clean(r.type)},${r.status||'pending'}\n`;
+            const ig = r.instagram ? '@' + r.instagram.replace(/^@/, '') : '';
+            csv += `${clean(r.reg_date)},${clean(r.name)},${clean(r.surname)},${clean(r.phone)},${r.people||''},${clean(r.type)},${clean(ig)},${r.status||'pending'}\n`;
         });
-
         const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
-        const url  = URL.createObjectURL(blob);
-        const a    = document.createElement('a');
-        a.href     = url;
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
         a.download = `κρατησεις_mythos_${new Date().toISOString().split('T')[0]}.csv`;
         document.body.appendChild(a);
         a.click();
@@ -699,5 +658,6 @@ async function downloadExcel() {
     } catch(e) { alert('Σφάλμα στο κατέβασμα'); }
 }
 </script>
+
 </body>
 </html>
