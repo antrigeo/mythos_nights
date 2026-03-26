@@ -496,17 +496,15 @@ async function saveReservation() {
     btn.disabled = true;
     btn.innerHTML = 'ΑΠΟΘΗΚΕΥΣΗ...';
 
-   const reservation = {
-    name: name,
-    surname: surname,
-    phone: phone,
-    people: people,
-    type: type,
+
+    const reservation = {
+    ονομα: name, επωνυμο: surname,
+    τηλεφωνο: phone, ατομα: people, τυπος: type,
     instagram: instagram,
-    event_date: "25/4/2026",
-    event_time: "9:00 μ.μ.",
+    ημερομηνια_event: "25/4/2026", ωρα_event: "9:00 μ.μ.",
     status: "pending"
-}; 
+};
+
 
     try {
         await fetch(GOOGLE_APPS_SCRIPT_URL, {
