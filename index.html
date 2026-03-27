@@ -429,7 +429,7 @@ INSTAGRAM
 
 <script>
 const ADMIN_PASSWORD = "mythos2024";
-const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyAuzeEbHm1UDzyBOWxL0BsXhlkXBnh8k8OuZZ04arM7ssfblIRCwjoHDMVF0GDRZ3-uQ/exec";
+const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwMN24UCbwKgoER3YbCphJZ7wdZJb_TeiWo5ViTBNbyU1w_NfBKhrj1BBjXShTSQqmcPg/exec";
 
 let clickCount = 0, clickTimer;
 function secretClick() {
@@ -480,7 +480,14 @@ async function saveReservation() {
     const phone = document.getElementById('phone').value.trim();
     const people = document.getElementById('people').value;
     const type = document.getElementById('type').value;
-    const instagram = document.getElementById('instagram').value.trim().replace(/^@/, '');
+    // ΜΕΤΑ
+    const instagramRaw = document.getElementById('instagram').value.trim();
+    const instagram = instagramRaw.replace(/^@/, '').trim();
+
+    if (!name || !surname || !phone || !instagram) {
+        showMessage('Συμπληρώστε όλα τα πεδία συμπεριλαμβανομένου του Instagram!', 'red');
+    return;
+}
 
     // CHECK ALL FIELDS (Including Instagram)
     if (!name || !surname || !phone || !instagram) {
