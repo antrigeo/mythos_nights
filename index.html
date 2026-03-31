@@ -266,6 +266,61 @@ input:focus, select:focus { border-color: #d1a14b !important; }
     .fixed.bottom-6.right-6 { bottom:15px !important; right:15px !important; padding:10px 15px !important; font-size:12px !important; }
     .sms-modal-box { padding: 28px 20px; }
 }
+
+.countdown-section{
+text-align:center;
+padding:120px 20px;
+background:#000;
+color:white;
+}
+
+.countdown-title{
+font-size:28px;
+letter-spacing:4px;
+margin-bottom:40px;
+}
+
+.countdown{
+display:flex;
+justify-content:center;
+gap:40px;
+flex-wrap:wrap;
+}
+
+.time-box span{
+font-size:60px;
+font-weight:700;
+display:block;
+animation: glow 2s infinite alternate;
+}
+
+.time-box p{
+font-size:12px;
+letter-spacing:3px;
+opacity:0.7;
+}
+
+.progress-bar{
+margin-top:50px;
+width:80%;
+max-width:500px;
+height:6px;
+background:#222;
+margin-left:auto;
+margin-right:auto;
+}
+
+#progress{
+height:100%;
+width:0%;
+background:white;
+transition:width 1s linear;
+}
+
+@keyframes glow{
+from{opacity:0.6}
+to{opacity:1}
+}
 </style>
 
 </head>
@@ -347,9 +402,43 @@ input:focus, select:focus { border-color: #d1a14b !important; }
     </a>
 </div>
 
+<section class="countdown-section">
+
+<h2 class="countdown-title">MYTHOS NIGHTS BEGINS IN</h2>
+
+<div class="countdown">
+
+<div class="time-box">
+<span id="days">00</span>
+<p>DAYS</p>
+</div>
+
+<div class="time-box">
+<span id="hours">00</span>
+<p>HOURS</p>
+</div>
+
+<div class="time-box">
+<span id="minutes">00</span>
+<p>MINUTES</p>
+</div>
+
+<div class="time-box">
+<span id="seconds">00</span>
+<p>SECONDS</p>
+</div>
+
+</div>
+
+<div class="progress-bar">
+<div id="progress"></div>
+</div>
 
 </section>
+    
+</section>
 
+    
 <!-- ========== CAROUSEL + EVENT INFO (μία φορά) ========== -->
 
 <div class="max-w-6xl mx-auto mb-20 px-4">
@@ -525,7 +614,7 @@ function checkAdminPass() {
         document.getElementById('adminMessage').innerHTML = 'Λάθος κωδικός!';
     }
 }
-
+<script>
 // ── FILTER ──
 let currentFilter = 'all';
 function setFilter(f) {
@@ -535,6 +624,39 @@ function setFilter(f) {
     });
     renderTable(window._allReservations || []);
 }
+
+const eventDate = new Date("2026-04-25T21:00:00").getTime()
+const startDate = new Date().getTime()
+
+const countdown = setInterval(function(){
+
+const now = new Date().getTime()
+const distance = eventDate - now
+
+const days = Math.floor(distance / (1000*60*60*24))
+const hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60))
+const minutes = Math.floor((distance % (1000*60*60)) / (1000*60))
+const seconds = Math.floor((distance % (1000*60)) / 1000)
+
+document.getElementById("days").innerHTML = days
+document.getElementById("hours").innerHTML = hours
+document.getElementById("minutes").innerHTML = minutes
+document.getElementById("seconds").innerHTML = seconds
+
+// progress bar
+const total = eventDate - startDate
+const passed = now - startDate
+const progressPercent = (passed / total) * 100
+
+document.getElementById("progress").style.width = progressPercent + "%"
+
+if(distance < 0){
+clearInterval(countdown)
+}
+
+},1000)
+
+</script>   
 
 // ── FORM ──
 async function saveReservation() {
