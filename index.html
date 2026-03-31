@@ -49,6 +49,25 @@
         border: 1px solid rgba(209,161,75,0.2);
     }
 
+    /* DJ Name Animation & Style */
+@keyframes goldPulse {
+    0% { text-shadow: 0 0 5px rgba(209,161,75,0.4); transform: scale(1); }
+    50% { text-shadow: 0 0 25px rgba(209,161,75,0.9), 0 0 40px rgba(209,161,75,0.4); transform: scale(1.02); }
+    100% { text-shadow: 0 0 5px rgba(209,161,75,0.4); transform: scale(1); }
+}
+
+.dj-section {
+    border: 1px solid rgba(209,161,75,0.1);
+    background: linear-gradient(180deg, rgba(2,4,8,0) 0%, rgba(209,161,75,0.05) 100%);
+}
+
+.dj-title-glow {
+    font-family: 'Cinzel', serif;
+    color: #d1a14b;
+    animation: goldPulse 3s infinite ease-in-out;
+    letter-spacing: 0.3em;
+}
+
     input, select {
         background: rgba(255,255,255,0.05) !important;
         border: 1px solid rgba(209,161,75,0.3) !important;
@@ -330,6 +349,27 @@
     </div>
 </div>
 
+<section class="py-16 px-6 dj-section">
+    <div class="max-w-4xl mx-auto text-center">
+        <div class="relative inline-block mb-8">
+            <img src="AA4B024A-E6F9-4794-A7C0-D3C8B67CABD1.jpeg" 
+                 alt="DJ Dinglis" 
+                 class="rounded-2xl shadow-[0_0_50px_rgba(0,0,0,0.8)] border border-[#d1a14b]/20 max-w-full h-auto md:max-w-md mx-auto">
+            
+            <div class="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-[#020408] border border-[#d1a14b] px-6 py-1 rounded-full">
+                <p class="text-[10px] text-[#d1a14b] font-bold tracking-[0.3em] uppercase">Special Guest</p>
+            </div>
+        </div>
+
+        <div class="mt-10">
+            <h3 class="text-3xl md:text-5xl dj-title-glow font-black uppercase">
+                DINGLIS
+            </h3>
+            <p class="text-gray-400 text-sm mt-4 tracking-widest uppercase italic">Setting the night on fire</p>
+        </div>
+    </div>
+</section>
+    
 <section id="booking-form" class="py-24 px-6 relative bg-[#03060a]">
     <div class="max-w-xl mx-auto">
         <div class="text-center mb-12">
