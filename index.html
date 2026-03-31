@@ -8,6 +8,41 @@
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Inter:wght@300;400;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
 
 <style>
+    /* Μεγαλύτερο Logo & Halo */
+.logo-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.logo-halo {
+    position: absolute;
+    width: 140%;
+    height: 140%;
+    background: radial-gradient(circle, rgba(209,161,75,0.15) 0%, rgba(2,4,8,0) 70%);
+    z-index: -1;
+}
+
+/* Carousel Logic */
+.carousel-container {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    aspect-ratio: 4/5; /* Προσαρμόζεται ανάλογα με τα poster σου */
+    overflow: hidden;
+    border-radius: 20px;
+    border: 1px solid rgba(209,161,75,0.2);
+}
+.carousel-slide {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+.carousel-slide.active { opacity: 1; }
+.carousel-slide img { width: 100%; height: 100%; object-fit: cover; }
     @keyframes mythosGlow {
         0% { filter: drop-shadow(0 0 20px rgba(209,161,75,0.3)); }
         50% { filter: drop-shadow(0 0 60px rgba(209,161,75,0.8)); }
@@ -296,8 +331,56 @@
         </button>
     </div>
 </div>
+<section class="relative min-h-[85vh] flex flex-col items-center justify-center px-6 pt-10">
+    <div class="mb-10 animate-mythos text-center logo-container">
+        <div class="logo-halo"></div>
+        <img src="image_95cceb.jpg" alt="Mythos Nights" class="w-[320px] md:w-[500px] h-auto logo-glow relative z-10"/>
+        <p class="uppercase tracking-[0.8em] text-[#d1a14b] mt-8 font-bold text-[11px] md:text-sm opacity-90">EXPERIENCE THE LEGEND</p>
+    </div>
 
-<section class="relative min-h-screen flex flex-col items-center justify-center px-6 pt-20">
+    <div class="text-center max-w-5xl animate-mythos mb-12">
+        <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16 mb-12">
+            <div class="flex flex-col text-center">
+                <span class="text-[10px] text-[#d1a14b] uppercase tracking-[0.4em] mb-2 font-bold">LOCATION</span>
+                <span class="shaka-font text-white text-3xl md:text-5xl uppercase">SHAKA</span>
+            </div>
+            <div class="flex flex-col">
+                <span class="text-[10px] text-blue-400 uppercase tracking-[0.4em] mb-2 font-bold">PHONE</span>
+                <a href="tel:96807443" class="mythos-font tracking-widest text-white text-2xl md:text-4xl">96807443</a>
+            </div>
+        </div>
+        <a href="#booking-form" class="inline-block bg-[#d1a14b] text-black px-12 py-5 rounded-full font-black uppercase tracking-widest transition-all shadow-[0_0_50px_rgba(209,161,75,0.5)] hover:scale-105">
+            ΚΡΑΤΗΣΗ ΤΩΡΑ
+        </a>
+    </div>
+</section>
+
+<div class="max-w-6xl mx-auto mb-20 px-4">
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div class="carousel-container">
+            <div class="carousel-slide active">
+                <img src="poster.jpg" alt="Event Poster">
+            </div>
+            <div class="carousel-slide">
+                <img src="AA4B024A-E6F9-4794-A7C0-D3C8B67CABD1.jpeg" alt="DJ Dinglis">
+            </div>
+        </div>
+
+        <div class="text-left">
+            <h3 class="text-3xl mythos-font text-[#d1a14b] mb-2">MYTHOS_NIGHTS</h3>
+            <h4 class="text-xl dj-title-glow mb-6 font-bold uppercase tracking-widest">FEAT. DINGLIS</h4>
+            <p class="text-white text-2xl md:text-3xl mb-6 font-light italic tracking-wide">
+                “Ό,τι αγγίζουμε <span class="font-bold text-[#d1a14b]">γίνεται χρυσός</span>”
+            </p>
+            <div class="bg-[#d1a14b]/10 p-5 rounded-xl border border-[#d1a14b]/30 inline-block">
+                <p class="text-[#d1a14b] font-bold text-lg">
+                    📅 Σάββατο 25 Απριλίου | 21:00
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+    <section class="relative min-h-screen flex flex-col items-center justify-center px-6 pt-20">
     <div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
         <div class="absolute top-1/4 -left-20 w-[500px] h-[500px] bg-blue-900 rounded-full blur-[160px] opacity-20 animate-[floatingLights_12s_infinite]"></div>
         <div class="absolute bottom-1/4 -right-20 w-[500px] h-[500px] bg-[#a37828] rounded-full blur-[160px] opacity-10 animate-[floatingLights_16s_infinite]"></div>
@@ -683,6 +766,18 @@ async function downloadExcel() {
         a.click();
     } catch(e) { alert('Σφάλμα'); }
 }
+
+let currentSlide = 0;
+const slides = document.querySelectorAll('.carousel-slide');
+
+function nextSlide() {
+    slides[currentSlide].classList.remove('active');
+    currentSlide = (currentSlide + 1) % slides.length;
+    slides[currentSlide].classList.add('active');
+}
+
+// Αλλαγή κάθε 4 δευτερόλεπτα
+setInterval(nextSlide, 4000);
 </script>
 
 </body>
