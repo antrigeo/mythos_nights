@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="el" class="scroll-smooth">
 <head>
 <meta charset="UTF-8">
@@ -83,11 +82,6 @@ body {
     0% { text-shadow: 0 0 5px rgba(209,161,75,0.4); transform: scale(1); }
     50% { text-shadow: 0 0 25px rgba(209,161,75,0.9), 0 0 40px rgba(209,161,75,0.4); transform: scale(1.02); }
     100% { text-shadow: 0 0 5px rgba(209,161,75,0.4); transform: scale(1); }
-}
-
-.dj-section {
-    border: 1px solid rgba(209,161,75,0.1);
-    background: linear-gradient(180deg, rgba(2,4,8,0) 0%, rgba(209,161,75,0.05) 100%);
 }
 
 .dj-title-glow {
@@ -259,70 +253,83 @@ input:focus, select:focus { border-color: #d1a14b !important; }
 }
 .instagram-input { padding-left: 28px !important; }
 
+/* ── COUNTDOWN ── */
+.countdown-section {
+    text-align: center;
+    padding: 80px 20px;
+    background: linear-gradient(180deg, #020408 0%, #030810 50%, #020408 100%);
+    border-top: 1px solid rgba(209,161,75,0.1);
+    border-bottom: 1px solid rgba(209,161,75,0.1);
+}
+.countdown-title {
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    letter-spacing: 6px;
+    color: #d1a14b;
+    margin-bottom: 50px;
+    opacity: 0.9;
+}
+.countdown {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+.time-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 80px;
+}
+.time-box span {
+    font-family: 'Cinzel', serif;
+    font-size: 56px;
+    font-weight: 900;
+    color: white;
+    display: block;
+    line-height: 1;
+    animation: glow 2s infinite alternate;
+    min-width: 80px;
+    text-align: center;
+}
+.time-box p {
+    font-size: 10px;
+    letter-spacing: 4px;
+    opacity: 0.5;
+    margin-top: 10px;
+    color: #d1a14b;
+}
+.progress-bar {
+    margin: 50px auto 0;
+    width: 80%;
+    max-width: 500px;
+    height: 2px;
+    background: #111;
+    border-radius: 2px;
+    overflow: hidden;
+}
+#progress {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #a37828, #d1a14b, #f0c97a);
+    transition: width 1s linear;
+    border-radius: 2px;
+}
+@keyframes glow {
+    from { opacity: 0.7; text-shadow: 0 0 10px rgba(209,161,75,0.3); }
+    to   { opacity: 1;   text-shadow: 0 0 30px rgba(209,161,75,0.6); }
+}
+
 @media(max-width:640px){
     .admin-table { width:95%; max-height:70vh; font-size:11px; }
     input, select, button { font-size:16px !important; }
     .shaka-font { font-size:24px !important; letter-spacing:2px !important; }
     .fixed.bottom-6.right-6 { bottom:15px !important; right:15px !important; padding:10px 15px !important; font-size:12px !important; }
     .sms-modal-box { padding: 28px 20px; }
-}
-
-.countdown-section{
-text-align:center;
-padding:120px 20px;
-background:#000;
-color:white;
-}
-
-.countdown-title{
-font-size:28px;
-letter-spacing:4px;
-margin-bottom:40px;
-}
-
-.countdown{
-display:flex;
-justify-content:center;
-gap:40px;
-flex-wrap:wrap;
-}
-
-.time-box span{
-font-size:60px;
-font-weight:700;
-display:block;
-animation: glow 2s infinite alternate;
-}
-
-.time-box p{
-font-size:12px;
-letter-spacing:3px;
-opacity:0.7;
-}
-
-.progress-bar{
-margin-top:50px;
-width:80%;
-max-width:500px;
-height:6px;
-background:#222;
-margin-left:auto;
-margin-right:auto;
-}
-
-#progress{
-height:100%;
-width:0%;
-background:white;
-transition:width 1s linear;
-}
-
-@keyframes glow{
-from{opacity:0.6}
-to{opacity:1}
+    .time-box span { font-size: 36px; }
+    .countdown { gap: 15px; }
 }
 </style>
-
 </head>
 <body class="overflow-x-hidden">
 
@@ -370,78 +377,65 @@ to{opacity:1}
     </div>
 </div>
 
-<!-- ========== HERO SECTION (μία φορά) ========== -->
-
+<!-- ========== HERO SECTION ========== -->
 <section class="relative min-h-[85vh] flex flex-col items-center justify-center px-6 pt-10">
     <div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
         <div class="absolute top-1/4 -left-20 w-[500px] h-[500px] bg-blue-900 rounded-full blur-[160px] opacity-20 animate-[floatingLights_12s_infinite]"></div>
         <div class="absolute bottom-1/4 -right-20 w-[500px] h-[500px] bg-[#a37828] rounded-full blur-[160px] opacity-10 animate-[floatingLights_16s_infinite]"></div>
     </div>
 
+    <div class="mb-10 animate-mythos text-center logo-container">
+        <div class="logo-halo"></div>
+        <img src="image_95cceb.jpg" alt="Mythos Nights" class="w-[220px] md:w-[380px] h-auto logo-glow relative z-10"/>
+        <p class="uppercase tracking-[0.8em] text-[#d1a14b] mt-6 font-bold text-[10px] md:text-xs opacity-80">EXPERIENCE THE LEGEND</p>
+    </div>
 
-<div class="mb-10 animate-mythos text-center logo-container">
-    <div class="logo-halo"></div>
-    <img src="image_95cceb.jpg" alt="Mythos Nights" class="w-[220px] md:w-[380px] h-auto logo-glow relative z-10"/>
-    <p class="uppercase tracking-[0.8em] text-[#d1a14b] mt-6 font-bold text-[10px] md:text-xs opacity-80">EXPERIENCE THE LEGEND</p>
-</div>
-
-<div class="text-center max-w-5xl animate-mythos mb-12">
-    <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16 mb-12">
-        <div class="flex flex-col text-center">
-            <span class="text-[10px] text-[#d1a14b] uppercase tracking-[0.4em] mb-2 font-bold">LOCATION</span>
-            <span class="shaka-font text-white text-3xl md:text-5xl">SHAKA</span>
+    <div class="text-center max-w-5xl animate-mythos mb-12">
+        <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16 mb-12">
+            <div class="flex flex-col text-center">
+                <span class="text-[10px] text-[#d1a14b] uppercase tracking-[0.4em] mb-2 font-bold">LOCATION</span>
+                <span class="shaka-font text-white text-3xl md:text-5xl">SHAKA</span>
+            </div>
+            <div class="hidden md:block w-px h-14 bg-[#d1a14b]/30"></div>
+            <div class="flex flex-col">
+                <span class="text-[10px] text-blue-400 uppercase tracking-[0.4em] mb-2 font-bold">PHONE</span>
+                <a href="tel:96807443" class="mythos-font tracking-widest text-white text-2xl md:text-4xl">96807443</a>
+            </div>
         </div>
-        <div class="hidden md:block w-px h-14 bg-[#d1a14b]/30"></div>
-        <div class="flex flex-col">
-            <span class="text-[10px] text-blue-400 uppercase tracking-[0.4em] mb-2 font-bold">PHONE</span>
-            <a href="tel:96807443" class="mythos-font tracking-widest text-white text-2xl md:text-4xl">96807443</a>
+        <a href="#booking-form" class="inline-block bg-[#d1a14b] text-black px-12 py-5 rounded-full font-black uppercase tracking-widest transition-all shadow-[0_0_50px_rgba(209,161,75,0.5)] hover:scale-105 hover:bg-white">
+            ΚΡΑΤΗΣΗ ΤΩΡΑ
+        </a>
+    </div>
+</section>
+
+<!-- ========== COUNTDOWN (ΕΚΤΟΣ hero) ========== -->
+<section class="countdown-section">
+    <h2 class="countdown-title">MYTHOS NIGHTS BEGINS IN</h2>
+    <div class="countdown">
+        <div class="time-box">
+            <span id="days">00</span>
+            <p>DAYS</p>
+        </div>
+        <div class="time-box">
+            <span id="hours">00</span>
+            <p>HOURS</p>
+        </div>
+        <div class="time-box">
+            <span id="minutes">00</span>
+            <p>MINUTES</p>
+        </div>
+        <div class="time-box">
+            <span id="seconds">00</span>
+            <p>SECONDS</p>
         </div>
     </div>
-    <a href="#booking-form" class="inline-block bg-[#d1a14b] text-black px-12 py-5 rounded-full font-black uppercase tracking-widest transition-all shadow-[0_0_50px_rgba(209,161,75,0.5)] hover:scale-105 hover:bg-white">
-        ΚΡΑΤΗΣΗ ΤΩΡΑ
-    </a>
-</div>
-
-<section class="countdown-section">
-
-<h2 class="countdown-title">MYTHOS NIGHTS BEGINS IN</h2>
-
-<div class="countdown">
-
-<div class="time-box">
-<span id="days">00</span>
-<p>DAYS</p>
-</div>
-
-<div class="time-box">
-<span id="hours">00</span>
-<p>HOURS</p>
-</div>
-
-<div class="time-box">
-<span id="minutes">00</span>
-<p>MINUTES</p>
-</div>
-
-<div class="time-box">
-<span id="seconds">00</span>
-<p>SECONDS</p>
-</div>
-
-</div>
-
-<div class="progress-bar">
-<div id="progress"></div>
-</div>
-
-</section>
-    
+    <div class="progress-bar">
+        <div id="progress"></div>
+    </div>
 </section>
 
-    
-<!-- ========== CAROUSEL + EVENT INFO (μία φορά) ========== -->
-
-<div class="max-w-6xl mx-auto mb-20 px-4">
+<!-- ========== CAROUSEL + EVENT INFO ========== -->
+<div class="max-w-6xl mx-auto my-20 px-4">
     <div class="grid md:grid-cols-2 gap-12 items-center">
         <div class="carousel-container shadow-2xl">
             <div class="carousel-slide active">
@@ -452,34 +446,25 @@ to{opacity:1}
             </div>
         </div>
 
-
-    <div class="text-left">
-        <h3 class="text-3xl mythos-font text-[#d1a14b] mb-2">MYTHOS_NIGHTS</h3>
-        <h4 class="text-xl dj-title-glow mb-6 font-bold uppercase tracking-widest">FEAT. DINGLIS</h4>
-        <p class="text-white text-2xl md:text-3xl mb-6 font-light italic tracking-wide">
-            "Ό,τι αγγίζουμε <span class="font-bold text-[#d1a14b]">γίνεται χρυσός</span>"
-        </p>
-        <div class="bg-[#d1a14b]/10 p-5 rounded-xl border border-[#d1a14b]/30 inline-block mb-3">
-            <p class="text-[#d1a14b] font-bold text-lg">
-               
-                
-                
-                📅 Σάββατο 25 Απριλίου | 21:00
+        <div class="text-left">
+            <h3 class="text-3xl mythos-font text-[#d1a14b] mb-2">MYTHOS_NIGHTS</h3>
+            <h4 class="text-xl dj-title-glow mb-6 font-bold uppercase tracking-widest">FEAT. DINGLIS</h4>
+            <p class="text-white text-2xl md:text-3xl mb-6 font-light italic tracking-wide">
+                "Ό,τι αγγίζουμε <span class="font-bold text-[#d1a14b]">γίνεται χρυσός</span>"
+            </p>
+            <div class="bg-[#d1a14b]/10 p-5 rounded-xl border border-[#d1a14b]/30 inline-block mb-3">
+                <p class="text-[#d1a14b] font-bold text-lg">
+                    📅 Σάββατο 25 Απριλίου | 21:00
+                </p>
+            </div>
+            <p class="text-sm text-gray-300 flex items-center gap-2">
+                🎟️ Η παραλαβή των εισιτηρίων θα γίνεται στην είσοδο του SHAKA την ημέρα του event.
             </p>
         </div>
-        <p class="text-sm text-gray-300 flex items-center gap-2">
-            🎟️ Η παραλαβή των εισιτηρίων θα γίνεται στην είσοδο του SHAKA την ημέρα του event.
-        </p>
     </div>
 </div>
 
-
-</div>
-
-
-
 <!-- ========== BOOKING FORM ========== -->
-
 <section id="booking-form" class="py-24 px-6 relative bg-[#03060a]">
     <div class="max-w-xl mx-auto">
         <div class="text-center mb-12">
@@ -492,72 +477,69 @@ to{opacity:1}
             </p>
         </div>
 
+        <div class="glass p-8 md:p-12 rounded-3xl space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-[10px] uppercase tracking-widest text-[#d1a14b] mb-2 font-bold">ΟΝΟΜΑ</label>
+                    <input type="text" id="name" required class="w-full p-4 rounded-xl" placeholder="First Name">
+                </div>
+                <div>
+                    <label class="block text-[10px] uppercase tracking-widest text-[#d1a14b] mb-2 font-bold">ΕΠΙΘΕΤΟ</label>
+                    <input type="text" id="surname" required class="w-full p-4 rounded-xl" placeholder="Last Name">
+                </div>
+            </div>
 
-    <div class="glass p-8 md:p-12 rounded-3xl space-y-6">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-[10px] uppercase tracking-widest text-[#d1a14b] mb-2 font-bold">ΑΤΟΜΑ</label>
+                    <input type="number" id="people" required value="2" min="1" max="20" class="w-full p-4 rounded-xl">
+                </div>
+                <div>
+                    <label class="block text-[10px] uppercase tracking-widest text-[#d1a14b] mb-2 font-bold">ΤΥΠΟΣ ΚΡΑΤΗΣΗΣ</label>
+                    <select id="type" required class="w-full p-4 rounded-xl font-bold text-[#d1a14b]">
+                        <option value="Τραπέζι - MIN 1 ΜΠΟΥΚΑΛΙ">ΤΡΑΠΕΖΙ - MIN 1 ΜΠΟΥΚΑΛΙ</option>
+                        <option value="Καναπές - MIN 2 ΜΠΟΥΚΑΛΙΑ">ΚΑΝΑΠΕΣ - MIN 2 ΜΠΟΥΚΑΛΙΑ</option>
+                        <option value="Ticket">TICKET - ΕΙΣΟΔΟΣ</option>
+                    </select>
+                </div>
+            </div>
+
             <div>
-                <label class="block text-[10px] uppercase tracking-widest text-[#d1a14b] mb-2 font-bold">ΟΝΟΜΑ</label>
-                <input type="text" id="name" required class="w-full p-4 rounded-xl" placeholder="First Name">
+                <label class="block text-[10px] uppercase tracking-widest text-[#d1a14b] mb-2 font-bold">ΤΗΛΕΦΩΝΟ</label>
+                <input type="tel" id="phone" required class="w-full p-4 rounded-xl" placeholder="99999999">
             </div>
+
             <div>
-                <label class="block text-[10px] uppercase tracking-widest text-[#d1a14b] mb-2 font-bold">ΕΠΙΘΕΤΟ</label>
-                <input type="text" id="surname" required class="w-full p-4 rounded-xl" placeholder="Last Name">
+                <label class="block text-[10px] uppercase tracking-widest text-[#d1a14b] mb-2 font-bold">INSTAGRAM ACCOUNT</label>
+                <div class="instagram-wrapper">
+                    <span class="instagram-prefix">@</span>
+                    <input type="text" id="instagram" required class="w-full p-4 rounded-xl instagram-input" placeholder="username">
+                </div>
             </div>
-        </div>
 
-        <div class="grid grid-cols-2 gap-4">
-            <div>
-                <label class="block text-[10px] uppercase tracking-widest text-[#d1a14b] mb-2 font-bold">ΑΤΟΜΑ</label>
-                <input type="number" id="people" required value="2" min="1" max="20" class="w-full p-4 rounded-xl">
+            <p class="text-xs text-[#d1a14b] text-center">Για τραπέζι & καναπέ: επιλέγεις μπουκάλι στο venue</p>
+            <p class="text-xs text-gray-300 text-center">🎟️ Η παραλαβή των εισιτηρίων θα γίνεται στην είσοδο του SHAKA την ημέρα του event.</p>
+
+            <div class="flex items-start gap-3 bg-white/5 rounded-xl p-4 border border-white/10">
+                <span class="text-lg mt-0.5">💡</span>
+                <div>
+                    <p class="text-white text-xs font-bold mb-1">Πώς λειτουργεί η κράτηση:</p>
+                    <p class="text-gray-400 text-xs leading-relaxed">
+                        1. Συμπλήρωσε τη φόρμα κράτησης.<br>
+                        2. Η κράτησή σου καταχωρείται στο σύστημά μας.<br>
+                        3. Θα επικοινωνήσουμε μαζί σου για να κανονιστεί η πληρωμή.<br>
+                        4. Παραλαβή εισιτηρίων στην είσοδο του SHAKA την ημέρα του event.
+                    </p>
+                </div>
             </div>
-            <div>
-                <label class="block text-[10px] uppercase tracking-widest text-[#d1a14b] mb-2 font-bold">ΤΥΠΟΣ ΚΡΑΤΗΣΗΣ</label>
-                <select id="type" required class="w-full p-4 rounded-xl font-bold text-[#d1a14b]">
-                    <option value="Τραπέζι - MIN 1 ΜΠΟΥΚΑΛΙ">ΤΡΑΠΕΖΙ - MIN 1 ΜΠΟΥΚΑΛΙ</option>
-                    <option value="Καναπές - MIN 2 ΜΠΟΥΚΑΛΙΑ">ΚΑΝΑΠΕΣ - MIN 2 ΜΠΟΥΚΑΛΙΑ</option>
-                    <option value="Ticket">TICKET - ΕΙΣΟΔΟΣ</option>
-                </select>
-            </div>
+
+            <button onclick="saveReservation()" id="submitBtn"
+                    class="w-full bg-[#d1a14b] text-black font-black py-5 rounded-xl uppercase tracking-widest hover:bg-white transition-all shadow-lg mt-4">
+                ΚΑΤΑΧΩΡΗΣΗ
+            </button>
+            <p id="message" class="text-center mt-4 hidden font-bold italic text-sm"></p>
         </div>
-
-        <div>
-            <label class="block text-[10px] uppercase tracking-widest text-[#d1a14b] mb-2 font-bold">ΤΗΛΕΦΩΝΟ</label>
-            <input type="tel" id="phone" required class="w-full p-4 rounded-xl" placeholder="99999999">
-        </div>
-
-        <div>
-            <label class="block text-[10px] uppercase tracking-widest text-[#d1a14b] mb-2 font-bold">INSTAGRAM ACCOUNT</label>
-            <div class="instagram-wrapper">
-                <span class="instagram-prefix">@</span>
-                <input type="text" id="instagram" required class="w-full p-4 rounded-xl instagram-input" placeholder="username">
-            </div>
-        </div>
-
-        <p class="text-xs text-[#d1a14b] text-center">Για τραπέζι & καναπέ: επιλέγεις μπουκάλι στο venue</p>
-        <p class="text-xs text-gray-300 text-center">🎟️ Η παραλαβή των εισιτηρίων θα γίνεται στην είσοδο του SHAKA την ημέρα του event.</p>
-
-        <div class="flex items-start gap-3 bg-white/5 rounded-xl p-4 border border-white/10">
-            <span class="text-lg mt-0.5">💡</span>
-            <div>
-                <p class="text-white text-xs font-bold mb-1">Πώς λειτουργεί η κράτηση:</p>
-                <p class="text-gray-400 text-xs leading-relaxed">
-                    1. Συμπλήρωσε τη φόρμα κράτησης.<br>
-                    2. Η κράτησή σου καταχωρείται στο σύστημά μας.<br>
-                    3. Θα επικοινωνήσουμε μαζί σου για να κανονιστεί η πληρωμή.<br>
-                    4. Παραλαβή εισιτηρίων στην είσοδο του SHAKA την ημέρα του event.
-                </p>
-            </div>
-        </div>
-
-        <button onclick="saveReservation()" id="submitBtn"
-                class="w-full bg-[#d1a14b] text-black font-black py-5 rounded-xl uppercase tracking-widest hover:bg-white transition-all shadow-lg mt-4">
-            ΚΑΤΑΧΩΡΗΣΗ
-        </button>
-        <p id="message" class="text-center mt-4 hidden font-bold italic text-sm"></p>
     </div>
-</div>
-
-
 </section>
 
 <footer class="py-8 text-center opacity-50 space-y-2">
@@ -573,8 +555,8 @@ to{opacity:1}
 </footer>
 
 <a href="https://instagram.com/mythos_nights" target="_blank"
-class="fixed bottom-6 right-6 bg-[#d1a14b] text-black px-5 py-3 rounded-full font-bold shadow-lg hover:bg-white transition z-50">
-INSTAGRAM
+   class="fixed bottom-6 right-6 bg-[#d1a14b] text-black px-5 py-3 rounded-full font-bold shadow-lg hover:bg-white transition z-50">
+    INSTAGRAM
 </a>
 
 <script>
@@ -614,7 +596,7 @@ function checkAdminPass() {
         document.getElementById('adminMessage').innerHTML = 'Λάθος κωδικός!';
     }
 }
-<script>
+
 // ── FILTER ──
 let currentFilter = 'all';
 function setFilter(f) {
@@ -625,46 +607,47 @@ function setFilter(f) {
     renderTable(window._allReservations || []);
 }
 
-const eventDate = new Date("2026-04-25T21:00:00").getTime()
-const startDate = new Date().getTime()
+// ── COUNTDOWN ──
+const eventDate = new Date("2026-04-25T21:00:00").getTime();
+const startDate = new Date().getTime();
 
-const countdown = setInterval(function(){
+const countdown = setInterval(function() {
+    const now = new Date().getTime();
+    const distance = eventDate - now;
 
-const now = new Date().getTime()
-const distance = eventDate - now
+    if (distance < 0) {
+        clearInterval(countdown);
+        document.getElementById("days").innerHTML = "00";
+        document.getElementById("hours").innerHTML = "00";
+        document.getElementById("minutes").innerHTML = "00";
+        document.getElementById("seconds").innerHTML = "00";
+        return;
+    }
 
-const days = Math.floor(distance / (1000*60*60*24))
-const hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60))
-const minutes = Math.floor((distance % (1000*60*60)) / (1000*60))
-const seconds = Math.floor((distance % (1000*60)) / 1000)
+    const days    = Math.floor(distance / (1000*60*60*24));
+    const hours   = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
+    const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
+    const seconds = Math.floor((distance % (1000*60)) / 1000);
 
-document.getElementById("days").innerHTML = days
-document.getElementById("hours").innerHTML = hours
-document.getElementById("minutes").innerHTML = minutes
-document.getElementById("seconds").innerHTML = seconds
+    document.getElementById("days").innerHTML    = String(days).padStart(2,'0');
+    document.getElementById("hours").innerHTML   = String(hours).padStart(2,'0');
+    document.getElementById("minutes").innerHTML = String(minutes).padStart(2,'0');
+    document.getElementById("seconds").innerHTML = String(seconds).padStart(2,'0');
 
-// progress bar
-const total = eventDate - startDate
-const passed = now - startDate
-const progressPercent = (passed / total) * 100
+    const total = eventDate - startDate;
+    const passed = now - startDate;
+    document.getElementById("progress").style.width = Math.min((passed / total) * 100, 100) + "%";
+}, 1000);
 
-document.getElementById("progress").style.width = progressPercent + "%"
-
-if(distance < 0){
-clearInterval(countdown)
-}
-
-},1000)
-
-</script>   
+// ── SAVE RESERVATION ──
 async function saveReservation() {
-    const name = document.getElementById('name').value.trim();
-    const surname = document.getElementById('surname').value.trim();
-    const phone = document.getElementById('phone').value.trim();
-    const people = document.getElementById('people').value;
-    const type = document.getElementById('type').value;
+    const name       = document.getElementById('name').value.trim();
+    const surname    = document.getElementById('surname').value.trim();
+    const phone      = document.getElementById('phone').value.trim();
+    const people     = document.getElementById('people').value;
+    const type       = document.getElementById('type').value;
     const instagramRaw = document.getElementById('instagram').value.trim();
-    const instagram = instagramRaw.replace(/^@/, '').trim();
+    const instagram  = instagramRaw.replace(/^@/, '').trim();
 
     if (!name || !surname || !phone || !instagram) {
         showMessage('Συμπληρώστε όλα τα πεδία συμπεριλαμβανομένου του Instagram!', 'red');
@@ -810,7 +793,7 @@ async function downloadExcel() {
     } catch(e) { alert('Σφάλμα'); }
 }
 
-// ── CAROUSEL (διορθωμένο) ──
+// ── CAROUSEL ──
 let currentSlide = 0;
 const slides = document.querySelectorAll('.carousel-slide');
 
