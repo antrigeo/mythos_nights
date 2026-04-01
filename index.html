@@ -329,6 +329,38 @@ input:focus, select:focus { border-color: #d1a14b !important; }
     .time-box span { font-size: 36px; }
     .countdown { gap: 15px; }
 }
+
+.gold-btn{
+position:relative;
+overflow:hidden;
+}
+
+.gold-btn::after{
+content:"";
+position:absolute;
+top:0;
+left:-100%;
+width:100%;
+height:100%;
+background:linear-gradient(120deg,transparent,rgba(255,255,255,0.5),transparent);
+transition:all 0.7s;
+}
+
+.gold-btn:hover::after{
+left:100%;
+}
+
+.reveal{
+opacity:0;
+transform:translateY(40px);
+transition:all 1s ease;
+}
+
+.reveal.active{
+opacity:1;
+transform:translateY(0);
+}
+
 </style>
 </head>
 <body class="overflow-x-hidden">
@@ -379,6 +411,7 @@ input:focus, select:focus { border-color: #d1a14b !important; }
 
 <!-- ========== HERO SECTION ========== -->
 <section class="relative min-h-[85vh] flex flex-col items-center justify-center px-6 pt-10">
+    <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-black/80 -z-10"></div>
     <div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
         <div class="absolute top-1/4 -left-20 w-[500px] h-[500px] bg-blue-900 rounded-full blur-[160px] opacity-20 animate-[floatingLights_12s_infinite]"></div>
         <div class="absolute bottom-1/4 -right-20 w-[500px] h-[500px] bg-[#a37828] rounded-full blur-[160px] opacity-10 animate-[floatingLights_16s_infinite]"></div>
@@ -402,14 +435,15 @@ input:focus, select:focus { border-color: #d1a14b !important; }
                 <a href="tel:96807443" class="mythos-font tracking-widest text-white text-2xl md:text-4xl">96807443</a>
             </div>
         </div>
-        <a href="#booking-form" class="inline-block bg-[#d1a14b] text-black px-12 py-5 rounded-full font-black uppercase tracking-widest transition-all shadow-[0_0_50px_rgba(209,161,75,0.5)] hover:scale-105 hover:bg-white">
+        <a href="#booking-form" class="gold-btn inline-block bg-[#d1a14b] text-black px-12 py-5 rounded-full font-black uppercase tracking-widest transition-all shadow-[0_0_50px_rgba(209,161,75,0.5)] hover:scale-105 hover:bg-white">
             ΚΡΑΤΗΣΗ ΤΩΡΑ
         </a>
     </div>
 </section>
 
 <!-- ========== COUNTDOWN (ΕΚΤΟΣ hero) ========== -->
-<section class="countdown-section">
+
+<section class="countdown-section reveal">
     <h2 class="countdown-title">MYTHOS NIGHTS BEGINS IN</h2>
     <div class="countdown">
         <div class="time-box">
@@ -435,7 +469,7 @@ input:focus, select:focus { border-color: #d1a14b !important; }
 </section>
 
 <!-- ========== CAROUSEL + EVENT INFO ========== -->
-<div class="max-w-6xl mx-auto my-20 px-4">
+<div class="max-w-6xl mx-auto my-20 px-4 reveal">
     <div class="grid md:grid-cols-2 gap-12 items-center">
         <div class="carousel-container shadow-2xl">
             <div class="carousel-slide active">
@@ -465,7 +499,7 @@ input:focus, select:focus { border-color: #d1a14b !important; }
 </div>
 
 <!-- ========== BOOKING FORM ========== -->
-<section id="booking-form" class="py-24 px-6 relative bg-[#03060a]">
+<section id="booking-form" class="reveal"
     <div class="max-w-xl mx-auto">
         <div class="text-center mb-12">
             <h2 class="text-3xl md:text-4xl font-bold uppercase tracking-[0.2em] text-[#d1a14b] mythos-font">RESERVATIONS</h2>
@@ -803,7 +837,21 @@ function nextSlide() {
     slides[currentSlide].classList.add('active');
 }
 
-setInterval(nextSlide, 4000);
+setInterval(nextSlide, 5500);
+
+const reveals = document.querySelectorAll(".reveal");
+
+window.addEventListener("scroll", function(){
+for(let i=0;i<reveals.length;i++){
+let windowHeight = window.innerHeight;
+let elementTop = reveals[i].getBoundingClientRect().top;
+let elementVisible = 120;
+
+if(elementTop < windowHeight - elementVisible){
+reveals[i].classList.add("active");
+}
+}
+});
 </script>
 
 </body>
