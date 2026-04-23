@@ -5,162 +5,269 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mythos Nights — Photo Booth</title>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet" />
   <style>
     :root {
       --gold: #c9a84c;
       --gold-light: #f0d080;
-      --gold-dim: rgba(201,168,76,0.15);
-      --bg: #080608;
-      --surface: #110f13;
-      --surface2: #1a171e;
+      --gold-dim: rgba(201,168,76,0.12);
+      --bg: #05040A;
+      --surface: #0e0c14;
+      --surface2: #181520;
       --text: #f0ead8;
       --muted: rgba(240,234,216,0.45);
     }
 
-
+```
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-  background: var(--bg); color: var(--text);
+  background: var(--bg);
+  color: var(--text);
   font-family: 'Outfit', sans-serif;
-  min-height: 100svh; display: flex; flex-direction: column; align-items: center;
+  min-height: 100svh;
+  display: flex; flex-direction: column; align-items: center;
   overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed; top: -20%; left: 50%; transform: translateX(-50%);
+  width: 600px; height: 400px;
+  background: radial-gradient(ellipse, rgba(201,168,76,0.07) 0%, transparent 70%);
+  pointer-events: none; z-index: 0;
 }
 
 #particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
 .p { position: absolute; border-radius: 50%; background: var(--gold); opacity: 0; animation: drift linear infinite; }
 @keyframes drift {
   0%   { transform: translateY(100vh) scale(0); opacity: 0; }
-  10%  { opacity: 0.6; } 90% { opacity: 0.3; }
+  10%  { opacity: 0.5; } 90% { opacity: 0.2; }
   100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
 }
 
-header { position: relative; z-index: 1; text-align: center; padding: 52px 24px 20px; }
+/* ── Header ── */
+header {
+  position: relative; z-index: 1;
+  text-align: center; padding: 56px 24px 0; width: 100%;
+}
 .brand {
-  font-family: 'Bebas Neue', sans-serif; font-size: clamp(42px, 12vw, 72px);
-  letter-spacing: 6px;
-  background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 50%, #8b6820 100%);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(56px, 18vw, 96px);
+  letter-spacing: 10px;
+  background: linear-gradient(180deg, var(--gold-light) 0%, var(--gold) 45%, #7a5a18 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  line-height: 0.95;
+  filter: drop-shadow(0 0 30px rgba(201,168,76,0.3));
 }
-.subtitle { margin-top: 8px; font-size: 12px; letter-spacing: 4px; text-transform: uppercase; color: var(--muted); }
-.divider { margin: 16px auto 0; width: 80px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+.brand-nights {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300; font-style: italic;
+  font-size: clamp(13px, 4vw, 18px);
+  letter-spacing: 10px; text-transform: uppercase;
+  color: var(--gold); opacity: 0.65; margin-top: 2px;
+}
+.divider-wrap {
+  display: flex; align-items: center; gap: 12px;
+  margin: 18px auto; width: min(260px, 75%);
+}
+.divider-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold)); opacity: 0.35; }
+.divider-line.r { background: linear-gradient(90deg, var(--gold), transparent); }
+.divider-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--gold); opacity: 0.5; }
+.event-info {
+  font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 32px;
+}
+.event-info span { color: var(--gold); opacity: 0.75; }
 
+/* ── Card ── */
 .card {
-  position: relative; z-index: 1; margin: 28px 20px 40px;
-  width: min(420px, calc(100% - 40px)); background: var(--surface);
-  border: 1px solid rgba(201,168,76,0.25); border-radius: 20px;
-  box-shadow: 0 0 60px rgba(201,168,76,0.08), 0 20px 60px rgba(0,0,0,0.6);
+  position: relative; z-index: 1; margin: 0 16px 48px;
+  width: min(400px, calc(100% - 32px));
+  background: linear-gradient(145deg, #0f0d18, #0a0810);
+  border: 1px solid rgba(201,168,76,0.18); border-radius: 24px;
+  box-shadow: 0 0 0 1px rgba(201,168,76,0.04), 0 20px 80px rgba(0,0,0,0.8),
+    inset 0 1px 0 rgba(201,168,76,0.08);
 }
-.card-inner { padding: 32px 28px 36px; }
+.card-inner { padding: 28px 24px 32px; }
 
+/* ── Slogan ── */
+.slogan {
+  text-align: center; margin-bottom: 22px;
+}
+.slogan-main {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px; letter-spacing: 5px;
+  background: linear-gradient(135deg, var(--gold-light), var(--gold));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.slogan-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-weight: 300;
+  font-size: 13px; letter-spacing: 3px;
+  color: var(--muted); margin-top: 3px;
+}
+
+/* ── Camera button ── */
 .camera-btn {
-  width: 100%; padding: 28px 16px;
-  border: 2px dashed rgba(201,168,76,0.35); border-radius: 14px;
-  background: rgba(201,168,76,0.03); text-align: center; cursor: pointer;
-  transition: border-color .25s, background .25s; position: relative;
+  width: 100%; padding: 32px 16px;
+  border: 1px solid rgba(201,168,76,0.22); border-radius: 18px;
+  background: radial-gradient(ellipse at center, rgba(201,168,76,0.05) 0%, transparent 70%);
+  text-align: center; cursor: pointer;
+  transition: border-color .3s, background .3s, transform .2s;
+  position: relative; overflow: hidden;
 }
-.camera-btn:hover { border-color: var(--gold); background: var(--gold-dim); }
+.camera-btn::before {
+  content: ''; position: absolute; inset: 0; border-radius: 18px;
+  background: radial-gradient(ellipse at 50% 0%, rgba(201,168,76,0.08) 0%, transparent 60%);
+  opacity: 0; transition: opacity .3s;
+}
+.camera-btn:hover::before { opacity: 1; }
+.camera-btn:hover { border-color: rgba(201,168,76,0.45); }
+.camera-btn:active { transform: scale(0.98); }
 .camera-btn input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
-.camera-icon { font-size: 44px; display: block; margin-bottom: 10px; filter: drop-shadow(0 0 12px rgba(201,168,76,0.5)); transition: transform .3s; }
-.camera-btn:hover .camera-icon { transform: scale(1.1); }
-.camera-label { font-size: 15px; font-weight: 500; color: var(--text); }
-.camera-hint { font-size: 12px; color: var(--muted); margin-top: 4px; }
 
-#photo-grid { display: none; flex-direction: column; gap: 10px; margin-top: 16px; }
+.camera-icon-wrap {
+  width: 68px; height: 68px; border-radius: 50%;
+  background: linear-gradient(135deg, rgba(201,168,76,0.14), rgba(201,168,76,0.04));
+  border: 1px solid rgba(201,168,76,0.28);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 14px; font-size: 30px;
+  box-shadow: 0 0 20px rgba(201,168,76,0.12);
+  transition: box-shadow .3s, transform .3s;
+}
+.camera-btn:hover .camera-icon-wrap { box-shadow: 0 0 35px rgba(201,168,76,0.28); transform: scale(1.06); }
+
+.camera-label {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px; letter-spacing: 4px; color: var(--text); margin-bottom: 5px;
+}
+.camera-tap {
+  font-size: 11px; color: rgba(201,168,76,0.5); letter-spacing: 2px; text-transform: uppercase;
+}
+
+/* ── Note ── */
+.note {
+  margin-top: 14px; padding: 12px 14px;
+  background: rgba(201,168,76,0.04);
+  border: 1px solid rgba(201,168,76,0.1);
+  border-radius: 10px;
+  text-align: center;
+  font-size: 11px; color: var(--muted); letter-spacing: 0.5px; line-height: 1.6;
+}
+.note strong { color: rgba(201,168,76,0.6); font-weight: 500; }
+
+/* ── Photo grid ── */
+#photo-grid { display: none; flex-direction: column; gap: 8px; margin-top: 16px; }
 #photo-grid.show { display: flex; }
-.photo-row { display: flex; gap: 10px; animation: fadeIn .3s ease; }
-@keyframes fadeIn { from { opacity:0; transform: translateY(5px); } to { opacity:1; transform: translateY(0); } }
-.thumb-wrap { flex: 1; position: relative; border-radius: 12px; overflow: hidden; background: var(--surface2); }
+.photo-row { display: flex; gap: 8px; animation: fadeIn .3s ease; }
+@keyframes fadeIn { from { opacity:0; transform: translateY(6px); } to { opacity:1; transform: translateY(0); } }
+.thumb-wrap {
+  flex: 1; position: relative; border-radius: 12px; overflow: hidden;
+  background: var(--surface2); box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+}
 .thumb-wrap img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
 .photo-row.single .thumb-wrap img { aspect-ratio: 4/3; }
 .thumb-delete {
-  position: absolute; top: 7px; right: 7px; width: 28px; height: 28px; border-radius: 50%;
-  background: rgba(0,0,0,0.7); border: 1px solid rgba(255,255,255,0.15);
-  color: #fff; font-size: 13px; line-height: 28px; text-align: center;
-  cursor: pointer; transition: background .2s, transform .15s; z-index: 5;
+  position: absolute; top: 7px; right: 7px;
+  width: 26px; height: 26px; border-radius: 50%;
+  background: rgba(0,0,0,0.75); border: 1px solid rgba(255,255,255,0.1);
+  color: #fff; font-size: 11px; line-height: 26px; text-align: center;
+  cursor: pointer; transition: background .2s; z-index: 5;
 }
-.thumb-delete:hover { background: rgba(210,50,50,0.85); transform: scale(1.1); }
+.thumb-delete:hover { background: rgba(200,50,50,0.9); }
 
-#photo-count { display: none; margin-top: 10px; text-align: center; font-size: 12px; color: var(--gold); letter-spacing: 1px; }
+#photo-count { display: none; margin-top: 10px; text-align: center; font-size: 11px; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; }
 #photo-count.show { display: block; }
 
 #btn-add-more {
-  display: none; margin-top: 10px; width: 100%; padding: 12px;
-  background: transparent; border: 1px dashed rgba(201,168,76,0.3); border-radius: 10px;
-  color: var(--gold); font-family: 'Outfit', sans-serif; font-size: 13px;
-  cursor: pointer; transition: border-color .2s, background .2s; position: relative; text-align: center;
+  display: none; margin-top: 10px; width: 100%; padding: 11px;
+  background: transparent; border: 1px dashed rgba(201,168,76,0.18); border-radius: 10px;
+  color: rgba(201,168,76,0.5); font-family: 'Outfit', sans-serif; font-size: 12px; letter-spacing: 1px;
+  cursor: pointer; transition: border-color .2s, color .2s, background .2s;
+  position: relative; text-align: center;
 }
 #btn-add-more input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
-#btn-add-more:hover { border-color: var(--gold); background: var(--gold-dim); }
+#btn-add-more:hover { border-color: var(--gold); color: var(--gold); background: var(--gold-dim); }
 #btn-add-more.show { display: block; }
 
-.field { margin-top: 22px; }
-.field label { display: block; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
-.field input {
-  width: 100%; background: var(--surface2); border: 1px solid rgba(201,168,76,0.2);
-  border-radius: 10px; padding: 14px 16px; color: var(--text);
-  font-family: 'Outfit', sans-serif; font-size: 15px; outline: none;
-  transition: border-color .2s, box-shadow .2s;
-}
-.field input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,168,76,0.1); }
-.field input::placeholder { color: rgba(240,234,216,0.25); }
-
 .btn-submit {
-  margin-top: 26px; width: 100%; padding: 16px;
-  background: linear-gradient(135deg, var(--gold-light), var(--gold), #8b6820);
-  border: none; border-radius: 12px; font-family: 'Bebas Neue', sans-serif;
-  font-size: 18px; letter-spacing: 3px; color: #080608; cursor: pointer;
+  margin-top: 20px; width: 100%; padding: 18px;
+  background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 50%, #8b6820 100%);
+  border: none; border-radius: 14px;
+  font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 5px;
+  color: #05040A; cursor: pointer;
   transition: opacity .2s, transform .15s, box-shadow .2s;
-  box-shadow: 0 4px 20px rgba(201,168,76,0.3);
+  box-shadow: 0 4px 24px rgba(201,168,76,0.35), inset 0 1px 0 rgba(255,255,255,0.1);
 }
-.btn-submit:hover { opacity: .9; transform: translateY(-1px); box-shadow: 0 8px 30px rgba(201,168,76,0.4); }
+.btn-submit:hover { opacity: .92; transform: translateY(-2px); box-shadow: 0 8px 36px rgba(201,168,76,0.45); }
 .btn-submit:active { transform: translateY(0); }
-.btn-submit:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+.btn-submit:disabled { opacity: .25; cursor: not-allowed; transform: none; box-shadow: none; }
 
-#progress-wrap { margin-top: 18px; display: none; }
+#progress-wrap { margin-top: 16px; display: none; }
 #progress-wrap.show { display: block; }
-.progress-label { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
-.progress-bar-bg { background: var(--surface2); border-radius: 99px; height: 6px; overflow: hidden; }
+.progress-label { font-size: 11px; color: var(--muted); margin-bottom: 8px; letter-spacing: 1px; text-align: center; }
+.progress-bar-bg { background: rgba(255,255,255,0.05); border-radius: 99px; height: 3px; overflow: hidden; }
 .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--gold-light), var(--gold)); border-radius: 99px; width: 0%; transition: width .3s ease; }
 
-#status { margin-top: 18px; font-size: 14px; text-align: center; min-height: 22px; }
+#status { margin-top: 14px; font-size: 13px; text-align: center; min-height: 20px; }
 #status.error { color: #e07070; }
 
+/* ── Success ── */
 #success-screen {
-  display: none; position: fixed; inset: 0; background: var(--bg); z-index: 100;
+  display: none; position: fixed; inset: 0;
+  background: radial-gradient(ellipse at 50% 30%, #0f0a1a, #05040A);
+  z-index: 100;
   flex-direction: column; align-items: center; justify-content: center;
   text-align: center; padding: 40px;
 }
 #success-screen.show { display: flex; }
-.success-emoji { font-size: 72px; margin-bottom: 24px; animation: pop .5s cubic-bezier(.17,.67,.36,1.3); }
+.success-glow {
+  width: 120px; height: 120px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,168,76,0.18) 0%, transparent 70%);
+  display: flex; align-items: center; justify-content: center; margin-bottom: 24px;
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 30px rgba(201,168,76,0.2); }
+  50% { box-shadow: 0 0 60px rgba(201,168,76,0.4); }
+}
+.success-emoji { font-size: 56px; animation: pop .5s cubic-bezier(.17,.67,.36,1.3); }
 @keyframes pop { from { transform: scale(0); } to { transform: scale(1); } }
 .success-title {
-  font-family: 'Bebas Neue', sans-serif; font-size: 48px; letter-spacing: 4px;
+  font-family: 'Bebas Neue', sans-serif; font-size: 52px; letter-spacing: 6px;
   background: linear-gradient(135deg, var(--gold-light), var(--gold));
   -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
 }
-.success-msg { margin-top: 12px; font-size: 16px; color: var(--muted); max-width: 280px; line-height: 1.6; }
-.success-actions { margin-top: 32px; display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 260px; }
+.success-sub {
+  font-family: 'Cormorant Garamond', serif; font-weight: 300; font-style: italic;
+  font-size: 14px; letter-spacing: 4px; text-transform: uppercase; color: var(--muted); margin-top: 4px;
+}
+.success-msg { margin-top: 18px; font-size: 15px; color: var(--muted); max-width: 260px; line-height: 1.7; }
+.success-actions { margin-top: 32px; display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 240px; }
 .btn-gallery {
   padding: 15px 24px;
   background: linear-gradient(135deg, var(--gold-light), var(--gold), #8b6820);
-  border: none; border-radius: 12px; font-family: 'Bebas Neue', sans-serif;
-  font-size: 16px; letter-spacing: 3px; color: #080608; cursor: pointer;
-  text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px;
-  box-shadow: 0 4px 20px rgba(201,168,76,0.3); transition: opacity .2s, transform .15s;
+  border: none; border-radius: 12px;
+  font-family: 'Bebas Neue', sans-serif; font-size: 16px; letter-spacing: 4px;
+  color: #05040A; cursor: pointer; text-decoration: none;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  box-shadow: 0 4px 24px rgba(201,168,76,0.3); transition: opacity .2s, transform .15s;
 }
 .btn-gallery:hover { opacity: .9; transform: translateY(-1px); }
 .btn-again {
   padding: 14px 24px; background: transparent;
-  border: 1px solid rgba(201,168,76,0.4); border-radius: 12px; color: var(--muted);
-  font-family: 'Outfit', sans-serif; font-size: 14px;
+  border: 1px solid rgba(201,168,76,0.22); border-radius: 12px;
+  color: rgba(240,234,216,0.35); font-family: 'Outfit', sans-serif; font-size: 13px; letter-spacing: 1px;
   cursor: pointer; transition: border-color .2s, color .2s;
 }
 .btn-again:hover { border-color: var(--gold); color: var(--gold); }
 
-footer { position: relative; z-index: 1; text-align: center; padding-bottom: 32px; font-size: 11px; letter-spacing: 2px; color: rgba(201,168,76,0.3); text-transform: uppercase; }
-
+footer {
+  position: relative; z-index: 1; text-align: center; padding-bottom: 32px;
+  font-size: 10px; letter-spacing: 3px; color: rgba(201,168,76,0.18); text-transform: uppercase;
+}
+```
 
   </style>
 </head>
@@ -169,11 +276,14 @@ footer { position: relative; z-index: 1; text-align: center; padding-bottom: 32p
 <div id="particles"></div>
 
 <div id="success-screen">
-  <div class="success-emoji">📸</div>
-  <div class="success-title">Done!</div>
-  <p class="success-msg">Οι φωτογραφίες σου αποθηκεύτηκαν στα Mythos Nights memories. Enjoy the night! 🥂</p>
+  <div class="success-glow">
+    <div class="success-emoji">📸</div>
+  </div>
+  <div class="success-title">Captured</div>
+  <div class="success-sub">Mythos Nights · SHAKA</div>
+  <p class="success-msg">Η φωτογραφία σου αποθηκεύτηκε στα Mythos Nights memories. Enjoy the night! 🥂</p>
   <div class="success-actions">
-    <a href="https://console.cloudinary.com/console/dbm8vfbmt/media_library" target="_blank" class="btn-gallery">
+    <a href="https://console.cloudinary.com/console/dbm8vfbmt/media_library/folders/mythos-nights" target="_blank" class="btn-gallery">
       🗂 Δες τις φωτογραφίες
     </a>
     <button class="btn-again" onclick="resetForm()">Ανέβασε κι άλλες</button>
@@ -181,38 +291,45 @@ footer { position: relative; z-index: 1; text-align: center; padding-bottom: 32p
 </div>
 
 <header>
-  <div class="brand">Mythos Nights</div>
-  <div class="subtitle">Photo Booth &nbsp;·&nbsp; SHAKA</div>
-  <div class="divider"></div>
+  <div class="brand">Mythos</div>
+  <div class="brand-nights">Nights</div>
+  <div class="divider-wrap">
+    <div class="divider-line"></div>
+    <div class="divider-dot"></div>
+    <div class="divider-line r"></div>
+  </div>
+  <div class="event-info">Photo Booth &nbsp;·&nbsp; <span>SHAKA</span> &nbsp;·&nbsp; DJ Dinglis</div>
 </header>
 
 <div class="card">
   <div class="card-inner">
 
+```
+<!-- Slogan -->
+<div class="slogan">
+  <div class="slogan-main">Freeze the Night</div>
+  <div class="slogan-sub">one shot, one memory</div>
+</div>
 
+<!-- Camera only -->
 <div class="camera-btn">
-  <input type="file" id="file-input" accept="image/*" multiple />
-  <span class="camera-icon">📷</span>
-  <div class="camera-label">Τράβηξε ή επίλεξε φωτογραφία</div>
-  <div class="camera-hint">Κάμερα &nbsp;·&nbsp; Photo Library &nbsp;·&nbsp; Files</div>
+  <input type="file" id="file-input" accept="image/*" capture="environment" />
+  <div class="camera-icon-wrap">📷</div>
+  <div class="camera-label">Βγάλε φωτογραφία</div>
+  <div class="camera-tap">Πάτα για να ανοίξει η κάμερα</div>
+</div>
+
+<!-- Note -->
+<div class="note">
+  📁 Οι φωτογραφίες <strong>αποθηκεύονται αυτόματα</strong> στο αρχείο του Mythos Nights — δεν χρειάζεται να κάνεις τίποτα άλλο!
 </div>
 
 <div id="photo-grid"></div>
 <div id="photo-count"></div>
 
 <div id="btn-add-more">
-  <input type="file" id="file-input-more" accept="image/*" multiple />
-  + Πρόσθεσε κι άλλες φωτογραφίες
-</div>
-
-<div class="field">
-  <label>Όνομα (προαιρετικό)</label>
-  <input type="text" id="name-input" placeholder="π.χ. Κώστας & παρέα" maxlength="60" />
-</div>
-
-<div class="field">
-  <label>Τραπέζι # (προαιρετικό)</label>
-  <input type="text" id="table-input" placeholder="π.χ. 5" maxlength="10" />
+  <input type="file" id="file-input-more" accept="image/*" capture="environment" />
+  + Βγάλε κι άλλη φωτογραφία
 </div>
 
 <button class="btn-submit" id="submit-btn" onclick="uploadPhotos()" disabled>
@@ -225,27 +342,26 @@ footer { position: relative; z-index: 1; text-align: center; padding-bottom: 32p
 </div>
 
 <div id="status"></div>
-
+```
 
   </div>
 </div>
 
-<footer>Mythos Nights &copy; 2026 &nbsp;·&nbsp; DJ Dinglis</footer>
+<footer>Mythos Nights &copy; 2026</footer>
 
 <script>
-  const CLOUD_NAME   = "dbm8vfbmt";
+  const CLOUD_NAME    = "dbm8vfbmt";
   const UPLOAD_PRESET = "ml_default";
-  const UPLOAD_URL   = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
+  const UPLOAD_URL    = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
 
   let photos = [];
 
-  // Particles
   const pc = document.getElementById('particles');
-  for (let i = 0; i < 22; i++) {
+  for (let i = 0; i < 30; i++) {
     const p = document.createElement('div');
     p.className = 'p';
-    const s = Math.random() * 3 + 1;
-    p.style.cssText = `width:${s}px;height:${s}px;left:${Math.random()*100}%;animation-duration:${8+Math.random()*12}s;animation-delay:${Math.random()*15}s;`;
+    const s = Math.random() * 2.5 + 0.5;
+    p.style.cssText = `width:${s}px;height:${s}px;left:${Math.random()*100}%;animation-duration:${10+Math.random()*15}s;animation-delay:${Math.random()*20}s;`;
     pc.appendChild(p);
   }
 
@@ -309,7 +425,7 @@ footer { position: relative; z-index: 1; text-align: center; padding-bottom: 32p
     }
     const n = photos.length;
     const count = document.getElementById('photo-count');
-    count.textContent = `${n} φωτογραφί${n === 1 ? 'α' : 'ες'} επιλεγμένες`;
+    count.textContent = `${n} φωτογραφί${n === 1 ? 'α' : 'ες'} έτοιμες`;
     count.classList.add('show');
   }
 
@@ -320,8 +436,6 @@ footer { position: relative; z-index: 1; text-align: center; padding-bottom: 32p
     const progWrap  = document.getElementById('progress-wrap');
     const progFill  = document.getElementById('progress-fill');
     const progLabel = document.getElementById('progress-label');
-    const name  = document.getElementById('name-input').value.trim() || 'Anonymous';
-    const table = document.getElementById('table-input').value.trim() || '-';
 
     btn.disabled = true;
     status.textContent = '';
@@ -329,14 +443,13 @@ footer { position: relative; z-index: 1; text-align: center; padding-bottom: 32p
     progWrap.classList.add('show');
 
     for (let i = 0; i < photos.length; i++) {
-      progLabel.textContent = `Uploading ${i + 1} / ${photos.length}…`;
+      progLabel.textContent = `Αποθήκευση ${i + 1} / ${photos.length}…`;
       progFill.style.width = `${(i / photos.length) * 100}%`;
       try {
         const formData = new FormData();
         formData.append('file', photos[i].file);
         formData.append('upload_preset', UPLOAD_PRESET);
         formData.append('folder', 'mythos-nights');
-        formData.append('context', `name=${name}|table=${table}`);
 
         const res  = await fetch(UPLOAD_URL, { method: 'POST', body: formData });
         const json = await res.json();
@@ -363,8 +476,6 @@ footer { position: relative; z-index: 1; text-align: center; padding-bottom: 32p
     document.getElementById('btn-add-more').classList.remove('show');
     document.getElementById('file-input').value = '';
     document.getElementById('file-input-more').value = '';
-    document.getElementById('name-input').value = '';
-    document.getElementById('table-input').value = '';
     document.getElementById('submit-btn').disabled = true;
     document.getElementById('status').textContent = '';
     document.getElementById('progress-wrap').classList.remove('show');
