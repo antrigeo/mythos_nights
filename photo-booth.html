@@ -313,7 +313,7 @@ footer {
 
 <!-- Camera only -->
 <div class="camera-btn">
-  <input type="file" id="file-input" accept="image/*" />
+  <input type="file" id="file-input" accept="image/*" capture="environment" />
   <div class="camera-icon-wrap">📷</div>
   <div class="camera-label">Βγάλε φωτογραφία</div>
   <div class="camera-tap">Πάτα για να ανοίξει η κάμερα</div>
@@ -328,7 +328,7 @@ footer {
 <div id="photo-count"></div>
 
 <div id="btn-add-more">
-  <input type="file" id="file-input-more" accept="image/*" />
+  <input type="file" id="file-input-more" accept="image/*" capture="environment" />
   + Βγάλε κι άλλη φωτογραφία
 </div>
 
@@ -375,7 +375,9 @@ footer {
     imgs.forEach(file => {
       const reader = new FileReader();
       reader.onload = (e) => {
-        photos.push({ file, dataUrl: e.target.result });
+        // Χρησιμοποιούμε το base64 και για preview και για upload — δουλεύει στο iOS με capture
+        const dataUrl = e.target.result;
+        photos.push({ file, dataUrl });
         loaded++;
         if (loaded === imgs.length) renderGrid();
       };
