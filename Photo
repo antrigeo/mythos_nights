@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+
+<html lang="el">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mythos Nights — Photo Booth</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --gold: #c9a84c;
+      --gold-light: #f0d080;
+      --gold-dim: rgba(201,168,76,0.15);
+      --bg: #080608;
+      --surface: #110f13;
+      --surface2: #1a171e;
+      --text: #f0ead8;
+      --muted: rgba(240,234,216,0.45);
+    }
+
+```
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Outfit', sans-serif;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+#particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+.p { position: absolute; border-radius: 50%; background: var(--gold); opacity: 0; animation: drift linear infinite; }
+@keyframes drift {
+  0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+  10%  { opacity: 0.6; }
+  90%  { opacity: 0.3; }
+  100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+}
+
+header { position: relative; z-index: 1; text-align: center; padding: 52px 24px 20px; }
+.brand {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(42px, 12vw, 72px);
+  letter-spacing: 6px;
+  background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 50%, #8b6820 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  line-height: 1;
+}
+.subtitle { margin-top: 8px; font-size: 12px; letter-spacing: 4px; text-transform: uppercase; color: var(--muted); }
+.divider { margin: 16px auto 0; width: 80px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+
+.card {
+  position: relative; z-index: 1; margin: 28px 20px 40px;
+  width: min(420px, calc(100% - 40px)); background: var(--surface);
+  border: 1px solid rgba(201,168,76,0.25); border-radius: 20px; overflow: hidden;
+  box-shadow: 0 0 60px rgba(201,168,76,0.08), 0 20px 60px rgba(0,0,0,0.6);
+}
+.card-inner { padding: 32px 28px 36px; }
+
+.camera-btn {
+  width: 100%; padding: 28px 16px;
+  border: 2px dashed rgba(201,168,76,0.35); border-radius: 14px;
+  background: rgba(201,168,76,0.03); text-align: center; cursor: pointer;
+  transition: border-color .25s, background .25s; position: relative;
+}
+.camera-btn:hover { border-color: var(--gold); background: var(--gold-dim); }
+.camera-btn input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+.camera-icon { font-size: 44px; display: block; margin-bottom: 10px; filter: drop-shadow(0 0 12px rgba(201,168,76,0.5)); transition: transform .3s; }
+.camera-btn:hover .camera-icon { transform: scale(1.1); }
+.camera-label { font-size: 15px; font-weight: 500; color: var(--text); }
+.camera-hint { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+#photo-grid { display: none; flex-direction: column; gap: 10px; margin-top: 16px; }
+#photo-grid.show { display: flex; }
+
+.photo-row { display: flex; gap: 10px; animation: fadeIn .3s ease; }
+@keyframes fadeIn { from { opacity:0; transform: translateY(5px); } to { opacity:1; transform: translateY(0); } }
+
+.thumb-wrap { flex: 1; position: relative; border-radius: 12px; overflow: hidden; background: var(--surface2); }
+.thumb-wrap img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
+.photo-row.single .thumb-wrap img { aspect-ratio: 4/3; }
+
+.thumb-delete {
+  position: absolute; top: 7px; right: 7px;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: rgba(0,0,0,0.7); border: 1px solid rgba(255,255,255,0.15);
+  color: #fff; font-size: 13px; line-height: 28px; text-align: center;
+  cursor: pointer; transition: background .2s, transform .15s; z-index: 5;
+}
+.thumb-delete:hover { background: rgba(210,50,50,0.85); transform: scale(1.1); }
+
+#photo-count { display: none; margin-top: 10px; text-align: center; font-size: 12px; color: var(--gold); letter-spacing: 1px; }
+#photo-count.show { display: block; }
+
+#btn-add-more {
+  display: none; margin-top: 10px; width: 100%; padding: 12px;
+  background: transparent; border: 1px dashed rgba(201,168,76,0.3); border-radius: 10px;
+  color: var(--gold); font-family: 'Outfit', sans-serif; font-size: 13px;
+  cursor: pointer; transition: border-color .2s, background .2s;
+  position: relative; text-align: center;
+}
+#btn-add-more input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+#btn-add-more:hover { border-color: var(--gold); background: var(--gold-dim); }
+#btn-add-more.show { display: block; }
+
+.field { margin-top: 22px; }
+.field label { display: block; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.field input {
+  width: 100%; background: var(--surface2); border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 10px; padding: 14px 16px; color: var(--text);
+  font-family: 'Outfit', sans-serif; font-size: 15px; outline: none;
+  transition: border-color .2s, box-shadow .2s;
+}
+.field input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,168,76,0.1); }
+.field input::placeholder { color: rgba(240,234,216,0.25); }
+
+.btn-submit {
+  margin-top: 26px; width: 100%; padding: 16px;
+  background: linear-gradient(135deg, var(--gold-light), var(--gold), #8b6820);
+  border: none; border-radius: 12px; font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px; letter-spacing: 3px; color: #080608; cursor: pointer;
+  transition: opacity .2s, transform .15s, box-shadow .2s;
+  box-shadow: 0 4px 20px rgba(201,168,76,0.3);
+}
+.btn-submit:hover { opacity: .9; transform: translateY(-1px); box-shadow: 0 8px 30px rgba(201,168,76,0.4); }
+.btn-submit:active { transform: translateY(0); }
+.btn-submit:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+
+#progress-wrap { margin-top: 18px; display: none; }
+#progress-wrap.show { display: block; }
+.progress-label { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+.progress-bar-bg { background: var(--surface2); border-radius: 99px; height: 6px; overflow: hidden; }
+.progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--gold-light), var(--gold)); border-radius: 99px; width: 0%; transition: width .3s ease; }
+
+#status { margin-top: 18px; font-size: 14px; text-align: center; min-height: 22px; }
+#status.error { color: #e07070; }
+
+/* ── Success ── */
+#success-screen {
+  display: none; position: fixed; inset: 0; background: var(--bg); z-index: 100;
+  flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 40px;
+}
+#success-screen.show { display: flex; }
+.success-emoji { font-size: 72px; margin-bottom: 24px; animation: pop .5s cubic-bezier(.17,.67,.36,1.3); }
+@keyframes pop { from { transform: scale(0); } to { transform: scale(1); } }
+.success-title {
+  font-family: 'Bebas Neue', sans-serif; font-size: 48px; letter-spacing: 4px;
+  background: linear-gradient(135deg, var(--gold-light), var(--gold));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.success-msg { margin-top: 12px; font-size: 16px; color: var(--muted); max-width: 280px; line-height: 1.6; }
+
+.success-actions { margin-top: 32px; display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 260px; }
+
+.btn-drive {
+  padding: 15px 24px;
+  background: linear-gradient(135deg, var(--gold-light), var(--gold), #8b6820);
+  border: none; border-radius: 12px;
+  font-family: 'Bebas Neue', sans-serif; font-size: 16px; letter-spacing: 3px;
+  color: #080608; cursor: pointer; text-decoration: none;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  box-shadow: 0 4px 20px rgba(201,168,76,0.3);
+  transition: opacity .2s, transform .15s;
+}
+.btn-drive:hover { opacity: .9; transform: translateY(-1px); }
+
+.btn-again {
+  padding: 14px 24px; background: transparent;
+  border: 1px solid rgba(201,168,76,0.4); border-radius: 12px; color: var(--muted);
+  font-family: 'Outfit', sans-serif; font-size: 14px;
+  cursor: pointer; transition: border-color .2s, color .2s;
+}
+.btn-again:hover { border-color: var(--gold); color: var(--gold); }
+
+footer { position: relative; z-index: 1; text-align: center; padding-bottom: 32px; font-size: 11px; letter-spacing: 2px; color: rgba(201,168,76,0.3); text-transform: uppercase; }
+```
+
+  </style>
+</head>
+<body>
+
+<div id="particles"></div>
+
+<div id="success-screen">
+  <div class="success-emoji">📸</div>
+  <div class="success-title">Done!</div>
+  <p class="success-msg">Οι φωτογραφίες σου αποθηκεύτηκαν στα Mythos Nights memories. Enjoy the night! 🥂</p>
+  <div class="success-actions">
+    <a href="https://drive.google.com/drive/mobile/folders/1La6hzl7xcIKQvoIb5sJwLW9Y0PdgMjoV" target="_blank" class="btn-drive">
+      🗂 Δες τις φωτογραφίες
+    </a>
+    <button class="btn-again" onclick="resetForm()">Ανέβασε κι άλλες</button>
+  </div>
+</div>
+
+<header>
+  <div class="brand">Mythos Nights</div>
+  <div class="subtitle">Photo Booth &nbsp;·&nbsp; SHAKA</div>
+  <div class="divider"></div>
+</header>
+
+<div class="card">
+  <div class="card-inner">
+
+```
+<div class="camera-btn">
+  <input type="file" id="file-input" accept="image/*" multiple />
+  <span class="camera-icon">📷</span>
+  <div class="camera-label">Τράβηξε ή επίλεξε φωτογραφία</div>
+  <div class="camera-hint">Κάμερα &nbsp;·&nbsp; Photo Library &nbsp;·&nbsp; Files</div>
+</div>
+
+<div id="photo-grid"></div>
+<div id="photo-count"></div>
+
+<div id="btn-add-more">
+  <input type="file" id="file-input-more" accept="image/*" multiple />
+  + Πρόσθεσε κι άλλες φωτογραφίες
+</div>
+
+<div class="field">
+  <label>Όνομα (προαιρετικό)</label>
+  <input type="text" id="name-input" placeholder="π.χ. Κώστας & παρέα" maxlength="60" />
+</div>
+
+<div class="field">
+  <label>Τραπέζι # (προαιρετικό)</label>
+  <input type="text" id="table-input" placeholder="π.χ. 5" maxlength="10" />
+</div>
+
+<button class="btn-submit" id="submit-btn" onclick="uploadPhotos()" disabled>
+  Αποθήκευση στο Drive
+</button>
+
+<div id="progress-wrap">
+  <div class="progress-label" id="progress-label">Uploading…</div>
+  <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-fill"></div></div>
+</div>
+
+<div id="status"></div>
+```
+
+  </div>
+</div>
+
+<footer>Mythos Nights &copy; 2026 &nbsp;·&nbsp; DJ Dinglis</footer>
+
+<script>
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbysvO9gZSIQyd45ZwrevEDfK3WD3kVwGfcAZ4lw65CrXGno1PPy83uur-wkpi1XaFzj/exec";
+
+  let photos = [];
+
+  // Particles
+  const pc = document.getElementById('particles');
+  for (let i = 0; i < 22; i++) {
+    const p = document.createElement('div');
+    p.className = 'p';
+    const s = Math.random() * 3 + 1;
+    p.style.cssText = `width:${s}px;height:${s}px;left:${Math.random()*100}%;animation-duration:${8+Math.random()*12}s;animation-delay:${Math.random()*15}s;`;
+    pc.appendChild(p);
+  }
+
+  document.getElementById('file-input').addEventListener('change', e => addPhotos(e.target.files));
+  document.getElementById('file-input-more').addEventListener('change', e => addPhotos(e.target.files));
+
+  function addPhotos(files) {
+    const imgs = Array.from(files).filter(f => f.type.startsWith('image/'));
+    if (!imgs.length) return;
+
+    let loaded = 0;
+    imgs.forEach(file => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const dataUrl = e.target.result;
+        photos.push({ file, dataUrl, base64: dataUrl.split(',')[1], mimeType: file.type });
+        loaded++;
+        if (loaded === imgs.length) renderGrid();
+      };
+      reader.readAsDataURL(file);
+    });
+
+    document.getElementById('submit-btn').disabled = false;
+    document.getElementById('btn-add-more').classList.add('show');
+  }
+
+  function deletePhoto(index) {
+    photos.splice(index, 1);
+    renderGrid();
+    if (!photos.length) {
+      document.getElementById('submit-btn').disabled = true;
+      document.getElementById('btn-add-more').classList.remove('show');
+    }
+  }
+
+  function renderGrid() {
+    const grid = document.getElementById('photo-grid');
+    grid.innerHTML = '';
+
+    if (!photos.length) {
+      grid.classList.remove('show');
+      document.getElementById('photo-count').classList.remove('show');
+      return;
+    }
+
+    grid.classList.add('show');
+
+    for (let i = 0; i < photos.length; i += 2) {
+      const isLast = (i === photos.length - 1);
+      const row = document.createElement('div');
+      row.className = 'photo-row ' + (isLast ? 'single' : 'pair');
+
+      const indices = isLast ? [i] : [i, i + 1];
+      indices.forEach(idx => {
+        const wrap = document.createElement('div');
+        wrap.className = 'thumb-wrap';
+
+        const img = document.createElement('img');
+        img.src = photos[idx].dataUrl;
+        img.alt = '';
+
+        const del = document.createElement('div');
+        del.className = 'thumb-delete';
+        del.innerHTML = '✕';
+        del.title = 'Διαγραφή';
+        (function(capturedIdx) {
+          del.onclick = () => deletePhoto(capturedIdx);
+        })(idx);
+
+        wrap.appendChild(img);
+        wrap.appendChild(del);
+        row.appendChild(wrap);
+      });
+
+      grid.appendChild(row);
+    }
+
+    const n = photos.length;
+    const count = document.getElementById('photo-count');
+    count.textContent = `${n} φωτογραφί${n === 1 ? 'α' : 'ες'} επιλεγμένες`;
+    count.classList.add('show');
+  }
+
+  async function uploadPhotos() {
+    if (!photos.length) return;
+
+    const btn       = document.getElementById('submit-btn');
+    const status    = document.getElementById('status');
+    const progWrap  = document.getElementById('progress-wrap');
+    const progFill  = document.getElementById('progress-fill');
+    const progLabel = document.getElementById('progress-label');
+    const name  = document.getElementById('name-input').value.trim() || 'Anonymous';
+    const table = document.getElementById('table-input').value.trim() || '-';
+
+    btn.disabled = true;
+    status.textContent = '';
+    status.className = '';
+    progWrap.classList.add('show');
+
+    for (let i = 0; i < photos.length; i++) {
+      progLabel.textContent = `Uploading ${i + 1} / ${photos.length}…`;
+      progFill.style.width = `${(i / photos.length) * 100}%`;
+      try {
+        await fetch(APPS_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          body: JSON.stringify({
+            fileName: `${Date.now()}_${photos[i].file.name}`,
+            mimeType: photos[i].mimeType,
+            data: photos[i].base64,
+            name, table,
+            timestamp: new Date().toLocaleString('el-GR')
+          })
+        });
+        // no-cors = δεν μπορούμε να διαβάσουμε απάντηση, αλλά το request φτάνει κανονικά
+      } catch (err) {
+        status.textContent = `❌ Σφάλμα: ${err.message}`;
+        status.className = 'error';
+        btn.disabled = false;
+        progWrap.classList.remove('show');
+        return;
+      }
+    }
+
+    progFill.style.width = '100%';
+    setTimeout(() => document.getElementById('success-screen').classList.add('show'), 400);
+  }
+
+  function resetForm() {
+    photos = [];
+    const grid = document.getElementById('photo-grid');
+    grid.innerHTML = '';
+    grid.classList.remove('show');
+    document.getElementById('photo-count').classList.remove('show');
+    document.getElementById('btn-add-more').classList.remove('show');
+    document.getElementById('file-input').value = '';
+    document.getElementById('file-input-more').value = '';
+    document.getElementById('name-input').value = '';
+    document.getElementById('table-input').value = '';
+    document.getElementById('submit-btn').disabled = true;
+    document.getElementById('status').textContent = '';
+    document.getElementById('progress-wrap').classList.remove('show');
+    document.getElementById('progress-fill').style.width = '0%';
+    document.getElementById('success-screen').classList.remove('show');
+  }
+</script>
+
+</body>
+</html>
