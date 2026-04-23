@@ -499,7 +499,7 @@ footer {
   const CLOUD_NAME    = "dbm8vfbmt";
   const UPLOAD_PRESET = "ml_default";
   const UPLOAD_URL    = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
-  const GALLERY_URL   = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/resources/image?type=upload&prefix=mythos-nights/&max_results=80`;
+const GALLERY_URL = `https://res.cloudinary.com/${CLOUD_NAME}/image/list/mythos-nights.json`;
 
   let photos = [];
   let galleryLoaded = false;
@@ -591,7 +591,8 @@ footer {
         const fd = new FormData();
         fd.append('file', photos[i].file);
         fd.append('upload_preset', UPLOAD_PRESET);
-        fd.append('folder', 'mythos-nights');
+fd.append('folder', 'mythos-nights');
+fd.append('tags', 'mythos-nights'); // 🔥 ΑΥΤΟ ΕΙΝΑΙ ΤΟ KEY
         const res = await fetch(UPLOAD_URL, { method: 'POST', body: fd });
         const json = await res.json();
         if (json.error) throw new Error(json.error.message);
@@ -637,58 +638,79 @@ footer {
     document.body.style.overflow = '';
   }
 
-  async function loadGallery() {
-    const grid    = document.getElementById('gallery-grid');
-    const loading = document.getElementById('gallery-loading');
-    const empty   = document.getElementById('gallery-empty');
-    const count   = document.getElementById('gallery-count');
-    const btn     = document.getElementById('btn-refresh');
+ async function loadGallery() {
+  const grid    = document.getElementById('gallery-grid');
+  const loading = document.getElementById('gallery-loading');
+  const empty   = document.getElementById('gallery-empty');
+  const count   = document.getElementById('gallery-count');
+  const btn     = document.getElementById('btn-refresh');
 
-    grid.innerHTML = '';
-    loading.classList.add('show');
-    empty.classList.remove('show');
-    count.textContent = '';
-    btn.classList.add('spinning');
+  grid.innerHTML = '';
+  loading.classList.add('show');
+  empty.classList.remove('show');
+  count.textContent = '';
+  btn.classList.add('spinning');
 
-    try {
-      const res  = await fetch(GALLERY_URL);
-      const json = await res.json();
-      loading.classList.remove('show');
-      btn.classList.remove('spinning');
+  try {
+    const res  = await fetch(GALLERY_URL);
+    const json = await res.json();
 
-      const resources = json.resources || [];
+    loading.classList.remove('show');
+    btn.classList.remove('spinning');
 
-      if (!resources.length) { empty.classList.add('show'); return; }
+    const resources = json.resources || [];
 
-      resources.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-      count.textContent = `${resources.length} φωτογραφί${resources.length === 1 ? 'α' : 'ες'}`;
-
-      resources.forEach(r => {
-        const thumbUrl = r.secure_url.replace('/upload/', '/upload/w_400,c_fill,q_auto,f_auto/');
-        const fullUrl  = r.secure_url;
-
-        const item = document.createElement('div'); item.className = 'gallery-item';
-        const img  = document.createElement('img'); img.src = thumbUrl; img.alt = ''; img.loading = 'lazy';
-        const overlay = document.createElement('div'); overlay.className = 'gallery-item-overlay';
-        const dlBtn = document.createElement('button'); dlBtn.className = 'btn-dl'; dlBtn.textContent = '⬇ Save';
-        dlBtn.onclick = (e) => { e.stopPropagation(); downloadImage(fullUrl); };
-
-        overlay.appendChild(dlBtn);
-        item.appendChild(img);
-        item.appendChild(overlay);
-        item.onclick = () => openLightbox(fullUrl);
-        grid.appendChild(item);
-      });
-
-      galleryLoaded = true;
-
-    } catch (err) {
-      loading.classList.remove('show');
-      btn.classList.remove('spinning');
-      count.textContent = '⚠ Σφάλμα φόρτωσης. Δοκίμασε ξανά.';
-      count.style.color = '#e07070';
+    if (!resources.length) {
+      empty.classList.add('show');
+      return;
     }
+
+    // 🔥 Sort newest first
+    resources.sort((a, b) => b.public_id.localeCompare(a.public_id));
+
+    count.textContent = `${resources.length} φωτογραφί${resources.length === 1 ? 'α' : 'ες'}`;
+
+    resources.forEach(r => {
+      const fullUrl  = `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${r.public_id}.jpg`;
+      const thumbUrl = `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/w_400,c_fill,q_auto,f_auto/${r.public_id}.jpg`;
+
+      const item = document.createElement('div');
+      item.className = 'gallery-item';
+
+      const img = document.createElement('img');
+      img.src = thumbUrl;
+      img.loading = 'lazy';
+
+      const overlay = document.createElement('div');
+      overlay.className = 'gallery-item-overlay';
+
+      const dlBtn = document.createElement('button');
+      dlBtn.className = 'btn-dl';
+      dlBtn.textContent = '⬇ Save';
+
+      dlBtn.onclick = (e) => {
+        e.stopPropagation();
+        downloadImage(fullUrl);
+      };
+
+      overlay.appendChild(dlBtn);
+      item.appendChild(img);
+      item.appendChild(overlay);
+
+      item.onclick = () => openLightbox(fullUrl);
+
+      grid.appendChild(item);
+    });
+
+    galleryLoaded = true;
+
+  } catch (err) {
+    loading.classList.remove('show');
+    btn.classList.remove('spinning');
+    count.textContent = '⚠ Σφάλμα φόρτωσης. Δοκίμασε ξανά.';
+    count.style.color = '#e07070';
   }
+}
 
   /* Lightbox */
   function openLightbox(url) {
