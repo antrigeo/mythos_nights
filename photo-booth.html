@@ -328,6 +328,25 @@ header {
 
 .btn-dl:hover { background: var(--gold-light); }
 
+.lb-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 40px;
+  color: rgba(255,255,255,0.7);
+  cursor: pointer;
+  padding: 10px;
+  user-select: none;
+  transition: opacity 0.2s;
+}
+
+.lb-arrow:hover {
+  opacity: 0.6;
+}
+
+#lightbox-prev { left: 10px; }
+#lightbox-next { right: 10px; }
+
 #gallery-empty { text-align: center; padding: 60px 20px; color: var(--muted); font-size: 13px; line-height: 1.7; display: none; }
 #gallery-empty.show { display: block; }
 #gallery-loading { text-align: center; padding: 60px 20px; display: none; }
@@ -421,6 +440,8 @@ footer {
 
 <div id="lightbox">
   <div id="lightbox-close">✕</div>
+  <div id="lightbox-prev" class="lb-arrow">‹</div>
+<div id="lightbox-next" class="lb-arrow">›</div>
   <img id="lightbox-img" src="" alt="" />
   <button id="lightbox-dl">⬇ Αποθήκευση</button>
 </div>
@@ -490,6 +511,8 @@ footer {
 <footer>Mythos Nights &copy; 2026</footer>
 
 <script>
+let galleryImages = [];
+let currentIndex = 0;
   const CLOUD_NAME    = "dbm8vfbmt";
   const UPLOAD_PRESET = "ml_default";
   const UPLOAD_URL    = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
@@ -512,6 +535,18 @@ const GALLERY_URL = `https://res.cloudinary.com/${CLOUD_NAME}/image/list/mythos-
   document.getElementById('btn-add-more').addEventListener('click', () => document.getElementById('file-input-more').click());
   document.getElementById('file-input').addEventListener('change', e => addPhotos(e.target.files));
   document.getElementById('file-input-more').addEventListener('change', e => addPhotos(e.target.files));
+
+  document.getElementById('lightbox-prev').onclick = (e) => {
+  e.stopPropagation();
+  currentIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
+  updateLightbox();
+};
+
+document.getElementById('lightbox-next').onclick = (e) => {
+  e.stopPropagation();
+  currentIndex = (currentIndex + 1) % galleryImages.length;
+  updateLightbox();
+};
 
   function addPhotos(files) {
     const imgs = Array.from(files).filter(f => f.type.startsWith('image/'));
@@ -664,7 +699,10 @@ fd.append('tags', 'mythos-nights'); // 🔥 ΑΥΤΟ ΕΙΝΑΙ ΤΟ KEY
 
     count.textContent = `${resources.length} φωτογραφί${resources.length === 1 ? 'α' : 'ες'}`;
 
-    resources.forEach(r => {
+    galleryImages = resources.map(r =>
+  `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${r.public_id}.jpg`
+);
+    resources.forEach((r,i) => {
       const fullUrl  = `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${r.public_id}.jpg`;
       const thumbUrl = `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/w_400,c_fill,q_auto,f_auto/${r.public_id}.jpg`;
 
@@ -677,8 +715,8 @@ fd.append('tags', 'mythos-nights'); // 🔥 ΑΥΤΟ ΕΙΝΑΙ ΤΟ KEY
 
      item.appendChild(img);
 
-     item.onclick = () => downloadImage(fullUrl);
-
+  
+item.onclick = () => openLightboxByIndex(i);
       grid.appendChild(item);
     });
 
@@ -692,17 +730,23 @@ fd.append('tags', 'mythos-nights'); // 🔥 ΑΥΤΟ ΕΙΝΑΙ ΤΟ KEY
   }
 }
 
-  /* Lightbox */
-  function openLightbox(url) {
-    document.getElementById('lightbox-img').src = url;
-    document.getElementById('lightbox-dl').onclick = () => downloadImage(url);
-    document.getElementById('lightbox').classList.add('show');
-  }
+
   document.getElementById('lightbox-close').onclick = () => document.getElementById('lightbox').classList.remove('show');
   document.getElementById('lightbox').addEventListener('click', function(e) {
     if (e.target === this) this.classList.remove('show');
   });
+  
+function openLightboxByIndex(index) {
+  currentIndex = index;
+  updateLightbox();
+  document.getElementById('lightbox').classList.add('show');
+}
 
+function updateLightbox() {
+  const url = galleryImages[currentIndex];
+  document.getElementById('lightbox-img').src = url;
+  document.getElementById('lightbox-dl').onclick = () => downloadImage(url);
+}
   /* Download */
   async function downloadImage(url) {
     try {
@@ -717,7 +761,9 @@ fd.append('tags', 'mythos-nights'); // 🔥 ΑΥΤΟ ΕΙΝΑΙ ΤΟ KEY
       window.open(url, '_blank');
     }
   }
+  
 </script>
+  
 
 </body>
 </html>
