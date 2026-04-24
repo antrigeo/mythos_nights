@@ -391,7 +391,6 @@ header {
   transition: opacity .2s, transform .15s;
   display: inline-flex; align-items: center; gap: 8px;
 }
-#lightbox-dl:hover { opacity: .9; transform: translateY(-1px); }
 
 footer {
   position: relative; z-index: 1; text-align: center; padding-bottom: 32px;
@@ -443,7 +442,7 @@ footer {
   <div id="lightbox-prev" class="lb-arrow">‹</div>
 <div id="lightbox-next" class="lb-arrow">›</div>
   <img id="lightbox-img" src="" alt="" />
-  <button id="lightbox-dl">⬇ Αποθήκευση</button>
+
 </div>
 
 <!-- Success screen -->
@@ -742,10 +741,15 @@ function openLightboxByIndex(index) {
   document.getElementById('lightbox').classList.add('show');
 }
 
+
 function updateLightbox() {
   const url = galleryImages[currentIndex];
-  document.getElementById('lightbox-img').src = url;
-  document.getElementById('lightbox-dl').onclick = () => downloadImage(url);
+  const img = document.getElementById('lightbox-img');
+
+  img.src = url;
+
+  // tap για download
+  img.onclick = () => downloadImage(url);
 }
   /* Download */
   async function downloadImage(url) {
