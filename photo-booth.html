@@ -18,7 +18,7 @@
       --muted: rgba(240,234,216,0.45);
     }
 
-```
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
@@ -325,12 +325,7 @@ header {
 }
 .gallery-item:hover .gallery-item-overlay,
 .gallery-item:active .gallery-item-overlay { opacity: 1; }
-.btn-dl {
-  background: rgba(201,168,76,0.85); border: none; border-radius: 8px;
-  padding: 6px 14px; color: #05040A;
-  font-family: 'Bebas Neue', sans-serif; font-size: 13px; letter-spacing: 2px;
-  cursor: pointer; transition: background .2s;
-}
+
 .btn-dl:hover { background: var(--gold-light); }
 
 #gallery-empty { text-align: center; padding: 60px 20px; color: var(--muted); font-size: 13px; line-height: 1.7; display: none; }
@@ -383,7 +378,7 @@ footer {
   position: relative; z-index: 1; text-align: center; padding-bottom: 32px;
   font-size: 10px; letter-spacing: 3px; color: rgba(201,168,76,0.18); text-transform: uppercase;
 }
-```
+
 
   </style>
 </head>
@@ -457,7 +452,6 @@ footer {
 <div class="card">
   <div class="card-inner">
 
-```
 <div class="slogan">
   <div class="slogan-main">Freeze the Night</div>
   <div class="slogan-sub">one shot, one memory</div>
@@ -681,23 +675,9 @@ fd.append('tags', 'mythos-nights'); // 🔥 ΑΥΤΟ ΕΙΝΑΙ ΤΟ KEY
       img.src = thumbUrl;
       img.loading = 'lazy';
 
-      const overlay = document.createElement('div');
-      overlay.className = 'gallery-item-overlay';
+     item.appendChild(img);
 
-      const dlBtn = document.createElement('button');
-      dlBtn.className = 'btn-dl';
-      dlBtn.textContent = '⬇ Save';
-
-      dlBtn.onclick = (e) => {
-        e.stopPropagation();
-        downloadImage(fullUrl);
-      };
-
-      overlay.appendChild(dlBtn);
-      item.appendChild(img);
-      item.appendChild(overlay);
-
-      item.onclick = () => openLightbox(fullUrl);
+     item.onclick = () => downloadImage(fullUrl);
 
       grid.appendChild(item);
     });
