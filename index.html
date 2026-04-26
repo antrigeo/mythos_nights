@@ -35,6 +35,123 @@ body{
     overflow-x:hidden;
 }
 
+/* ════════════════════════════════════
+   MARQUEE BANNER — TOP OF PAGE
+════════════════════════════════════ */
+#marquee-banner {
+    position: relative;
+    width: 100%;
+    height: 52px;
+    background: #020304;
+    border-bottom: 1px solid rgba(201,150,58,0.18);
+    overflow: hidden;
+    z-index: 400;
+    flex-shrink: 0;
+    /* offset for sidebar */
+    margin-left: var(--sidebar-w);
+    /* glow line on top */
+}
+#marquee-banner::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(201,150,58,0.7) 20%,
+        #e4b96a 50%,
+        rgba(201,150,58,0.7) 80%,
+        transparent 100%
+    );
+    animation: glowSweep 4s ease-in-out infinite;
+}
+@keyframes glowSweep {
+    0%   { opacity: 0.4; }
+    50%  { opacity: 1; }
+    100% { opacity: 0.4; }
+}
+/* ambient glow behind the text */
+#marquee-banner::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 100% at 50% 50%, rgba(201,150,58,0.04) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.marquee-track {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: max-content;
+    animation: marqueeScroll 28s linear infinite;
+    will-change: transform;
+}
+.marquee-track:hover {
+    animation-play-state: paused;
+}
+
+@keyframes marqueeScroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+.marquee-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+    white-space: nowrap;
+    padding: 0 2px;
+}
+
+.marquee-text {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-shadow:
+        0 0 12px rgba(201,150,58,0.6),
+        0 0 30px rgba(201,150,58,0.25);
+    padding: 0 28px;
+    opacity: 0.9;
+    transition: opacity 0.3s;
+}
+.marquee-text:hover { opacity: 1; }
+
+/* diamond separator */
+.marquee-sep {
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    background: var(--gold);
+    transform: rotate(45deg);
+    opacity: 0.45;
+    margin: 0 4px;
+    flex-shrink: 0;
+    box-shadow: 0 0 8px rgba(201,150,58,0.5);
+}
+
+/* edge fade masks */
+.marquee-fade-left,
+.marquee-fade-right {
+    position: absolute;
+    top: 0;
+    width: 80px;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+.marquee-fade-left {
+    left: 0;
+    background: linear-gradient(to right, #020304 0%, transparent 100%);
+}
+.marquee-fade-right {
+    right: 0;
+    background: linear-gradient(to left, #020304 0%, transparent 100%);
+}
+
 /* ════ SIDEBAR ════ */
 #sidebar{
     position:fixed;top:0;left:0;
@@ -137,7 +254,7 @@ body{
 
 /* MOBILE */
 #menuToggle{
-    display:none;position:fixed;top:14px;left:14px;z-index:600;
+    display:none;position:fixed;top:68px;left:14px;z-index:600;
     background:rgba(5,6,8,0.95);border:1px solid rgba(201,150,58,0.25);
     border-radius:10px;padding:10px 12px;cursor:pointer;
     flex-direction:column;gap:5px;
@@ -646,6 +763,7 @@ footer{
 /* ════ MOBILE ════ */
 @media(max-width:900px){
     :root{--sidebar-w:0px;}
+    #marquee-banner{margin-left:0;padding-left:56px;} /* room for hamburger */
     #sidebar{transform:translateX(-200px);width:200px;}
     #sidebar.open{transform:translateX(0);}
     #menuToggle{display:flex;}
@@ -663,10 +781,33 @@ footer{
     input,select,button{font-size:16px !important;}
     .next-title{font-size:clamp(48px,18vw,100px);}
     .next-ghost{display:none;}
+    .marquee-text{font-size:10px;letter-spacing:0.3em;padding:0 18px;}
 }
 </style>
 </head>
 <body>
+
+<!-- ═══════════════════════════ MARQUEE BANNER ═══════════════════════════ -->
+<div id="marquee-banner">
+    <div class="marquee-fade-left"></div>
+    <div class="marquee-fade-right"></div>
+    <div class="marquee-track" id="marqueeTrack">
+        <!-- set 1 -->
+        <span class="marquee-item"><span class="marquee-text">MYTHOS NIGHTS</span><span class="marquee-sep"></span></span>
+        <span class="marquee-item"><span class="marquee-text">EXPERIENCE THE LEGEND</span><span class="marquee-sep"></span></span>
+        <span class="marquee-item"><span class="marquee-text">COMING SOON</span><span class="marquee-sep"></span></span>
+        <span class="marquee-item"><span class="marquee-text">ΚΡΑΤΗΣΕΙΣ ΑΝΟΙΧΤΕΣ</span><span class="marquee-sep"></span></span>
+        <span class="marquee-item"><span class="marquee-text">NEXT EVENT TBA</span><span class="marquee-sep"></span></span>
+        <span class="marquee-item"><span class="marquee-text">SUMO EVENT PRODUCTIONS</span><span class="marquee-sep"></span></span>
+        <!-- set 2 — exact duplicate for seamless loop -->
+        <span class="marquee-item"><span class="marquee-text">MYTHOS NIGHTS</span><span class="marquee-sep"></span></span>
+        <span class="marquee-item"><span class="marquee-text">EXPERIENCE THE LEGEND</span><span class="marquee-sep"></span></span>
+        <span class="marquee-item"><span class="marquee-text">COMING SOON</span><span class="marquee-sep"></span></span>
+        <span class="marquee-item"><span class="marquee-text">ΚΡΑΤΗΣΕΙΣ ΑΝΟΙΧΤΕΣ</span><span class="marquee-sep"></span></span>
+        <span class="marquee-item"><span class="marquee-text">NEXT EVENT TBA</span><span class="marquee-sep"></span></span>
+        <span class="marquee-item"><span class="marquee-text">SUMO EVENT PRODUCTIONS</span><span class="marquee-sep"></span></span>
+    </div>
+</div>
 
 <!-- GRAIN TEXTURE (handled by body::before) -->
 
