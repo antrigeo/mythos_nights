@@ -141,7 +141,7 @@ body{
     width:100%;height:2px;
     background:linear-gradient(90deg,transparent,var(--gold),transparent);
 }
-.sidebar-logo{ padding:0 22px 28px; border-bottom:1px solid rgba(201,150,58,0.08); margin-bottom:28px; position:relative; }
+.sidebar-logo{ padding:0 22px 28px; margin-bottom:28px; position:relative; }
 .sidebar-logo .mn{ font-family:'Bebas Neue',sans-serif; font-size:22px;letter-spacing:0.25em; color:var(--gold);line-height:1; }
 .sidebar-logo .sub{ font-family:'Cormorant Garamond',serif; font-size:10px;letter-spacing:0.3em; color:rgba(201,150,58,0.35); font-style:italic;margin-top:3px; display:block; }
 .sidebar-logo .venue{ font-size:9px;letter-spacing:0.2em; color:rgba(255,255,255,0.12); text-transform:uppercase; margin-top:8px;display:block; font-family:'Cinzel',serif; }
@@ -510,6 +510,38 @@ footer{
 .footer-brand{ font-family:'Bebas Neue',sans-serif;font-size:14px; letter-spacing:0.35em;color:rgba(201,150,58,0.3); }
 .footer-by{ font-family:'Cormorant Garamond',serif;font-size:11px; font-style:italic;color:rgba(255,255,255,0.12); letter-spacing:0.1em; }
 
+/* ════ VIDEO GALLERY ════ */
+.video-item { position: relative; }
+.play-icon {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px; color: rgba(255,255,255,0.85);
+    text-shadow: 0 0 20px rgba(0,0,0,0.8);
+    z-index: 2; pointer-events: none;
+    transition: transform 0.3s;
+}
+.video-item:hover .play-icon { transform: scale(1.15); }
+
+/* video lightbox */
+.video-lightbox {
+    display: none; position: fixed; inset: 0;
+    background: rgba(2,3,5,0.97); z-index: 9999;
+    align-items: center; justify-content: center;
+}
+.video-lightbox.visible { display: flex; }
+.video-lightbox video {
+    max-width: 90vw; max-height: 85vh;
+    border-radius: 2px; border: 1px solid rgba(201,150,58,0.1);
+    outline: none;
+}
+.vl-close {
+    position: absolute; top: 20px; right: 24px;
+    color: rgba(201,150,58,0.6); font-size: 28px;
+    cursor: pointer; transition: color 0.2s;
+    font-family: 'Cormorant Garamond', serif; line-height: 1;
+}
+.vl-close:hover { color: var(--gold); }
+
 /* ════ LIGHTBOX ════ */
 .lightbox{ display:none;position:fixed;inset:0; background:rgba(2,3,5,0.97);z-index:9999; align-items:center;justify-content:center; }
 .lightbox.visible{display:flex;}
@@ -622,8 +654,6 @@ footer{
 <nav id="sidebar">
     <div class="sidebar-logo">
         <span class="mn">MYTHOS</span>
-        <span class="sub">nights</span>
-        
     </div>
     <p class="nav-label">Navigation</p>
     <a class="nav-item active" href="#hero" onclick="navClick(this,event)">
@@ -703,6 +733,13 @@ footer{
             ΚΛΕΙΣΙΜΟ
         </button>
     </div>
+</div>
+
+<!-- VIDEO LIGHTBOX -->
+
+<div class="video-lightbox" id="videoLightbox" onclick="closeVideoLightboxBg(event)">
+    <span class="vl-close" onclick="closeVideoLightbox()">✕</span>
+    <video id="lightboxVideo" controls playsinline></video>
 </div>
 
 <!-- LIGHTBOX -->
@@ -793,9 +830,13 @@ footer{
     <div class="gallery-item" onclick="openLightbox(1)">
         <img src="AA4B024A-E6F9-4794-A7C0-D3C8B67CABD1.jpeg" alt="DJ Dinglis">
     </div>
-    <div class="gallery-empty" style="grid-column:span 2;padding:40px 20px;min-height:160px;">
-        <div class="gallery-empty-icon" style="font-size:24px;margin-bottom:10px;">📸</div>
-        <p class="gallery-empty-text" style="font-size:10px;">Φωτογραφίες σύντομα</p>
+    <div class="gallery-item video-item" onclick="openVideoLightbox('IMG_4370.mov')">
+        <video src="IMG_4370.mov" muted playsinline preload="metadata" style="width:100%;height:100%;object-fit:cover;"></video>
+        <div class="play-icon">▶</div>
+    </div>
+    <div class="gallery-item video-item" onclick="openVideoLightbox('IMG_4373.mov')">
+        <video src="IMG_4373.mov" muted playsinline preload="metadata" style="width:100%;height:100%;object-fit:cover;"></video>
+        <div class="play-icon">▶</div>
     </div>
 </div>
 ```
@@ -978,6 +1019,21 @@ window.addEventListener('scroll',()=>{
         item.classList.toggle('active',href===cur||((href==='gallery'||href==='event-info')&&cur==='event-info'));
     });
 });
+
+/* ── VIDEO LIGHTBOX ── */
+function openVideoLightbox(src){
+    const v = document.getElementById('lightboxVideo');
+    v.src = src; v.play();
+    document.getElementById('videoLightbox').classList.add('visible');
+    document.body.style.overflow = 'hidden';
+}
+function closeVideoLightbox(){
+    const v = document.getElementById('lightboxVideo');
+    v.pause(); v.src = '';
+    document.getElementById('videoLightbox').classList.remove('visible');
+    document.body.style.overflow = '';
+}
+function closeVideoLightboxBg(e){ if(e.target === document.getElementById('videoLightbox')) closeVideoLightbox(); }
 
 /* ── LIGHTBOX ── */
 let galleryImages=[],lbIdx=0;
