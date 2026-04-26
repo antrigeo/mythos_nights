@@ -6,274 +6,659 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
 <title>MYTHOS NIGHTS</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Inter:wght@300;400;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Bebas+Neue&family=Cinzel:wght@700;900&family=Inter:wght@300;400&display=swap" rel="stylesheet">
 
 <style>
 :root {
-    --gold: #d1a14b;
-    --gold-dim: rgba(209,161,75,0.15);
-    --bg: #020408;
-    --sidebar-w: 220px;
+    --gold: #c9963a;
+    --gold-light: #e4b96a;
+    --gold-dim: rgba(201,150,58,0.12);
+    --bg: #050608;
+    --bg2: #080a0e;
+    --sidebar-w: 200px;
+    --surface: rgba(255,255,255,0.025);
+    --border: rgba(201,150,58,0.15);
 }
-* { box-sizing: border-box; }
-body {
-    font-family: 'Inter', sans-serif;
-    background-color: var(--bg);
-    color: #e5e7eb;
-    margin: 0;
-    overflow-x: hidden;
+*{box-sizing:border-box;margin:0;padding:0;}
+
+/* ── GRAIN OVERLAY ── */
+body::before{
+    content:'';position:fixed;top:0;left:0;width:100%;height:100%;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+    opacity:0.028;pointer-events:none;z-index:9998;
 }
 
-/* ══ SIDEBAR ══ */
-#sidebar {
-    position: fixed;
-    top: 0; left: 0;
-    width: var(--sidebar-w);
-    height: 100vh;
-    background: rgba(2,4,8,0.97);
-    border-right: 1px solid rgba(209,161,75,0.12);
-    display: flex;
-    flex-direction: column;
-    z-index: 500;
-    padding: 40px 0 30px;
-    transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+body{
+    font-family:'Inter',sans-serif;
+    background:var(--bg);
+    color:#d4d4d4;
+    overflow-x:hidden;
 }
-.sidebar-logo {
-    padding: 0 24px 32px;
-    border-bottom: 1px solid rgba(209,161,75,0.1);
-    margin-bottom: 32px;
-}
-.sidebar-logo span {
-    font-family: 'Cinzel', serif;
-    font-size: 13px;
-    letter-spacing: 0.35em;
-    color: var(--gold);
-    display: block;
-    line-height: 1.4;
-}
-.sidebar-logo small {
-    font-size: 9px;
-    letter-spacing: 0.2em;
-    color: #444;
-    text-transform: uppercase;
-    display: block;
-    margin-top: 4px;
-}
-.nav-section-label {
-    font-size: 9px;
-    letter-spacing: 0.3em;
-    color: #333;
-    text-transform: uppercase;
-    padding: 0 24px;
-    margin-bottom: 8px;
-}
-.nav-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 11px 24px;
-    color: #555;
-    font-size: 12px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    text-decoration: none;
-    font-family: 'Cinzel', serif;
-    transition: all 0.2s;
-    border-left: 2px solid transparent;
-    cursor: pointer;
-}
-.nav-item:hover { color: #aaa; background: rgba(209,161,75,0.04); }
-.nav-item.active { color: var(--gold); border-left-color: var(--gold); background: rgba(209,161,75,0.06); }
-.nav-item .nav-icon { font-size: 14px; width: 18px; text-align: center; flex-shrink: 0; }
-.nav-divider { height: 1px; background: rgba(209,161,75,0.08); margin: 16px 24px; }
 
-/* Photo Booth nav item — special highlight */
-.nav-item-photobooth {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 11px 24px;
-    font-size: 12px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    text-decoration: none;
-    font-family: 'Cinzel', serif;
-    transition: all 0.2s;
-    border-left: 2px solid transparent;
-    cursor: pointer;
-    color: var(--gold);
-    opacity: 0.75;
+/* ════ SIDEBAR ════ */
+#sidebar{
+    position:fixed;top:0;left:0;
+    width:var(--sidebar-w);height:100vh;
+    background:rgba(5,6,8,0.98);
+    border-right:1px solid var(--border);
+    display:flex;flex-direction:column;
+    z-index:500;
+    padding:36px 0 28px;
+    transition:transform 0.4s cubic-bezier(0.4,0,0.2,1);
 }
-.nav-item-photobooth:hover {
-    opacity: 1;
-    background: rgba(209,161,75,0.06);
-    border-left-color: var(--gold);
+/* top gold accent line */
+#sidebar::before{
+    content:'';position:absolute;top:0;left:0;
+    width:100%;height:2px;
+    background:linear-gradient(90deg,transparent,var(--gold),transparent);
 }
-.nav-item-photobooth .nav-icon { font-size: 14px; width: 18px; text-align: center; flex-shrink: 0; }
-
-.sidebar-bottom {
-    margin-top: auto;
-    padding: 20px 24px 0;
-    border-top: 1px solid rgba(209,161,75,0.08);
+.sidebar-logo{
+    padding:0 22px 28px;
+    border-bottom:1px solid rgba(201,150,58,0.08);
+    margin-bottom:28px;
+    position:relative;
 }
-.sidebar-ig {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: #444;
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    text-decoration: none;
-    transition: color 0.2s;
-    font-family: 'Cinzel', serif;
+.sidebar-logo .mn{
+    font-family:'Bebas Neue',sans-serif;
+    font-size:22px;letter-spacing:0.25em;
+    color:var(--gold);line-height:1;
 }
-.sidebar-ig:hover { color: var(--gold); }
-.sidebar-ig-dot { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; opacity: 0.5; flex-shrink: 0; }
-
-/* MOBILE TOGGLE */
-#menuToggle {
-    display: none;
-    position: fixed;
-    top: 16px; left: 16px;
-    z-index: 600;
-    background: rgba(2,4,8,0.95);
-    border: 1px solid rgba(209,161,75,0.3);
-    border-radius: 10px;
-    padding: 10px 12px;
-    cursor: pointer;
-    flex-direction: column;
-    gap: 5px;
+.sidebar-logo .sub{
+    font-family:'Cormorant Garamond',serif;
+    font-size:10px;letter-spacing:0.3em;
+    color:rgba(201,150,58,0.35);
+    font-style:italic;margin-top:3px;
+    display:block;
 }
-#menuToggle span { display: block; width: 20px; height: 2px; background: var(--gold); border-radius: 2px; transition: all 0.3s; }
-#mobileOverlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.6); z-index: 490; }
-
-/* ══ MAIN ══ */
-#main { margin-left: var(--sidebar-w); min-height: 100vh; }
-
-/* ══ GENERAL ══ */
-.mythos-font { font-family: 'Cinzel', serif; }
-.shaka-font { font-family: 'Cinzel', serif; font-weight: 900; letter-spacing: 4px; text-transform: uppercase; text-shadow: 0 0 10px rgba(209,161,75,0.5); }
-.glass { background: rgba(255,255,255,0.02); backdrop-filter: blur(15px); border: 1px solid rgba(209,161,75,0.2); }
-
-.logo-container { position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-.logo-halo { position: absolute; width: 140%; height: 140%; background: radial-gradient(circle, rgba(209,161,75,0.15) 0%, rgba(2,4,8,0) 70%); z-index: -1; }
-
-@keyframes mythosGlow {
-    0%   { filter: drop-shadow(0 0 20px rgba(209,161,75,0.3)); }
-    50%  { filter: drop-shadow(0 0 60px rgba(209,161,75,0.8)); }
-    100% { filter: drop-shadow(0 0 20px rgba(209,161,75,0.3)); }
+.sidebar-logo .venue{
+    font-size:9px;letter-spacing:0.2em;
+    color:rgba(255,255,255,0.12);
+    text-transform:uppercase;
+    margin-top:8px;display:block;
+    font-family:'Cinzel',serif;
 }
-.logo-glow { animation: mythosGlow 4s infinite ease-in-out; }
-@keyframes floatingLights { 0%{transform:translateY(0)} 50%{transform:translateY(-40px)} 100%{transform:translateY(0)} }
-@keyframes goldPulse {
-    0%   { text-shadow: 0 0 5px rgba(209,161,75,0.4); transform: scale(1); }
-    50%  { text-shadow: 0 0 25px rgba(209,161,75,0.9), 0 0 40px rgba(209,161,75,0.4); transform: scale(1.02); }
-    100% { text-shadow: 0 0 5px rgba(209,161,75,0.4); transform: scale(1); }
+.nav-label{
+    font-size:8px;letter-spacing:0.45em;
+    color:rgba(255,255,255,0.15);
+    text-transform:uppercase;
+    padding:0 22px;margin-bottom:6px;
+    font-family:'Cinzel',serif;
 }
-.dj-title-glow { font-family: 'Cinzel', serif; color: var(--gold); animation: goldPulse 3s infinite ease-in-out; letter-spacing: 0.3em; }
-@keyframes fadeIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
-.animate-mythos { animation: fadeIn 1.2s ease-out forwards; }
+.nav-item{
+    display:flex;align-items:center;gap:10px;
+    padding:10px 22px;
+    color:rgba(255,255,255,0.3);
+    font-size:9px;letter-spacing:0.25em;
+    text-transform:uppercase;text-decoration:none;
+    font-family:'Cinzel',serif;
+    transition:all 0.25s;
+    border-left:1px solid transparent;
+    cursor:pointer;
+    position:relative;
+}
+.nav-item::after{
+    content:'';position:absolute;right:0;top:50%;transform:translateY(-50%);
+    width:0;height:1px;background:var(--gold);
+    transition:width 0.3s;
+}
+.nav-item:hover{color:rgba(255,255,255,0.7);background:rgba(201,150,58,0.03);}
+.nav-item:hover::after{width:12px;}
+.nav-item.active{color:var(--gold);border-left-color:var(--gold);background:rgba(201,150,58,0.05);}
+.nav-icon{font-size:11px;width:14px;text-align:center;flex-shrink:0;opacity:0.7;}
+.nav-divider{height:1px;background:rgba(201,150,58,0.07);margin:14px 22px;}
 
-.past-badge { display: inline-block; padding: 6px 20px; border: 1px solid rgba(209,161,75,0.4); border-radius: 30px; font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 0.4em; color: var(--gold); opacity: 0.8; background: rgba(209,161,75,0.06); }
+.nav-photobooth{
+    display:flex;align-items:center;gap:10px;
+    padding:10px 22px;
+    font-size:9px;letter-spacing:0.25em;
+    text-transform:uppercase;text-decoration:none;
+    font-family:'Cinzel',serif;
+    transition:all 0.25s;
+    border-left:1px solid transparent;
+    cursor:pointer;
+    color:var(--gold);opacity:0.6;
+}
+.nav-photobooth:hover{opacity:1;border-left-color:var(--gold);background:rgba(201,150,58,0.04);}
+.nav-photobooth .nav-icon{font-size:11px;width:14px;text-align:center;}
 
-.section-label { font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: 0.5em; color: var(--gold); opacity: 0.5; text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; gap: 12px; }
-.section-label::after { content: ''; flex: 1; height: 1px; background: rgba(209,161,75,0.15); }
+.sidebar-bottom{
+    margin-top:auto;padding:18px 22px 0;
+    border-top:1px solid rgba(201,150,58,0.07);
+}
+.sidebar-ig{
+    display:flex;align-items:center;gap:8px;
+    color:rgba(255,255,255,0.2);font-size:9px;
+    letter-spacing:0.12em;text-decoration:none;
+    transition:color 0.2s;font-family:'Cormorant Garamond',serif;
+    font-style:italic;
+}
+.sidebar-ig:hover{color:var(--gold);}
+.ig-dot{width:4px;height:4px;background:var(--gold);border-radius:50%;opacity:0.4;flex-shrink:0;}
+
+/* MOBILE */
+#menuToggle{
+    display:none;position:fixed;top:14px;left:14px;z-index:600;
+    background:rgba(5,6,8,0.95);border:1px solid rgba(201,150,58,0.25);
+    border-radius:10px;padding:10px 12px;cursor:pointer;
+    flex-direction:column;gap:5px;
+}
+#menuToggle span{display:block;width:18px;height:1.5px;background:var(--gold);border-radius:2px;transition:all 0.3s;}
+#mobileOverlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.65);z-index:490;}
+
+/* ════ MAIN ════ */
+#main{margin-left:var(--sidebar-w);min-height:100vh;}
+
+/* ════ HERO ════ */
+#hero{
+    position:relative;min-height:100vh;
+    display:flex;flex-direction:column;
+    align-items:center;justify-content:center;
+    overflow:hidden;
+}
+.hero-bg{
+    position:absolute;inset:0;z-index:0;
+    background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(201,150,58,0.07) 0%,transparent 60%),
+               radial-gradient(ellipse 40% 50% at 20% 80%,rgba(20,30,60,0.3) 0%,transparent 70%),
+               radial-gradient(ellipse 50% 40% at 80% 20%,rgba(10,15,30,0.2) 0%,transparent 70%);
+}
+/* animated ring */
+.hero-ring{
+    position:absolute;
+    border-radius:50%;
+    border:1px solid rgba(201,150,58,0.08);
+    animation:ringExpand 8s ease-in-out infinite;
+}
+@keyframes ringExpand{
+    0%,100%{transform:translate(-50%,-50%) scale(1);opacity:0.5;}
+    50%{transform:translate(-50%,-50%) scale(1.08);opacity:1;}
+}
+.hero-content{position:relative;z-index:10;text-align:center;padding:0 24px;}
+
+/* canvas particles */
+#particleCanvas{position:absolute;inset:0;z-index:1;pointer-events:none;}
+
+/* logo */
+.hero-logo{
+    width:min(280px,55vw);height:auto;
+    filter:drop-shadow(0 0 40px rgba(201,150,58,0.35));
+    animation:logoGlow 5s ease-in-out infinite, fadeSlideUp 1.2s ease forwards;
+    position:relative;z-index:2;
+}
+@keyframes logoGlow{
+    0%,100%{filter:drop-shadow(0 0 20px rgba(201,150,58,0.25));}
+    50%{filter:drop-shadow(0 0 60px rgba(201,150,58,0.65)) drop-shadow(0 0 100px rgba(201,150,58,0.2));}
+}
+.hero-tagline{
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(11px,1.2vw,13px);
+    letter-spacing:0.55em;color:rgba(201,150,58,0.4);
+    font-style:italic;
+    margin:20px 0 52px;
+    animation:fadeSlideUp 1.4s ease forwards;
+}
+
+/* hero CTA */
+.hero-ctas{
+    display:flex;flex-wrap:wrap;gap:12px;justify-content:center;
+    animation:fadeSlideUp 1.8s ease forwards;
+}
+
+@keyframes fadeSlideUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+
+/* BUTTONS */
+.btn-primary{
+    position:relative;overflow:hidden;
+    background:var(--gold);color:#040404;
+    padding:14px 32px;border-radius:2px;
+    font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.4em;
+    font-weight:700;text-decoration:none;
+    transition:all 0.3s;
+    box-shadow:0 0 30px rgba(201,150,58,0.3);
+    display:inline-block;
+}
+.btn-primary::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.35),transparent);transition:left 0.5s;}
+.btn-primary:hover{background:#e4b96a;box-shadow:0 0 50px rgba(201,150,58,0.5);color:#000;}
+.btn-primary:hover::after{left:100%;}
+
+.btn-outline{
+    position:relative;overflow:hidden;
+    border:1px solid rgba(201,150,58,0.35);color:rgba(201,150,58,0.7);
+    padding:14px 32px;border-radius:2px;
+    font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.4em;
+    text-decoration:none;transition:all 0.3s;
+    display:inline-block;background:transparent;
+}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold);background:rgba(201,150,58,0.04);}
+
+.btn-ghost{
+    border:1px solid rgba(201,150,58,0.18);color:rgba(201,150,58,0.4);
+    padding:14px 28px;border-radius:2px;
+    font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.35em;
+    text-decoration:none;transition:all 0.3s;
+    display:inline-block;
+}
+.btn-ghost:hover{border-color:rgba(201,150,58,0.4);color:rgba(201,150,58,0.7);}
+
+/* ════ SECTION COMMON ════ */
+.section-eyebrow{
+    font-family:'Cinzel',serif;font-size:8px;
+    letter-spacing:0.6em;color:rgba(201,150,58,0.4);
+    text-transform:uppercase;
+    display:flex;align-items:center;gap:16px;
+    margin-bottom:12px;
+}
+.section-eyebrow::before,.section-eyebrow::after{content:'';flex:1 1 0;height:1px;background:rgba(201,150,58,0.12);}
+.section-eyebrow::before{display:none;}
+.section-eyebrow-center{justify-content:center;}
+.section-eyebrow-center::before{display:block;}
+
+.section-title{
+    font-family:'Bebas Neue',sans-serif;
+    font-size:clamp(36px,7vw,80px);
+    letter-spacing:0.12em;
+    color:#fff;line-height:0.9;
+}
+.section-title .gold{color:var(--gold);}
+
+/* ════ EVENT INFO ════ */
+#event-info{max-width:1100px;margin:0 auto;padding:120px 40px;}
 
 /* CAROUSEL */
-.carousel-container { position: relative; width: 100%; max-width: 500px; margin: 0 auto; aspect-ratio: 4/5; overflow: hidden; border-radius: 20px; border: 1px solid rgba(209,161,75,0.2); }
-.carousel-slide { position: absolute; top:0; left:0; width:100%; height:100%; opacity:0; transition: opacity 1s ease-in-out; }
-.carousel-slide.active { opacity: 1; }
-.carousel-slide img { width:100%; height:100%; object-fit:cover; }
+.carousel-wrap{
+    position:relative;border-radius:4px;overflow:hidden;
+    border:1px solid rgba(201,150,58,0.12);
+    aspect-ratio:4/5;
+}
+.carousel-slide{position:absolute;inset:0;opacity:0;transition:opacity 1.2s ease;}
+.carousel-slide.active{opacity:1;}
+.carousel-slide img{width:100%;height:100%;object-fit:cover;}
+/* gradient overlay on image */
+.carousel-wrap::after{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(to top,rgba(5,6,8,0.6) 0%,transparent 50%);
+    pointer-events:none;
+}
+.carousel-dots{
+    position:absolute;bottom:16px;left:50%;transform:translateX(-50%);
+    display:flex;gap:6px;z-index:10;
+}
+.carousel-dot{width:20px;height:2px;background:rgba(255,255,255,0.2);border-radius:2px;transition:all 0.3s;cursor:pointer;}
+.carousel-dot.active{background:var(--gold);width:32px;}
 
-/* GALLERY */
-.gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
-.gallery-item { position: relative; aspect-ratio: 1/1; overflow: hidden; border-radius: 12px; border: 1px solid rgba(209,161,75,0.1); cursor: pointer; transition: transform 0.3s ease, border-color 0.3s ease; }
-.gallery-item:hover { transform: scale(1.02); border-color: rgba(209,161,75,0.4); }
-.gallery-item img { width:100%; height:100%; object-fit:cover; transition: transform 0.5s ease; }
-.gallery-item:hover img { transform: scale(1.08); }
-.gallery-empty { grid-column: 1 / -1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 80px 20px; border: 1px dashed rgba(209,161,75,0.2); border-radius: 20px; background: rgba(209,161,75,0.02); }
-.gallery-empty-icon { font-size: 48px; margin-bottom: 20px; opacity: 0.4; }
-.gallery-empty-text { font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: 0.3em; color: var(--gold); opacity: 0.4; text-transform: uppercase; }
-.gallery-empty-sub { font-size: 12px; color: #555; margin-top: 8px; }
+/* quote block */
+.quote-block{
+    border-left:2px solid var(--gold);
+    padding:16px 20px;
+    margin:28px 0;
+    background:rgba(201,150,58,0.03);
+}
+.quote-text{
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(20px,2.5vw,28px);
+    color:#fff;font-style:italic;
+    line-height:1.5;
+}
+.quote-text .hl{color:var(--gold);}
 
-/* LIGHTBOX */
-.lightbox { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.95); z-index: 9999; align-items: center; justify-content: center; }
-.lightbox.visible { display: flex; }
-.lightbox img { max-width: 90vw; max-height: 85vh; object-fit: contain; border-radius: 8px; border: 1px solid rgba(209,161,75,0.2); }
-.lightbox-close { position: absolute; top:20px; right:24px; color:var(--gold); font-size:32px; cursor:pointer; opacity:0.8; transition:opacity 0.2s; line-height:1; }
-.lightbox-close:hover { opacity:1; }
-.lightbox-nav { position:absolute; top:50%; transform:translateY(-50%); background:rgba(209,161,75,0.15); border:1px solid rgba(209,161,75,0.3); color:var(--gold); width:50px; height:50px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:22px; cursor:pointer; transition:background 0.2s; }
-.lightbox-nav:hover { background:rgba(209,161,75,0.3); }
-.lightbox-prev { left:20px; } .lightbox-next { right:20px; }
+.dj-pill{
+    display:inline-flex;align-items:center;gap:10px;
+    background:rgba(201,150,58,0.08);
+    border:1px solid rgba(201,150,58,0.2);
+    border-radius:2px;
+    padding:8px 16px;
+    font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.4em;
+    color:var(--gold);margin-bottom:16px;
+}
+.dj-name{
+    font-family:'Bebas Neue',sans-serif;
+    font-size:clamp(42px,6vw,68px);
+    letter-spacing:0.1em;color:#fff;
+    line-height:0.85;
+    text-shadow:0 0 40px rgba(201,150,58,0.2);
+}
+@keyframes djPulse{0%,100%{text-shadow:0 0 20px rgba(201,150,58,0.15);}50%{text-shadow:0 0 60px rgba(201,150,58,0.5),0 0 100px rgba(201,150,58,0.2);}}
+.dj-name{animation:djPulse 4s ease-in-out infinite;}
 
-/* BOOKING FORM INPUTS */
-input, select { background: rgba(255,255,255,0.05) !important; border: 1px solid rgba(209,161,75,0.3) !important; color: white !important; outline: none; }
-select option { background: #020408; color: #d1a14b; font-weight: bold; }
-input:focus, select:focus { border-color: #d1a14b !important; }
-.instagram-wrapper { position: relative; }
-.instagram-prefix { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--gold); font-weight: bold; font-size: 14px; pointer-events: none; user-select: none; }
-.instagram-input { padding-left: 28px !important; }
+.info-card{
+    background:rgba(255,255,255,0.02);
+    border:1px solid rgba(201,150,58,0.1);
+    border-radius:4px;padding:16px 20px;
+    display:flex;flex-direction:column;gap:4px;
+}
+.info-card-label{font-family:'Cinzel',serif;font-size:7px;letter-spacing:0.5em;color:rgba(201,150,58,0.4);text-transform:uppercase;}
+.info-card-val{font-family:'Cormorant Garamond',serif;font-size:15px;color:#e0e0e0;letter-spacing:0.05em;}
 
-/* SMS MODAL */
-.sms-modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.92); z-index: 3000; align-items: center; justify-content: center; }
-.sms-modal.visible { display: flex; }
-@keyframes modalPop { from{opacity:0;transform:scale(0.85) translateY(30px)} to{opacity:1;transform:scale(1) translateY(0)} }
-.sms-modal-box { background:#0a0c10; border:1px solid var(--gold); border-radius:24px; padding:36px 32px; max-width:420px; width:90%; text-align:center; animation:modalPop 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards; }
-.sms-icon { width:70px; height:70px; background:linear-gradient(135deg,#d1a14b22,#d1a14b44); border:2px solid var(--gold); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 20px; font-size:28px; }
-@keyframes pulse-gold { 0%,100%{box-shadow:0 0 0 0 rgba(209,161,75,0.4)} 50%{box-shadow:0 0 0 14px rgba(209,161,75,0)} }
-.sms-icon { animation: pulse-gold 2s infinite; }
-.close-window-btn { display:block; width:100%; background:transparent; color:#888; border:1px solid #333; font-family:'Cinzel',serif; font-size:13px; letter-spacing:0.08em; padding:13px; border-radius:12px; cursor:pointer; margin-top:10px; transition:all 0.25s; }
-.close-window-btn:hover { color:#e5e7eb; border-color:#555; background:rgba(255,255,255,0.04); }
+/* ════ GALLERY ════ */
+#gallery{padding:100px 40px;max-width:1100px;margin:0 auto;}
+.gallery-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+    gap:8px;margin-top:48px;
+}
+.gallery-item{
+    position:relative;aspect-ratio:1;overflow:hidden;
+    border-radius:3px;border:1px solid rgba(201,150,58,0.08);
+    cursor:pointer;transition:border-color 0.3s;
+}
+.gallery-item::after{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(to top,rgba(201,150,58,0.15),transparent);
+    opacity:0;transition:opacity 0.3s;
+}
+.gallery-item:hover::after{opacity:1;}
+.gallery-item:hover{border-color:rgba(201,150,58,0.3);}
+.gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s ease;}
+.gallery-item:hover img{transform:scale(1.06);}
+.gallery-empty{
+    grid-column:1/-1;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:100px 20px;
+    border:1px dashed rgba(201,150,58,0.1);border-radius:4px;
+    background:rgba(201,150,58,0.015);
+}
+.gallery-empty-icon{font-size:36px;margin-bottom:20px;opacity:0.3;}
+.gallery-empty-text{font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.4em;color:rgba(201,150,58,0.3);}
+.gallery-empty-sub{font-size:11px;color:rgba(255,255,255,0.15);margin-top:8px;font-family:'Cormorant Garamond',serif;font-style:italic;}
 
-/* COMING SOON */
-.coming-soon-title { font-family:'Cinzel',serif; font-size:clamp(36px,8vw,80px); font-weight:900; color:white; letter-spacing:0.15em; line-height:1; margin-bottom:16px; }
-.coming-soon-sub { font-family:'Cinzel',serif; font-size:13px; letter-spacing:0.5em; color:var(--gold); opacity:0.8; margin-bottom:50px; }
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
-.blink-dot { display:inline-block; width:6px; height:6px; background:var(--gold); border-radius:50%; margin:0 4px; animation:blink 1.5s infinite; }
-.blink-dot:nth-child(2){animation-delay:0.3s} .blink-dot:nth-child(3){animation-delay:0.6s}
+.photobooth-cta{
+    margin-top:40px;
+    border:1px solid rgba(201,150,58,0.12);
+    border-radius:4px;
+    padding:28px 32px;
+    background:rgba(201,150,58,0.025);
+    display:flex;align-items:center;justify-content:space-between;
+    gap:20px;flex-wrap:wrap;
+}
+.photobooth-cta-text p:first-child{
+    font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.5em;
+    color:rgba(201,150,58,0.5);margin-bottom:6px;
+}
+.photobooth-cta-text p:last-child{
+    font-family:'Cormorant Garamond',serif;font-size:14px;
+    color:rgba(255,255,255,0.4);font-style:italic;
+}
 
-.gold-btn { position:relative; overflow:hidden; }
-.gold-btn::after { content:""; position:absolute; top:0; left:-100%; width:100%; height:100%; background:linear-gradient(120deg,transparent,rgba(255,255,255,0.5),transparent); transition:all 0.7s; }
-.gold-btn:hover::after { left:100%; }
+/* ════ BOOKING ════ */
+#booking-form{
+    padding:100px 40px;
+    background:linear-gradient(180deg,transparent 0%,rgba(201,150,58,0.02) 50%,transparent 100%);
+    border-top:1px solid rgba(201,150,58,0.07);
+    border-bottom:1px solid rgba(201,150,58,0.07);
+}
+.booking-inner{max-width:560px;margin:0 auto;}
+.form-card{
+    background:rgba(255,255,255,0.018);
+    border:1px solid rgba(201,150,58,0.12);
+    border-radius:6px;padding:40px;
+    position:relative;overflow:hidden;
+    margin-top:48px;
+}
+/* corner accents */
+.form-card::before,.form-card::after{
+    content:'';position:absolute;
+    width:60px;height:60px;
+    border-color:var(--gold);border-style:solid;
+    opacity:0.3;
+}
+.form-card::before{top:-1px;left:-1px;border-width:1px 0 0 1px;}
+.form-card::after{bottom:-1px;right:-1px;border-width:0 1px 1px 0;}
 
-.reveal { opacity:0; transform:translateY(40px); transition:all 1s ease; }
-.reveal.active { opacity:1; transform:translateY(0); }
+.field-label{
+    display:block;font-family:'Cinzel',serif;font-size:7px;
+    letter-spacing:0.5em;color:rgba(201,150,58,0.5);
+    text-transform:uppercase;margin-bottom:8px;
+}
+input,select{
+    width:100%;padding:13px 16px;
+    background:rgba(255,255,255,0.03) !important;
+    border:1px solid rgba(201,150,58,0.18) !important;
+    border-radius:3px;color:#e0e0e0 !important;
+    font-family:'Cormorant Garamond',serif;
+    font-size:15px;outline:none;
+    transition:border-color 0.25s;
+}
+input:focus,select:focus{border-color:rgba(201,150,58,0.5) !important;background:rgba(201,150,58,0.02) !important;}
+input::placeholder{color:rgba(255,255,255,0.18);}
+select{color:var(--gold) !important;font-weight:600;cursor:pointer;}
+select option{background:#050608;color:#c9963a;font-family:sans-serif;}
 
-/* ADMIN */
-.admin-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:1500; }
-.admin-overlay.visible { display:block; }
-.admin-table { background:#0d0d0d; border:1px solid var(--gold); border-radius:16px; padding:24px; max-width:95vw; max-height:82vh; overflow:auto; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:2000; display:none; }
-.admin-table.visible { display:block; }
-.admin-table table { width:100%; border-collapse:collapse; min-width:800px; }
-.admin-table th { background:var(--gold); color:black; padding:10px 14px; font-size:12px; text-transform:uppercase; letter-spacing:0.05em; position:sticky; top:0; }
-.admin-table td { padding:9px 14px; border-bottom:1px solid #222; color:#e5e7eb; font-size:13px; }
-.admin-table tr:hover td { background:rgba(209,161,75,0.06); }
-.admin-btn { background:var(--gold); color:black; padding:8px 16px; border-radius:8px; font-weight:bold; cursor:pointer; border:none; font-size:12px; transition:background 0.2s; }
-.admin-btn:hover { background:white; }
-.badge { display:inline-block; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:bold; letter-spacing:0.05em; }
-.badge-pending  { background:rgba(234,179,8,0.15);  color:#eab308; border:1px solid #eab308; }
-.badge-confirmed{ background:rgba(34,197,94,0.15);  color:#22c55e; border:1px solid #22c55e; }
-.filter-tab { padding:6px 16px; border-radius:20px; font-size:12px; font-weight:bold; cursor:pointer; border:1px solid #333; color:#888; transition:all 0.2s; }
-.filter-tab.active { background:var(--gold); color:black; border-color:var(--gold); }
-.secret-area { position:fixed; top:10px; right:10px; width:50px; height:50px; cursor:pointer; z-index:1000; opacity:0; }
-#adminLogin { background:#0d0d0d; border:2px solid var(--gold); border-radius:20px; padding:32px; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:2000; width:320px; display:none; }
+.instagram-wrapper{position:relative;}
+.instagram-prefix{
+    position:absolute;left:14px;top:50%;transform:translateY(-50%);
+    color:var(--gold);font-size:14px;pointer-events:none;
+    font-family:'Cormorant Garamond',serif;
+}
+.instagram-input{padding-left:26px !important;}
 
+/* pricing cards inside form */
+.pricing-row{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:8px;
+    margin-bottom:4px;
+}
+.pricing-badge{
+    background:rgba(201,150,58,0.04);
+    border:1px solid rgba(201,150,58,0.1);
+    border-radius:3px;padding:12px 8px;text-align:center;
+}
+.pricing-badge .p-type{
+    font-family:'Cinzel',serif;font-size:7px;letter-spacing:0.35em;
+    color:rgba(201,150,58,0.4);display:block;margin-bottom:4px;
+}
+.pricing-badge .p-val{
+    font-family:'Bebas Neue',sans-serif;font-size:22px;
+    letter-spacing:0.05em;color:#fff;
+}
+.pricing-badge .p-note{
+    font-family:'Cormorant Garamond',serif;font-size:10px;
+    color:rgba(255,255,255,0.25);font-style:italic;display:block;margin-top:2px;
+}
+
+.how-it-works{
+    background:rgba(255,255,255,0.015);
+    border:1px solid rgba(255,255,255,0.05);
+    border-radius:3px;padding:18px 20px;
+}
+.hiw-title{
+    font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.4em;
+    color:rgba(255,255,255,0.3);margin-bottom:12px;text-transform:uppercase;
+}
+.hiw-step{
+    display:flex;align-items:baseline;gap:12px;
+    font-family:'Cormorant Garamond',serif;font-size:13px;
+    color:rgba(255,255,255,0.35);line-height:1.6;
+}
+.hiw-num{
+    font-family:'Bebas Neue',sans-serif;font-size:16px;
+    color:rgba(201,150,58,0.3);flex-shrink:0;min-width:16px;
+}
+
+/* submit btn */
+.submit-btn{
+    position:relative;overflow:hidden;
+    width:100%;background:var(--gold);color:#030303;
+    padding:16px;border-radius:3px;border:none;
+    font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.45em;
+    font-weight:700;cursor:pointer;
+    transition:all 0.3s;
+    box-shadow:0 4px 30px rgba(201,150,58,0.25);
+    margin-top:8px;
+}
+.submit-btn::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent);transition:left 0.5s;}
+.submit-btn:hover{background:#e4b96a;box-shadow:0 4px 50px rgba(201,150,58,0.45);}
+.submit-btn:hover::after{left:100%;}
+.submit-btn:disabled{opacity:0.5;cursor:not-allowed;}
+
+/* note line */
+.form-note{
+    font-family:'Cormorant Garamond',serif;font-size:12px;
+    font-style:italic;color:rgba(255,255,255,0.2);
+    text-align:center;letter-spacing:0.05em;
+}
+.form-note .gold{color:rgba(201,150,58,0.5);}
+
+/* ════ NEXT EVENT ════ */
+#next{
+    position:relative;overflow:hidden;
+    padding:130px 40px;text-align:center;
+    border-top:1px solid rgba(201,150,58,0.07);
+}
+.next-bg{
+    position:absolute;inset:0;
+    background:radial-gradient(ellipse 70% 60% at 50% 50%,rgba(201,150,58,0.04) 0%,transparent 70%);
+    pointer-events:none;
+}
+/* large decorative letters */
+.next-ghost{
+    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    font-family:'Bebas Neue',sans-serif;font-size:clamp(120px,25vw,260px);
+    letter-spacing:0.05em;color:rgba(201,150,58,0.025);
+    white-space:nowrap;pointer-events:none;user-select:none;
+    line-height:1;
+}
+.blink-row{display:flex;justify-content:center;gap:6px;margin-bottom:28px;}
+.blink-dot{width:5px;height:5px;background:var(--gold);border-radius:50%;animation:blink 1.8s ease-in-out infinite;opacity:0.5;}
+.blink-dot:nth-child(2){animation-delay:.35s}.blink-dot:nth-child(3){animation-delay:.7s}
+@keyframes blink{0%,100%{opacity:0.2}50%{opacity:0.8}}
+
+.next-eyebrow{
+    font-family:'Cormorant Garamond',serif;font-style:italic;
+    font-size:13px;letter-spacing:0.4em;
+    color:rgba(201,150,58,0.35);margin-bottom:12px;
+}
+.next-title{
+    font-family:'Bebas Neue',sans-serif;
+    font-size:clamp(56px,14vw,160px);
+    letter-spacing:0.08em;color:#fff;line-height:0.88;
+    text-shadow:0 0 60px rgba(201,150,58,0.1);
+}
+.next-sub{
+    font-family:'Cormorant Garamond',serif;
+    font-size:13px;letter-spacing:0.35em;
+    color:rgba(255,255,255,0.2);margin-top:24px;
+    font-style:italic;
+}
+
+/* ════ FOOTER ════ */
+footer{
+    padding:32px 40px;
+    display:flex;align-items:center;justify-content:space-between;
+    border-top:1px solid rgba(201,150,58,0.06);
+    flex-wrap:wrap;gap:12px;
+}
+.footer-brand{
+    font-family:'Bebas Neue',sans-serif;font-size:14px;
+    letter-spacing:0.35em;color:rgba(201,150,58,0.3);
+}
+.footer-by{
+    font-family:'Cormorant Garamond',serif;font-size:11px;
+    font-style:italic;color:rgba(255,255,255,0.12);
+    letter-spacing:0.1em;
+}
+
+/* ════ LIGHTBOX ════ */
+.lightbox{
+    display:none;position:fixed;inset:0;
+    background:rgba(2,3,5,0.97);z-index:9999;
+    align-items:center;justify-content:center;
+}
+.lightbox.visible{display:flex;}
+.lightbox img{max-width:90vw;max-height:85vh;object-fit:contain;border-radius:2px;border:1px solid rgba(201,150,58,0.1);}
+.lightbox-close{position:absolute;top:20px;right:24px;color:rgba(201,150,58,0.6);font-size:28px;cursor:pointer;transition:color 0.2s;line-height:1;font-family:'Cormorant Garamond',serif;}
+.lightbox-close:hover{color:var(--gold);}
+.lb-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(201,150,58,0.08);border:1px solid rgba(201,150,58,0.2);color:rgba(201,150,58,0.7);width:44px;height:44px;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;transition:all 0.2s;}
+.lb-nav:hover{background:rgba(201,150,58,0.18);color:var(--gold);}
+.lb-prev{left:16px}.lb-next{right:16px}
+
+/* ════ SMS MODAL ════ */
+.sms-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.94);z-index:3000;align-items:center;justify-content:center;}
+.sms-modal.visible{display:flex;}
+@keyframes modalPop{from{opacity:0;transform:scale(0.88) translateY(24px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.sms-box{
+    background:#07090d;
+    border:1px solid rgba(201,150,58,0.25);
+    border-radius:6px;padding:40px 36px;
+    max-width:400px;width:90%;text-align:center;
+    animation:modalPop 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards;
+    position:relative;
+}
+.sms-box::before,.sms-box::after{content:'';position:absolute;width:40px;height:40px;border-color:var(--gold);border-style:solid;opacity:0.2;}
+.sms-box::before{top:-1px;left:-1px;border-width:1px 0 0 1px;}
+.sms-box::after{bottom:-1px;right:-1px;border-width:0 1px 1px 0;}
+.sms-icon{
+    width:64px;height:64px;
+    background:linear-gradient(135deg,rgba(201,150,58,0.1),rgba(201,150,58,0.2));
+    border:1px solid rgba(201,150,58,0.3);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    margin:0 auto 20px;font-size:26px;
+    animation:pulseGold 2.5s ease-in-out infinite;
+}
+@keyframes pulseGold{0%,100%{box-shadow:0 0 0 0 rgba(201,150,58,0.3)}50%{box-shadow:0 0 0 12px rgba(201,150,58,0)}}
+.sms-close{
+    width:100%;background:transparent;color:rgba(255,255,255,0.3);
+    border:1px solid rgba(255,255,255,0.08);border-radius:3px;
+    font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.3em;
+    padding:12px;cursor:pointer;margin-top:8px;transition:all 0.2s;
+}
+.sms-close:hover{color:rgba(255,255,255,0.6);border-color:rgba(255,255,255,0.15);}
+
+/* ════ ADMIN ════ */
+.admin-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:1500;}
+.admin-overlay.visible{display:block;}
+#adminLogin{
+    background:#08090d;border:1px solid var(--gold);border-radius:8px;
+    padding:32px;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+    z-index:2000;width:300px;display:none;
+}
+.admin-table{
+    background:#08090d;border:1px solid var(--gold);border-radius:8px;
+    padding:24px;max-width:95vw;max-height:82vh;overflow:auto;
+    position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+    z-index:2000;display:none;
+}
+.admin-table.visible{display:block;}
+.admin-table table{width:100%;border-collapse:collapse;min-width:800px;}
+.admin-table th{background:var(--gold);color:black;padding:10px 14px;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;position:sticky;top:0;font-family:'Cinzel',serif;}
+.admin-table td{padding:9px 14px;border-bottom:1px solid #1a1a1a;color:#d4d4d4;font-size:12px;font-family:'Cormorant Garamond',serif;}
+.admin-table tr:hover td{background:rgba(201,150,58,0.04);}
+.admin-btn{background:var(--gold);color:black;padding:7px 14px;border-radius:3px;font-weight:bold;cursor:pointer;border:none;font-size:11px;font-family:'Cinzel',serif;transition:all 0.2s;}
+.admin-btn:hover{background:#e4b96a;}
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:bold;letter-spacing:0.05em;font-family:'Cinzel',serif;}
+.badge-pending{background:rgba(234,179,8,0.1);color:#eab308;border:1px solid #eab308;}
+.badge-confirmed{background:rgba(34,197,94,0.1);color:#22c55e;border:1px solid #22c55e;}
+.filter-tab{padding:6px 14px;border-radius:20px;font-size:10px;font-weight:bold;cursor:pointer;border:1px solid #222;color:#555;transition:all 0.2s;font-family:'Cinzel',serif;letter-spacing:0.05em;}
+.filter-tab.active{background:var(--gold);color:black;border-color:var(--gold);}
+.secret-area{position:fixed;top:10px;right:10px;width:50px;height:50px;cursor:pointer;z-index:1000;opacity:0;}
+
+/* ════ REVEAL ════ */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity 0.9s ease,transform 0.9s ease;}
+.reveal.active{opacity:1;transform:translateY(0);}
+
+/* ════ MOBILE ════ */
 @media(max-width:900px){
-    :root { --sidebar-w: 0px; }
-    #sidebar { transform:translateX(-220px); width:220px; }
-    #sidebar.open { transform:translateX(0); }
-    #menuToggle { display:flex; }
-    #mobileOverlay.visible { display:block; }
-    #main { margin-left:0; }
-    .gallery-grid { grid-template-columns:repeat(2,1fr); gap:8px; }
-    .lightbox-nav { display:none; }
-    .admin-table { width:95%; max-height:70vh; font-size:11px; }
-    .shaka-font { font-size:24px !important; letter-spacing:2px !important; }
-    input, select, button { font-size:16px !important; }
+    :root{--sidebar-w:0px;}
+    #sidebar{transform:translateX(-200px);width:200px;}
+    #sidebar.open{transform:translateX(0);}
+    #menuToggle{display:flex;}
+    #mobileOverlay.visible{display:block;}
+    #main{margin-left:0;}
+    #event-info,#gallery,#booking-form{padding-left:20px;padding-right:20px;}
+    .hero-info{gap:20px;}
+    .hero-sep{display:none;}
+    .gallery-grid{grid-template-columns:repeat(2,1fr);}
+    .lb-nav{display:none;}
+    .form-card{padding:24px 20px;}
+    .pricing-row{grid-template-columns:1fr;}
+    .photobooth-cta{flex-direction:column;text-align:center;}
+    footer{justify-content:center;text-align:center;}
+    input,select,button{font-size:16px !important;}
+    .next-title{font-size:clamp(48px,18vw,100px);}
+    .next-ghost{display:none;}
 }
 </style>
 </head>
-<body class="overflow-x-hidden">
+<body>
+
+<!-- GRAIN TEXTURE (handled by body::before) -->
 
 <!-- MOBILE TOGGLE -->
 <button id="menuToggle" onclick="toggleSidebar()">
@@ -281,15 +666,15 @@ input:focus, select:focus { border-color: #d1a14b !important; }
 </button>
 <div id="mobileOverlay" onclick="closeSidebar()"></div>
 
-<!-- ═══ SIDEBAR ═══ -->
+<!-- ═══════════════════════════ SIDEBAR ═══════════════════════════ -->
 <nav id="sidebar">
     <div class="sidebar-logo">
-        <span>MYTHOS</span>
-        <span style="color:#555;font-size:11px;letter-spacing:0.25em;">NIGHTS</span>
-        <small>© 2026 — SHAKA</small>
+        <span class="mn">MYTHOS</span>
+        <span class="sub">nights</span>
+        <span class="venue">at SHAKA · 2026</span>
     </div>
 
-    <p class="nav-section-label">Navigation</p>
+    <p class="nav-label">Navigation</p>
     <a class="nav-item active" href="#hero" onclick="navClick(this,event)">
         <span class="nav-icon">◈</span> Home
     </a>
@@ -307,67 +692,64 @@ input:focus, select:focus { border-color: #d1a14b !important; }
     </a>
 
     <div class="nav-divider"></div>
-    <p class="nav-section-label">Extras</p>
-
-    <!-- PHOTO BOOTH — ξεχωριστό link -->
-    <a class="nav-item-photobooth" href="https://mythosnights.pages.dev/photo-booth" target="_blank" onclick="closeSidebar()">
+    <p class="nav-label">Extras</p>
+    <a class="nav-photobooth" href="https://mythosnights.pages.dev/photo-booth" target="_blank" onclick="closeSidebar()">
         <span class="nav-icon">📸</span> Photo Booth
     </a>
-
     <div class="nav-divider"></div>
-    <p class="nav-section-label">Contact</p>
+    <p class="nav-label">Contact</p>
     <a class="nav-item" href="https://ig.me/m/mythos_nights" target="_blank">
         <span class="nav-icon">◉</span> Instagram
     </a>
 
     <div class="sidebar-bottom">
         <a href="https://www.instagram.com/sumoeventproductions" target="_blank" class="sidebar-ig">
-            <span class="sidebar-ig-dot"></span>
-            <span style="font-size:9px;letter-spacing:0.15em;">@sumoeventproductions</span>
+            <span class="ig-dot"></span>
+            <span>@sumoeventproductions</span>
         </a>
     </div>
 </nav>
 
-<!-- ═══ ADMIN ═══ -->
+<!-- ═══════════════════════════ ADMIN ═══════════════════════════ -->
 <div class="secret-area" id="secretArea" onclick="secretClick()"></div>
 <div class="admin-overlay" id="adminOverlay" onclick="hideAdmin()"></div>
 <div id="adminLogin">
-    <h3 class="text-2xl mythos-font text-[#d1a14b] mb-6 text-center">ADMIN ACCESS</h3>
+    <h3 style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--gold);letter-spacing:0.2em;margin-bottom:20px;text-align:center;">ADMIN ACCESS</h3>
     <input type="password" id="adminPass" placeholder="Κωδικός"
-           class="w-full p-3 rounded-xl mb-4 bg-gray-900 text-white border border-[#d1a14b]"
+           style="margin-bottom:12px;font-family:'Inter',sans-serif;font-size:14px;"
            onkeydown="if(event.key==='Enter') checkAdminPass()">
-    <button onclick="checkAdminPass()" class="w-full bg-[#d1a14b] text-black font-bold py-3 rounded-xl mb-2">ΕΙΣΟΔΟΣ</button>
-    <button onclick="hideAdmin()" class="w-full bg-gray-800 text-white py-2 rounded-xl">ΑΚΥΡΩΣΗ</button>
-    <p id="adminMessage" class="text-red-500 text-center mt-2 text-sm"></p>
+    <button onclick="checkAdminPass()" class="admin-btn" style="width:100%;margin-bottom:8px;padding:12px;">ΕΙΣΟΔΟΣ</button>
+    <button onclick="hideAdmin()" class="admin-btn" style="width:100%;background:#1a1a1a;color:#888;padding:10px;">ΑΚΥΡΩΣΗ</button>
+    <p id="adminMessage" style="color:#ef4444;text-align:center;margin-top:10px;font-size:12px;font-family:'Cormorant Garamond',serif;"></p>
 </div>
 <div id="adminTable" class="admin-table">
-    <div class="flex flex-wrap justify-between items-center mb-5 gap-3">
-        <h2 class="text-xl mythos-font text-[#d1a14b]">ΚΡΑΤΗΣΕΙΣ</h2>
-        <div class="flex gap-2">
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;margin-bottom:20px;gap:12px;">
+        <h2 style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--gold);letter-spacing:0.15em;">ΚΡΑΤΗΣΕΙΣ</h2>
+        <div style="display:flex;gap:8px;">
             <button class="filter-tab active" id="tab-all" onclick="setFilter('all')">ΟΛΑ</button>
             <button class="filter-tab" id="tab-pending" onclick="setFilter('pending')">PENDING</button>
             <button class="filter-tab" id="tab-confirmed" onclick="setFilter('confirmed')">CONFIRMED</button>
         </div>
-        <div class="flex gap-2">
-            <button onclick="loadReservations()" class="admin-btn" style="background:#333;color:#d1a14b;">↻ REFRESH</button>
+        <div style="display:flex;gap:8px;">
+            <button onclick="loadReservations()" class="admin-btn" style="background:#1a1a1a;color:var(--gold);">↻ REFRESH</button>
             <button onclick="downloadExcel()" class="admin-btn">EXCEL</button>
-            <button onclick="hideAdminTable()" class="admin-btn" style="background:#333;color:white;">✕</button>
+            <button onclick="hideAdminTable()" class="admin-btn" style="background:#1a1a1a;color:#fff;">✕</button>
         </div>
     </div>
     <div id="reservationsList"></div>
-    <p id="totalRes" class="text-right mt-4 text-gray-500 text-sm"></p>
+    <p id="totalRes" style="text-align:right;margin-top:16px;color:#555;font-size:11px;font-family:'Cormorant Garamond',serif;"></p>
 </div>
 
 <!-- SMS MODAL -->
 <div class="sms-modal" id="smsModal">
-    <div class="sms-modal-box">
+    <div class="sms-box">
         <div class="sms-icon">✅</div>
-        <h2 class="mythos-font text-[#d1a14b] text-xl mb-4">ΚΡΑΤΗΣΗ ΕΠΙΤΥΧΗΣ!</h2>
-        <p class="text-gray-300 text-sm leading-relaxed mb-6">
+        <h2 style="font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:0.2em;color:var(--gold);margin-bottom:12px;">ΚΡΑΤΗΣΗ ΕΠΙΤΥΧΗΣ</h2>
+        <p style="font-family:'Cormorant Garamond',serif;font-size:15px;color:rgba(255,255,255,0.5);line-height:1.6;margin-bottom:24px;">
             Σας ευχαριστούμε! Θα σας στείλουμε μήνυμα για τον τρόπο πληρωμής.
         </p>
-        <button class="close-window-btn" onclick="document.getElementById('smsModal').classList.remove('visible')">
-            ✕ &nbsp; Κλείσιμο
+        <button class="sms-close" onclick="document.getElementById('smsModal').classList.remove('visible')">
+            ΚΛΕΙΣΙΜΟ
         </button>
     </div>
 </div>
@@ -375,398 +757,427 @@ input:focus, select:focus { border-color: #d1a14b !important; }
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox" onclick="closeLightboxBg(event)">
     <span class="lightbox-close" onclick="closeLightbox()">✕</span>
-    <div class="lightbox-nav lightbox-prev" onclick="lightboxNav(-1)">‹</div>
+    <div class="lb-nav lb-prev" onclick="lightboxNav(-1)">‹</div>
     <img id="lightboxImg" src="" alt="">
-    <div class="lightbox-nav lightbox-next" onclick="lightboxNav(1)">›</div>
+    <div class="lb-nav lb-next" onclick="lightboxNav(1)">›</div>
 </div>
 
-<!-- ═══ MAIN ═══ -->
+<!-- ═══════════════════════════ MAIN ═══════════════════════════ -->
 <div id="main">
 
-<!-- HERO -->
-<section id="hero" class="relative min-h-[92vh] flex flex-col items-center justify-center px-6 pt-10">
-    <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-black/80 -z-10"></div>
-    <div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
-        <div class="absolute top-1/4 -left-20 w-[500px] h-[500px] bg-blue-900 rounded-full blur-[160px] opacity-20 animate-[floatingLights_12s_infinite]"></div>
-        <div class="absolute bottom-1/4 -right-20 w-[500px] h-[500px] bg-[#a37828] rounded-full blur-[160px] opacity-10 animate-[floatingLights_16s_infinite]"></div>
+<!-- ── HERO ── -->
+<section id="hero">
+    <canvas id="particleCanvas"></canvas>
+    <div class="hero-bg"></div>
+
+    <!-- decorative rings -->
+    <div class="hero-ring" style="width:500px;height:500px;top:50%;left:50%;margin-left:-250px;margin-top:-250px;animation-delay:0s;"></div>
+    <div class="hero-ring" style="width:700px;height:700px;top:50%;left:50%;margin-left:-350px;margin-top:-350px;animation-delay:2s;opacity:0.4;"></div>
+    <div class="hero-ring" style="width:900px;height:900px;top:50%;left:50%;margin-left:-450px;margin-top:-450px;animation-delay:4s;opacity:0.2;"></div>
+
+    <div class="hero-content">
+        <img src="image_95cceb.jpg" alt="Mythos Nights" class="hero-logo" style="margin:0 auto 0;display:block;">
+        <p class="hero-tagline">Experience the Legend</p>
+
+        <!-- subtle divider line -->
+        <div style="width:40px;height:1px;background:rgba(201,150,58,0.3);margin:0 auto 36px;animation:fadeSlideUp 1.6s ease forwards;"></div>
+
+        <div class="hero-ctas">
+            <a href="#gallery" class="btn-outline">ΦΩΤΟΓΡΑΦΙΕΣ</a>
+            <a href="#booking-form" class="btn-primary">ΚΡΑΤΗΣΗ</a>
+        </div>
     </div>
 
-    <div class="past-badge mb-8 animate-mythos">✦ &nbsp; PAST EVENT &nbsp; ✦</div>
-
-    <div class="mb-10 animate-mythos text-center logo-container">
-        <div class="logo-halo"></div>
-        <img src="image_95cceb.jpg" alt="Mythos Nights" class="w-[200px] md:w-[340px] h-auto logo-glow relative z-10"/>
-        <p class="uppercase tracking-[0.8em] text-[#d1a14b] mt-6 font-bold text-[10px] md:text-xs opacity-80">EXPERIENCE THE LEGEND</p>
-    </div>
-
-    <div class="text-center max-w-4xl animate-mythos mb-12">
-        <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16 mb-8">
-            <div class="flex flex-col text-center">
-                <span class="text-[10px] text-[#d1a14b] uppercase tracking-[0.4em] mb-2 font-bold">LOCATION</span>
-                <span class="shaka-font text-white text-3xl md:text-5xl">SHAKA</span>
-            </div>
-            <div class="hidden md:block w-px h-14 bg-[#d1a14b]/30"></div>
-            <div class="flex flex-col">
-                <span class="text-[10px] text-[#d1a14b] uppercase tracking-[0.4em] mb-2 font-bold">DATE</span>
-                <span class="mythos-font tracking-widest text-white text-xl md:text-3xl opacity-60">25 Απριλίου 2026</span>
-            </div>
-        </div>
-        <div class="flex flex-wrap justify-center gap-4">
-            <a href="#gallery" class="gold-btn inline-block border border-[#d1a14b] text-[#d1a14b] px-8 py-4 rounded-full font-bold uppercase tracking-widest transition-all hover:bg-[#d1a14b] hover:text-black">
-                ΦΩΤΟΓΡΑΦΙΕΣ
-            </a>
-            <a href="#booking-form" class="gold-btn inline-block bg-[#d1a14b] text-black px-8 py-4 rounded-full font-black uppercase tracking-widest transition-all shadow-[0_0_40px_rgba(209,161,75,0.4)] hover:bg-white">
-                ΚΡΑΤΗΣΗ
-            </a>
-            <a href="https://mythosnights.pages.dev/photo-booth" target="_blank"
-               class="gold-btn inline-block border border-[#d1a14b]/40 text-[#d1a14b]/70 px-8 py-4 rounded-full font-bold uppercase tracking-widest transition-all hover:border-[#d1a14b] hover:text-[#d1a14b]">
-                📸 Photo Booth
-            </a>
-        </div>
+    <!-- scroll indicator -->
+    <div style="position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;animation:fadeSlideUp 2.2s ease forwards;z-index:10;">
+        <span style="font-family:'Cinzel',serif;font-size:7px;letter-spacing:0.55em;color:rgba(201,150,58,0.3);">SCROLL</span>
+        <div style="width:1px;height:36px;background:linear-gradient(to bottom,rgba(201,150,58,0.4),transparent);animation:scrollLine 2s ease-in-out infinite;"></div>
     </div>
 </section>
 
-<!-- EVENT INFO -->
-<section id="event-info" class="max-w-6xl mx-auto my-20 px-6 reveal">
-    <p class="section-label mb-8">Event Info</p>
-    <div class="grid md:grid-cols-2 gap-12 items-center">
-        <div class="carousel-container shadow-2xl">
+<style>
+@keyframes scrollLine{0%,100%{opacity:0.3;transform:scaleY(0.6) translateY(-4px)}50%{opacity:1;transform:scaleY(1) translateY(0)}}
+</style>
+
+<!-- ── EVENT INFO ── -->
+<section id="event-info" class="reveal">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;" class="event-grid">
+
+        <!-- CAROUSEL -->
+        <div class="carousel-wrap">
             <div class="carousel-slide active">
                 <img src="poster.jpg" alt="Event Poster">
             </div>
             <div class="carousel-slide">
                 <img src="AA4B024A-E6F9-4794-A7C0-D3C8B67CABD1.jpeg" alt="DJ Dinglis">
             </div>
+            <div class="carousel-dots" id="carouselDots"></div>
         </div>
-        <div class="text-left">
-            <div class="past-badge mb-4">✦ &nbsp; 25 ΑΠΡΙΛΙΟΥ 2026 &nbsp; ✦</div>
-            <h3 class="text-3xl mythos-font text-[#d1a14b] mb-2 mt-4">MYTHOS_NIGHTS</h3>
-            <h4 class="text-xl dj-title-glow mb-6 font-bold uppercase tracking-widest">FEAT. DINGLIS</h4>
-            <p class="text-white text-2xl md:text-3xl mb-6 font-light italic tracking-wide">
-                "Ό,τι αγγίζουμε <span class="font-bold text-[#d1a14b]">γίνεται χρυσός</span>"
-            </p>
-            <div class="bg-[#d1a14b]/10 p-5 rounded-xl border border-[#d1a14b]/30 inline-block">
-                <p class="text-gray-300 text-sm leading-relaxed">
-                    Ευχαριστούμε όλους που ήταν εκεί και έκαναν τη νύχτα αξέχαστη.<br>
-                    Το επόμενο κεφάλαιο έρχεται...
+
+        <!-- TEXT -->
+        <div>
+            <div class="section-eyebrow" style="margin-bottom:24px;">Event Info</div>
+            <div class="dj-pill">✦ &nbsp; FEAT. DJ</div>
+            <div class="dj-name">DINGLIS</div>
+
+            <div class="quote-block" style="margin-top:28px;">
+                <p class="quote-text">
+                    "Ό,τι αγγίζουμε <span class="hl">γίνεται χρυσός</span>"
                 </p>
+            </div>
+
+            <p style="font-family:'Cormorant Garamond',serif;font-size:15px;color:rgba(255,255,255,0.35);font-style:italic;line-height:1.7;margin-bottom:28px;">
+                Ευχαριστούμε όλους που ήταν εκεί και έκαναν τη νύχτα αξέχαστη.<br>
+                Το επόμενο κεφάλαιο έρχεται...
+            </p>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                <div class="info-card">
+                    <span class="info-card-label">Venue</span>
+                    <span class="info-card-val" style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:0.15em;color:#fff;">SHAKA</span>
+                </div>
+                <div class="info-card">
+                    <span class="info-card-label">Artist</span>
+                    <span class="info-card-val" style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:0.12em;color:#fff;">DINGLIS</span>
+                </div>
+                <div class="info-card">
+                    <span class="info-card-label">Date</span>
+                    <span class="info-card-val">25 Απριλίου 2026</span>
+                </div>
+                <div class="info-card">
+                    <span class="info-card-label">Status</span>
+                    <span class="info-card-val" style="color:rgba(201,150,58,0.55);font-style:italic;font-size:13px;">Next chapter coming soon</span>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- GALLERY -->
-<section id="gallery" class="max-w-6xl mx-auto px-6 mb-24 reveal">
-    <p class="section-label mb-4">Gallery</p>
-    <div class="text-center mb-12">
-        <h2 class="text-3xl md:text-4xl font-bold uppercase tracking-[0.2em] text-[#d1a14b] mythos-font mb-3">THE NIGHT</h2>
-        <p class="text-gray-500 text-sm tracking-widest uppercase">Mythos Nights × Shaka — 25 Απριλίου 2026</p>
-        <div class="w-16 h-px bg-[#d1a14b]/40 mx-auto mt-6"></div>
-    </div>
+<!-- ── GALLERY ── -->
+<section id="gallery" class="reveal">
+    <div class="section-eyebrow section-eyebrow-center">Gallery</div>
+    <div class="section-title" style="text-align:center;">THE <span class="gold">NIGHT</span></div>
+    <p style="font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:0.25em;color:rgba(255,255,255,0.2);text-align:center;margin-top:8px;font-style:italic;">Mythos Nights × Shaka — 25 Απριλίου 2026</p>
+
     <div class="gallery-grid" id="galleryGrid">
-        <!-- Πρόσθεσε φωτογραφίες εδώ -->
         <div class="gallery-empty">
             <div class="gallery-empty-icon">📸</div>
             <p class="gallery-empty-text">Φωτογραφίες σύντομα</p>
-            <p class="gallery-empty-sub">Coming soon...</p>
+            <p class="gallery-empty-sub">The night lives on...</p>
         </div>
     </div>
 
-    <!-- Photo Booth CTA -->
-    <div class="mt-10 text-center">
-        <div class="inline-block glass rounded-2xl px-8 py-6">
-            <p class="text-[#d1a14b] mythos-font text-sm tracking-widest mb-2">NIGHT MEMORIES</p>
-            <p class="text-gray-400 text-xs mb-4">Δες τις φωτογραφίες από το Photo Booth του event</p>
-            <a href="https://mythosnights.pages.dev/photo-booth" target="_blank"
-               class="gold-btn inline-block bg-[#d1a14b] text-black px-8 py-3 rounded-full font-black uppercase tracking-widest text-sm transition-all hover:bg-white">
-                📸 Άνοιξε το Photo Booth
+    <div class="photobooth-cta">
+        <div class="photobooth-cta-text">
+            <p>NIGHT MEMORIES</p>
+            <p>Δες τις φωτογραφίες από το Photo Booth του event</p>
+        </div>
+        <a href="https://mythosnights.pages.dev/photo-booth" target="_blank" class="btn-primary">
+            📸 &nbsp; Άνοιξε το Photo Booth
+        </a>
+    </div>
+</section>
+
+<!-- ── BOOKING ── -->
+<section id="booking-form" class="reveal">
+    <div class="booking-inner">
+        <div class="section-eyebrow">Κρατήσεις</div>
+        <div class="section-title">RESERV<span class="gold">A</span>TIONS</div>
+        <p style="font-family:'Cormorant Garamond',serif;font-size:14px;font-style:italic;color:rgba(201,150,58,0.4);margin-top:8px;letter-spacing:0.1em;">
+            Επόμενο Event — TBA
+        </p>
+
+        <div class="form-card">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+                <div>
+                    <label class="field-label">Όνομα</label>
+                    <input type="text" id="name" required placeholder="First Name">
+                </div>
+                <div>
+                    <label class="field-label">Επίθετο</label>
+                    <input type="text" id="surname" required placeholder="Last Name">
+                </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+                <div>
+                    <label class="field-label">Άτομα</label>
+                    <input type="number" id="people" required value="2" min="1" max="20">
+                </div>
+                <div>
+                    <label class="field-label">Τύπος</label>
+                    <select id="type" required>
+                        <option value="Τραπέζι - MIN 1 ΜΠΟΥΚΑΛΙ">ΤΡΑΠΕΖΙ — MIN 1 ΜΠΟΥΚΑΛΙ</option>
+                        <option value="Καναπές - MIN 2 ΜΠΟΥΚΑΛΙΑ">ΚΑΝΑΠΕΣ — MIN 2 ΜΠΟΥΚΑΛΙΑ</option>
+                        <option value="Ticket">TICKET — ΕΙΣΟΔΟΣ</option>
+                    </select>
+                </div>
+            </div>
+            <div style="margin-bottom:12px;">
+                <label class="field-label">Τηλέφωνο</label>
+                <input type="tel" id="phone" required placeholder="99999999">
+            </div>
+            <div style="margin-bottom:20px;">
+                <label class="field-label">Instagram</label>
+                <div class="instagram-wrapper">
+                    <span class="instagram-prefix">@</span>
+                    <input type="text" id="instagram" required class="instagram-input" placeholder="username">
+                </div>
+            </div>
+
+            <!-- HOW IT WORKS -->
+            <div class="how-it-works" style="margin-bottom:20px;">
+                <p class="hiw-title">Πώς λειτουργεί</p>
+                <div style="display:flex;flex-direction:column;gap:6px;">
+                    <div class="hiw-step"><span class="hiw-num">01</span>Συμπλήρωσε τη φόρμα κράτησης</div>
+                    <div class="hiw-step"><span class="hiw-num">02</span>Θα επικοινωνήσουμε για πληρωμή</div>
+                    <div class="hiw-step"><span class="hiw-num">03</span>Παραλαβή στην είσοδο του SHAKA</div>
+                </div>
+            </div>
+
+            <p class="form-note" style="margin-bottom:16px;">
+                Για <span class="gold">τραπέζι & καναπέ</span> — επιλέγεις μπουκάλι στο venue
+            </p>
+
+            <button onclick="saveReservation()" id="submitBtn" class="submit-btn">
+                ΚΑΤΑΧΩΡΗΣΗ
+            </button>
+            <p id="message" class="hidden" style="text-align:center;margin-top:12px;font-family:'Cormorant Garamond',serif;font-size:14px;font-style:italic;"></p>
+        </div>
+    </div>
+</section>
+
+<!-- ── NEXT EVENT ── -->
+<section id="next" class="reveal">
+    <div class="next-bg"></div>
+    <div class="next-ghost">SOON</div>
+
+    <div style="position:relative;z-index:2;">
+        <div class="blink-row">
+            <span class="blink-dot"></span>
+            <span class="blink-dot"></span>
+            <span class="blink-dot"></span>
+        </div>
+        <p class="next-eyebrow">Next Chapter</p>
+        <div class="next-title">COMING<br>SOON</div>
+        <p class="next-sub">Stay tuned for the next event</p>
+        <div style="margin-top:48px;">
+            <a href="https://ig.me/m/mythos_nights" target="_blank" class="btn-primary">
+                FOLLOW @MYTHOS_NIGHTS
             </a>
         </div>
     </div>
 </section>
 
-<!-- BOOKING FORM -->
-<section id="booking-form" class="reveal" style="border-top:1px solid rgba(209,161,75,0.08); padding:80px 0;">
-    <div class="max-w-xl mx-auto px-6">
-        <p class="section-label mb-4">Κρατήσεις</p>
-        <div class="text-center mb-12">
-            <h2 class="text-3xl md:text-4xl font-bold uppercase tracking-[0.2em] text-[#d1a14b] mythos-font">RESERVATIONS</h2>
-            <p class="text-sm text-gray-400 mt-2 flex items-center justify-center gap-2">
-                <svg class="w-4 h-4 text-[#d1a14b]" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"/>
-                </svg>
-                Επόμενο Event — TBA
-            </p>
-        </div>
-        <div class="glass p-8 md:p-12 rounded-3xl space-y-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-[10px] uppercase tracking-widest text-[#d1a14b] mb-2 font-bold">ΟΝΟΜΑ</label>
-                    <input type="text" id="name" required class="w-full p-4 rounded-xl" placeholder="First Name">
-                </div>
-                <div>
-                    <label class="block text-[10px] uppercase tracking-widest text-[#d1a14b] mb-2 font-bold">ΕΠΙΘΕΤΟ</label>
-                    <input type="text" id="surname" required class="w-full p-4 rounded-xl" placeholder="Last Name">
-                </div>
-            </div>
-            <div class="grid grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-[10px] uppercase tracking-widest text-[#d1a14b] mb-2 font-bold">ΑΤΟΜΑ</label>
-                    <input type="number" id="people" required value="2" min="1" max="20" class="w-full p-4 rounded-xl">
-                </div>
-                <div>
-                    <label class="block text-[10px] uppercase tracking-widest text-[#d1a14b] mb-2 font-bold">ΤΥΠΟΣ</label>
-                    <select id="type" required class="w-full p-4 rounded-xl font-bold text-[#d1a14b]">
-                        <option value="Τραπέζι - MIN 1 ΜΠΟΥΚΑΛΙ">ΤΡΑΠΕΖΙ - MIN 1 ΜΠΟΥΚΑΛΙ</option>
-                        <option value="Καναπές - MIN 2 ΜΠΟΥΚΑΛΙΑ">ΚΑΝΑΠΕΣ - MIN 2 ΜΠΟΥΚΑΛΙΑ</option>
-                        <option value="Ticket">TICKET - ΕΙΣΟΔΟΣ</option>
-                    </select>
-                </div>
-            </div>
-            <div>
-                <label class="block text-[10px] uppercase tracking-widest text-[#d1a14b] mb-2 font-bold">ΤΗΛΕΦΩΝΟ</label>
-                <input type="tel" id="phone" required class="w-full p-4 rounded-xl" placeholder="99999999">
-            </div>
-            <div>
-                <label class="block text-[10px] uppercase tracking-widest text-[#d1a14b] mb-2 font-bold">INSTAGRAM</label>
-                <div class="instagram-wrapper">
-                    <span class="instagram-prefix">@</span>
-                    <input type="text" id="instagram" required class="w-full p-4 rounded-xl instagram-input" placeholder="username">
-                </div>
-            </div>
-            <p class="text-xs text-[#d1a14b] text-center">Για τραπέζι & καναπέ: επιλέγεις μπουκάλι στο venue</p>
-            <p class="text-xs text-gray-300 text-center">🎟️ Η παραλαβή των εισιτηρίων θα γίνεται στην είσοδο του SHAKA την ημέρα του event.</p>
-            <div class="flex items-start gap-3 bg-white/5 rounded-xl p-4 border border-white/10">
-                <span class="text-lg mt-0.5">💡</span>
-                <div>
-                    <p class="text-white text-xs font-bold mb-1">Πώς λειτουργεί η κράτηση:</p>
-                    <p class="text-gray-400 text-xs leading-relaxed">
-                        1. Συμπλήρωσε τη φόρμα κράτησης.<br>
-                        2. Η κράτησή σου καταχωρείται στο σύστημά μας.<br>
-                        3. Θα επικοινωνήσουμε μαζί σου για να κανονιστεί η πληρωμή.<br>
-                        4. Παραλαβή εισιτηρίων στην είσοδο του SHAKA την ημέρα του event.
-                    </p>
-                </div>
-            </div>
-            <button onclick="saveReservation()" id="submitBtn"
-                    class="gold-btn w-full bg-[#d1a14b] text-black font-black py-5 rounded-xl uppercase tracking-widest hover:bg-white transition-all shadow-lg mt-4">
-                ΚΑΤΑΧΩΡΗΣΗ
-            </button>
-            <p id="message" class="text-center mt-4 hidden font-bold italic text-sm"></p>
-        </div>
-    </div>
-</section>
-
-<!-- COMING SOON -->
-<section id="next" class="text-center py-24 reveal" style="border-top:1px solid rgba(209,161,75,0.1);border-bottom:1px solid rgba(209,161,75,0.1);position:relative;overflow:hidden;">
-    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(209,161,75,0.05) 0%,transparent 70%);pointer-events:none;"></div>
-    <p class="section-label justify-center mb-8" style="max-width:300px;margin-left:auto;margin-right:auto;">Next Event</p>
-    <div class="flex justify-center mb-8">
-        <span class="blink-dot"></span><span class="blink-dot"></span><span class="blink-dot"></span>
-    </div>
-    <p class="coming-soon-sub">NEXT CHAPTER</p>
-    <h2 class="coming-soon-title">COMING<br>SOON</h2>
-    <p class="text-gray-500 text-sm tracking-widest mt-8 uppercase">Stay tuned for the next event</p>
-    <div class="mt-12">
-        <a href="https://ig.me/m/mythos_nights" target="_blank"
-           class="gold-btn inline-block bg-[#d1a14b] text-black px-10 py-4 rounded-full font-black uppercase tracking-widest transition-all shadow-[0_0_40px_rgba(209,161,75,0.3)] hover:scale-105 hover:bg-white">
-            FOLLOW @MYTHOS_NIGHTS
-        </a>
-    </div>
-</section>
-
-<footer class="py-8 text-center opacity-40 space-y-2">
-    <p class="mythos-font text-[#d1a14b] tracking-widest text-sm">MYTHOS NIGHTS</p>
-    <p class="text-xs text-gray-600 tracking-wide uppercase">Sponsored by @sumoeventproductions</p>
+<!-- ── FOOTER ── -->
+<footer>
+    <span class="footer-brand">MYTHOS NIGHTS © 2026</span>
+    <span class="footer-by">crafted by @sumoeventproductions</span>
 </footer>
 
 </div><!-- /main -->
 
+<!-- ═══════════════════════════ SCRIPTS ═══════════════════════════ -->
 <script>
 const ADMIN_PASSWORD = "mythos2024";
 const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx4SsVGwdne5vgEow4TBUrrbS0aiWwu5oqYw2eU8SZi86d6U4F9vPeqLtcWj8hAF95-qw/exec";
 
-function toggleSidebar() {
-    document.getElementById('sidebar').classList.toggle('open');
-    document.getElementById('mobileOverlay').classList.toggle('visible');
-}
-function closeSidebar() {
-    document.getElementById('sidebar').classList.remove('open');
-    document.getElementById('mobileOverlay').classList.remove('visible');
-}
-function navClick(el, e) {
+/* ── PARTICLES ── */
+(function(){
+    const canvas = document.getElementById('particleCanvas');
+    const ctx = canvas.getContext('2d');
+    let W, H, pts = [];
+    function resize(){ W=canvas.width=canvas.offsetWidth; H=canvas.height=canvas.offsetHeight; }
+    function makeParticle(){
+        return {
+            x: Math.random()*W, y: Math.random()*H,
+            r: Math.random()*1.2+0.3,
+            dx: (Math.random()-0.5)*0.18,
+            dy: (Math.random()-0.5)*0.18,
+            a: Math.random(),
+        };
+    }
+    function init(){ resize(); pts=[]; for(let i=0;i<80;i++) pts.push(makeParticle()); }
+    function draw(){
+        ctx.clearRect(0,0,W,H);
+        pts.forEach(p=>{
+            p.x+=p.dx; p.y+=p.dy;
+            if(p.x<0||p.x>W) p.dx*=-1;
+            if(p.y<0||p.y>H) p.dy*=-1;
+            p.a+=0.003;
+            ctx.beginPath();
+            ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+            ctx.fillStyle=`rgba(201,150,58,${0.15+0.1*Math.sin(p.a)})`;
+            ctx.fill();
+        });
+        // draw faint connections
+        for(let i=0;i<pts.length;i++){
+            for(let j=i+1;j<pts.length;j++){
+                const d=Math.hypot(pts[i].x-pts[j].x,pts[i].y-pts[j].y);
+                if(d<120){
+                    ctx.beginPath();
+                    ctx.moveTo(pts[i].x,pts[i].y);
+                    ctx.lineTo(pts[j].x,pts[j].y);
+                    ctx.strokeStyle=`rgba(201,150,58,${0.04*(1-d/120)})`;
+                    ctx.lineWidth=0.5;
+                    ctx.stroke();
+                }
+            }
+        }
+        requestAnimationFrame(draw);
+    }
+    window.addEventListener('resize',init);
+    init(); draw();
+})();
+
+/* ── RESPONSIVE EVENT INFO ── */
+(function(){
+    const grid = document.querySelector('.event-grid');
+    if(!grid) return;
+    function check(){
+        if(window.innerWidth<900){
+            grid.style.gridTemplateColumns='1fr';
+            grid.style.gap='32px';
+        } else {
+            grid.style.gridTemplateColumns='1fr 1fr';
+            grid.style.gap='60px';
+        }
+    }
+    window.addEventListener('resize',check); check();
+})();
+
+/* ── SIDEBAR ── */
+function toggleSidebar(){ document.getElementById('sidebar').classList.toggle('open'); document.getElementById('mobileOverlay').classList.toggle('visible'); }
+function closeSidebar(){ document.getElementById('sidebar').classList.remove('open'); document.getElementById('mobileOverlay').classList.remove('visible'); }
+function navClick(el,e){
     e.preventDefault();
-    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(i=>i.classList.remove('active'));
     el.classList.add('active');
-    const target = document.querySelector(el.getAttribute('href'));
-    if (target) target.scrollIntoView({ behavior: 'smooth' });
+    const target=document.querySelector(el.getAttribute('href'));
+    if(target) target.scrollIntoView({behavior:'smooth'});
     closeSidebar();
 }
-const sections = ['hero','event-info','gallery','booking-form','next'];
-window.addEventListener('scroll', () => {
-    let current = 'hero';
-    sections.forEach(id => {
-        const el = document.getElementById(id);
-        if (el && window.scrollY >= el.offsetTop - 200) current = id;
-    });
-    document.querySelectorAll('.nav-item[href]').forEach(item => {
-        const href = item.getAttribute('href').replace('#','');
-        item.classList.toggle('active', href === current);
+const sections=['hero','event-info','gallery','booking-form','next'];
+window.addEventListener('scroll',()=>{
+    let cur='hero';
+    sections.forEach(id=>{ const el=document.getElementById(id); if(el&&window.scrollY>=el.offsetTop-200) cur=id; });
+    document.querySelectorAll('.nav-item[href]').forEach(item=>{
+        const href=item.getAttribute('href').replace('#','');
+        item.classList.toggle('active',href===cur);
     });
 });
 
-let clickCount = 0, clickTimer;
-function secretClick() {
-    clickCount++;
-    if (clickCount === 1) clickTimer = setTimeout(() => { clickCount = 0; }, 2000);
-    if (clickCount === 5) { clearTimeout(clickTimer); clickCount = 0; showAdminLogin(); }
-}
-function showAdminLogin() {
-    document.getElementById('adminLogin').style.display = 'block';
-    document.getElementById('adminOverlay').classList.add('visible');
-    document.getElementById('adminPass').value = '';
-    document.getElementById('adminMessage').innerHTML = '';
-    setTimeout(() => document.getElementById('adminPass').focus(), 100);
-}
-function hideAdmin() {
-    document.getElementById('adminLogin').style.display = 'none';
-    document.getElementById('adminOverlay').classList.remove('visible');
-    document.getElementById('adminTable').classList.remove('visible');
-}
-function hideAdminTable() {
-    document.getElementById('adminTable').classList.remove('visible');
-    document.getElementById('adminOverlay').classList.remove('visible');
-}
-function checkAdminPass() {
-    if (document.getElementById('adminPass').value === ADMIN_PASSWORD) {
-        document.getElementById('adminLogin').style.display = 'none';
-        document.getElementById('adminTable').classList.add('visible');
-        document.getElementById('adminOverlay').classList.add('visible');
-        loadReservations();
-    } else {
-        document.getElementById('adminMessage').innerHTML = 'Λάθος κωδικός!';
-    }
-}
-
-let currentFilter = 'all';
-function setFilter(f) {
-    currentFilter = f;
-    ['all','pending','confirmed'].forEach(t => document.getElementById('tab-'+t).classList.toggle('active', t===f));
-    renderTable(window._allReservations || []);
-}
-
-let currentSlide = 0;
-const slides = document.querySelectorAll('.carousel-slide');
-function nextSlide() {
-    slides[currentSlide].classList.remove('active');
-    currentSlide = (currentSlide + 1) % slides.length;
-    slides[currentSlide].classList.add('active');
-}
-setInterval(nextSlide, 5500);
-
-let galleryImages = [], currentLightboxIndex = 0;
-function buildGalleryImages() { galleryImages = Array.from(document.querySelectorAll('.gallery-item img')).map(i => i.src); }
-function openLightbox(index) {
-    buildGalleryImages(); currentLightboxIndex = index;
-    if (!galleryImages[index]) return;
-    document.getElementById('lightboxImg').src = galleryImages[index];
-    document.getElementById('lightbox').classList.add('visible');
-    document.body.style.overflow = 'hidden';
-}
-function closeLightbox() { document.getElementById('lightbox').classList.remove('visible'); document.body.style.overflow = ''; }
-function closeLightboxBg(e) { if (e.target === document.getElementById('lightbox')) closeLightbox(); }
-function lightboxNav(dir) {
-    currentLightboxIndex = (currentLightboxIndex + dir + galleryImages.length) % galleryImages.length;
-    document.getElementById('lightboxImg').src = galleryImages[currentLightboxIndex];
-}
-document.addEventListener('keydown', e => {
-    if (!document.getElementById('lightbox').classList.contains('visible')) return;
-    if (e.key==='ArrowRight') lightboxNav(1);
-    if (e.key==='ArrowLeft') lightboxNav(-1);
-    if (e.key==='Escape') closeLightbox();
+/* ── CAROUSEL ── */
+let curSlide=0;
+const slides=document.querySelectorAll('.carousel-slide');
+const dotsContainer=document.getElementById('carouselDots');
+slides.forEach((_,i)=>{
+    const d=document.createElement('div');
+    d.className='carousel-dot'+(i===0?' active':'');
+    d.onclick=()=>goSlide(i);
+    dotsContainer.appendChild(d);
 });
+function goSlide(n){
+    slides[curSlide].classList.remove('active');
+    dotsContainer.children[curSlide].classList.remove('active');
+    curSlide=n;
+    slides[curSlide].classList.add('active');
+    dotsContainer.children[curSlide].classList.add('active');
+}
+setInterval(()=>goSlide((curSlide+1)%slides.length),5500);
 
-async function saveReservation() {
-    const name = document.getElementById('name').value.trim();
-    const surname = document.getElementById('surname').value.trim();
-    const phone = document.getElementById('phone').value.trim();
-    const people = document.getElementById('people').value;
-    const type = document.getElementById('type').value;
-    const instagram = document.getElementById('instagram').value.trim().replace(/^@/,'');
-    if (!name || !surname || !phone || !instagram) { showMessage('Συμπληρώστε όλα τα πεδία!', 'red'); return; }
-    if (!/^[0-9]{8}$/.test(phone)) { showMessage('Το τηλέφωνο πρέπει να έχει 8 ψηφία!', 'red'); return; }
-    const btn = document.getElementById('submitBtn');
-    btn.disabled = true; btn.innerHTML = 'ΑΠΟΘΗΚΕΥΣΗ...';
-    const reservation = { ονομα:name, επωνυμο:surname, τηλεφωνο:phone, ατομα:people, τυπος:type, instagram, ημερομηνια_event:"TBA", ωρα_event:"TBA", status:"pending" };
-    try { await fetch(GOOGLE_APPS_SCRIPT_URL, { method:'POST', mode:'no-cors', headers:{'Content-Type':'application/json'}, body:JSON.stringify(reservation) }); } catch(e) {}
-    ['name','surname','phone','instagram'].forEach(id => document.getElementById(id).value = '');
-    document.getElementById('people').value = '2';
-    btn.disabled = false; btn.innerHTML = 'ΚΑΤΑΧΩΡΗΣΗ';
+/* ── LIGHTBOX ── */
+let galleryImages=[],lbIdx=0;
+function buildGalleryImages(){ galleryImages=Array.from(document.querySelectorAll('.gallery-item img')).map(i=>i.src); }
+function openLightbox(i){ buildGalleryImages(); lbIdx=i; if(!galleryImages[i]) return; document.getElementById('lightboxImg').src=galleryImages[i]; document.getElementById('lightbox').classList.add('visible'); document.body.style.overflow='hidden'; }
+function closeLightbox(){ document.getElementById('lightbox').classList.remove('visible'); document.body.style.overflow=''; }
+function closeLightboxBg(e){ if(e.target===document.getElementById('lightbox')) closeLightbox(); }
+function lightboxNav(d){ lbIdx=(lbIdx+d+galleryImages.length)%galleryImages.length; document.getElementById('lightboxImg').src=galleryImages[lbIdx]; }
+document.addEventListener('keydown',e=>{ if(!document.getElementById('lightbox').classList.contains('visible')) return; if(e.key==='ArrowRight') lightboxNav(1); if(e.key==='ArrowLeft') lightboxNav(-1); if(e.key==='Escape') closeLightbox(); });
+
+/* ── BOOKING ── */
+async function saveReservation(){
+    const name=document.getElementById('name').value.trim();
+    const surname=document.getElementById('surname').value.trim();
+    const phone=document.getElementById('phone').value.trim();
+    const people=document.getElementById('people').value;
+    const type=document.getElementById('type').value;
+    const instagram=document.getElementById('instagram').value.trim().replace(/^@/,'');
+    if(!name||!surname||!phone||!instagram){ showMessage('Συμπληρώστε όλα τα πεδία!','red'); return; }
+    if(!/^[0-9]{8}$/.test(phone)){ showMessage('Το τηλέφωνο πρέπει να έχει 8 ψηφία!','red'); return; }
+    const btn=document.getElementById('submitBtn');
+    btn.disabled=true; btn.innerHTML='ΑΠΟΘΗΚΕΥΣΗ...';
+    const reservation={ονομα:name,επωνυμο:surname,τηλεφωνο:phone,ατομα:people,τυπος:type,instagram,ημερομηνια_event:"TBA",ωρα_event:"TBA",status:"pending"};
+    try{ await fetch(GOOGLE_APPS_SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(reservation)}); }catch(e){}
+    ['name','surname','phone','instagram'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('people').value='2';
+    btn.disabled=false; btn.innerHTML='ΚΑΤΑΧΩΡΗΣΗ';
     document.getElementById('smsModal').classList.add('visible');
 }
-function showMessage(text, color) {
-    const msg = document.getElementById('message');
-    msg.innerHTML = text; msg.style.color = color==='red'?'#ef4444':'#22c55e';
-    msg.classList.remove('hidden'); setTimeout(() => msg.classList.add('hidden'), 5000);
+function showMessage(text,color){
+    const msg=document.getElementById('message');
+    msg.innerHTML=text; msg.style.color=color==='red'?'#ef4444':'#22c55e';
+    msg.classList.remove('hidden'); setTimeout(()=>msg.classList.add('hidden'),5000);
 }
 
-async function loadReservations() {
-    document.getElementById('reservationsList').innerHTML = '<p class="text-center text-gray-500 py-8">Φόρτωση...</p>';
-    try {
-        const response = await fetch(GOOGLE_APPS_SCRIPT_URL + '?t=' + Date.now());
-        const data = await response.json();
-        window._allReservations = Array.isArray(data) ? data : [];
-        renderTable(window._allReservations);
-    } catch(e) { document.getElementById('reservationsList').innerHTML = '<p class="text-center text-red-500 py-6">Σφάλμα σύνδεσης</p>'; }
+/* ── ADMIN ── */
+let clickCount=0,clickTimer;
+function secretClick(){ clickCount++; if(clickCount===1) clickTimer=setTimeout(()=>{clickCount=0;},2000); if(clickCount===5){clearTimeout(clickTimer);clickCount=0;showAdminLogin();} }
+function showAdminLogin(){ document.getElementById('adminLogin').style.display='block'; document.getElementById('adminOverlay').classList.add('visible'); document.getElementById('adminPass').value=''; document.getElementById('adminMessage').innerHTML=''; setTimeout(()=>document.getElementById('adminPass').focus(),100); }
+function hideAdmin(){ document.getElementById('adminLogin').style.display='none'; document.getElementById('adminOverlay').classList.remove('visible'); document.getElementById('adminTable').classList.remove('visible'); }
+function hideAdminTable(){ document.getElementById('adminTable').classList.remove('visible'); document.getElementById('adminOverlay').classList.remove('visible'); }
+function checkAdminPass(){ if(document.getElementById('adminPass').value===ADMIN_PASSWORD){ document.getElementById('adminLogin').style.display='none'; document.getElementById('adminTable').classList.add('visible'); loadReservations(); }else{ document.getElementById('adminMessage').innerHTML='Λάθος κωδικός!'; } }
+
+let currentFilter='all';
+function setFilter(f){ currentFilter=f; ['all','pending','confirmed'].forEach(t=>document.getElementById('tab-'+t).classList.toggle('active',t===f)); renderTable(window._allReservations||[]); }
+async function loadReservations(){
+    document.getElementById('reservationsList').innerHTML='<p style="text-align:center;padding:32px;color:#555;font-family:Cormorant Garamond,serif;font-style:italic;">Φόρτωση...</p>';
+    try{ const r=await fetch(GOOGLE_APPS_SCRIPT_URL+'?t='+Date.now()); const d=await r.json(); window._allReservations=Array.isArray(d)?d:[]; renderTable(window._allReservations); }
+    catch(e){ document.getElementById('reservationsList').innerHTML='<p style="text-align:center;padding:24px;color:#ef4444;">Σφάλμα σύνδεσης</p>'; }
 }
-function renderTable(reservations) {
-    const listDiv = document.getElementById('reservationsList');
-    const filtered = currentFilter==='all' ? reservations : reservations.filter(r=>(r.status||'pending').toLowerCase()===currentFilter);
-    if (!filtered.length) { listDiv.innerHTML='<p class="text-center text-gray-500 py-8">Δεν υπάρχουν κρατήσεις</p>'; document.getElementById('totalRes').innerHTML=''; return; }
+function renderTable(reservations){
+    const listDiv=document.getElementById('reservationsList');
+    const filtered=currentFilter==='all'?reservations:reservations.filter(r=>(r.status||'pending').toLowerCase()===currentFilter);
+    if(!filtered.length){ listDiv.innerHTML='<p style="text-align:center;padding:32px;color:#555;font-family:Cormorant Garamond,serif;font-style:italic;">Δεν υπάρχουν κρατήσεις</p>'; document.getElementById('totalRes').innerHTML=''; return; }
     let html=`<table><tr><th>Timestamp</th><th>Όνομα</th><th>Επίθετο</th><th>Τηλέφωνο</th><th>Άτομα</th><th>Τύπος</th><th>Instagram</th><th>Status</th><th>Αλλαγή</th></tr>`;
     [...filtered].reverse().forEach((r,i)=>{
         const status=(r.status||'pending').toLowerCase();
         const realIdx=reservations.length-1-i;
         const igVal=r.instagram?r.instagram.replace(/^@/,''):'';
-        const igLink=igVal?`<a href="https://instagram.com/${igVal}" target="_blank" style="color:#d1a14b">@${igVal}</a>`:'—';
+        const igLink=igVal?`<a href="https://instagram.com/${igVal}" target="_blank" style="color:var(--gold)">@${igVal}</a>`:'—';
         html+=`<tr>
             <td style="white-space:nowrap">${r.reg_date||'—'}</td>
             <td>${r.name||''}</td><td>${r.surname||''}</td>
-            <td><a href="tel:${r.phone}" style="color:#d1a14b">${r.phone||''}</a></td>
+            <td><a href="tel:${r.phone}" style="color:var(--gold)">${r.phone||''}</a></td>
             <td style="text-align:center">${r.people||''}</td>
             <td style="font-size:11px">${r.type||''}</td>
-            <td style="font-size:11px">${igLink}</td>
+            <td>${igLink}</td>
             <td><span class="badge ${status==='confirmed'?'badge-confirmed':'badge-pending'}">${status==='confirmed'?'CONFIRMED':'PENDING'}</span></td>
             <td>${status==='pending'
-                ?`<button class="admin-btn" style="font-size:10px;padding:5px 10px;background:#22c55e" onclick="updateStatus(${realIdx},'confirmed')">✓ CONFIRM</button>`
-                :`<button class="admin-btn" style="font-size:10px;padding:5px 10px;background:#555;color:#fff" onclick="updateStatus(${realIdx},'pending')">↩ PENDING</button>`
+                ?`<button class="admin-btn" style="font-size:10px;padding:5px 10px;background:#22c55e;color:#000" onclick="updateStatus(${realIdx},'confirmed')">✓ CONFIRM</button>`
+                :`<button class="admin-btn" style="font-size:10px;padding:5px 10px;background:#333;color:#fff" onclick="updateStatus(${realIdx},'pending')">↩ PENDING</button>`
             }</td></tr>`;
     });
     html+='</table>';
     listDiv.innerHTML=html;
     const confirmed=reservations.filter(r=>(r.status||'pending')==='confirmed').length;
-    document.getElementById('totalRes').innerHTML=`Σύνολο: ${reservations.length} | Confirmed: ${confirmed} | Pending: ${reservations.length-confirmed}`;
+    document.getElementById('totalRes').innerHTML=`Σύνολο: ${reservations.length} &nbsp;|&nbsp; Confirmed: ${confirmed} &nbsp;|&nbsp; Pending: ${reservations.length-confirmed}`;
 }
-async function updateStatus(index,newStatus){
-    const res=window._allReservations[index]; if(!res) return;
-    res.status=newStatus;
-    try { await fetch(GOOGLE_APPS_SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'updateStatus',rowIndex:index,status:newStatus})}); } catch(e){}
-    renderTable(window._allReservations);
-}
+async function updateStatus(index,newStatus){ const res=window._allReservations[index]; if(!res) return; res.status=newStatus; try{ await fetch(GOOGLE_APPS_SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'updateStatus',rowIndex:index,status:newStatus})}); }catch(e){} renderTable(window._allReservations); }
 async function downloadExcel(){
-    try {
+    try{
         const response=await fetch(GOOGLE_APPS_SCRIPT_URL+'?t='+Date.now());
         const reservations=await response.json();
         let csv='Ημερομηνία,Όνομα,Επίθετο,Τηλέφωνο,Άτομα,Τύπος,Instagram,Status\n';
-        reservations.forEach(r=>{const clean=v=>(v||'').toString().replace(/,/g,' ');csv+=`${clean(r.reg_date)},${clean(r.name)},${clean(r.surname)},${clean(r.phone)},${r.people},${clean(r.type)},${clean(r.instagram)},${r.status}\n`;});
+        reservations.forEach(r=>{const c=v=>(v||'').toString().replace(/,/g,' ');csv+=`${c(r.reg_date)},${c(r.name)},${c(r.surname)},${c(r.phone)},${r.people},${c(r.type)},${c(r.instagram)},${r.status}\n`;});
         const blob=new Blob(["\uFEFF"+csv],{type:'text/csv;charset=utf-8;'});
-        const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='reservations.csv'; a.click();
-    } catch(e){alert('Σφάλμα');}
+        const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='reservations.csv';a.click();
+    }catch(e){alert('Σφάλμα');}
 }
 
-const reveals=document.querySelectorAll(".reveal");
-function checkReveal(){ reveals.forEach(el=>{ if(el.getBoundingClientRect().top<window.innerHeight-120) el.classList.add("active"); }); }
-window.addEventListener("scroll",checkReveal);
+/* ── SCROLL REVEAL ── */
+const reveals=document.querySelectorAll('.reveal');
+function checkReveal(){ reveals.forEach(el=>{ if(el.getBoundingClientRect().top<window.innerHeight-100) el.classList.add('active'); }); }
+window.addEventListener('scroll',checkReveal);
 checkReveal();
 </script>
 </body>
