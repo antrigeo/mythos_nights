@@ -602,18 +602,36 @@ footer{padding:32px 40px;display:flex;align-items:center;justify-content:space-b
     .event-meta-divider{
         height:36px;
     }
+    /* Date stack on mobile - more breathing room between month and year */
+    .event-date-block > div{
+        gap:6px !important;
+    }
 }
 
 @media(max-width:480px){
     .event-date-row{
         flex-direction:column;
         align-items:flex-start;
-        gap:14px;
+        gap:18px;
     }
     .event-meta-divider{
         width:60px;
         height:1px;
         background:linear-gradient(to right,rgba(201,150,58,0.5),transparent);
+    }
+    /* Venue: label + name side-by-side on mobile */
+    .event-venue-block{
+        flex-direction:row;
+        align-items:baseline;
+        gap:12px;
+    }
+    .event-venue-label{
+        font-size:9px;
+        letter-spacing:0.4em;
+    }
+    .event-venue-name{
+        font-size:24px;
+        letter-spacing:0.18em;
     }
 }
 </style>
