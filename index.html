@@ -141,12 +141,6 @@ body{
 .hero-quote-text .hl{color:var(--gold);font-weight:600;animation:goldPulse 3.5s ease-in-out infinite;}
 @keyframes goldPulse{0%,100%{text-shadow:0 0 18px rgba(201,150,58,0.5),0 0 40px rgba(201,150,58,0.2)}50%{text-shadow:0 0 40px rgba(201,150,58,0.9),0 0 80px rgba(201,150,58,0.4),0 0 120px rgba(201,150,58,0.15)}}
 
-/* ════════════════════════════════
-   HERO CTAs — uniform & balanced
-   Both buttons share width on mobile,
-   stacked vertically with equal weight.
-   On desktop they sit side-by-side.
-═══════════════════════════════════ */
 .hero-ctas{
     display:flex;
     flex-wrap:wrap;
@@ -194,74 +188,252 @@ body{
 .section-title .gold{color:var(--gold);}
 
 /* ════════════════════════════════
-   EVENT INFO HEADER — date/venue
-   pumped up to act as a title
+   PAST EVENT — COMPACT VERSION
+   Συμπυκνωμένο layout: τίτλος +
+   inline meta σε μία γραμμή για να
+   μην παίρνει πολύ χώρο σε mobile
 ═══════════════════════════════════ */
-.event-meta{
-    display:flex;
-    flex-direction:column;
-    gap:14px;
-    margin-bottom:24px;
+.past-event-section{
+    padding:80px 40px 60px !important;
 }
-.event-date-row{
+.past-event-header{
     display:flex;
     align-items:center;
     gap:18px;
     flex-wrap:wrap;
+    margin-bottom:10px;
 }
-.event-date-block{
-    display:flex;
-    align-items:baseline;
-    gap:10px;
-    font-family:'Bebas Neue',sans-serif;
-    color:var(--gold);
-    text-shadow:0 0 24px rgba(201,150,58,0.25);
-}
-.event-date-num{
-    font-size:clamp(38px,6.5vw,60px);
-    letter-spacing:0.04em;
-    line-height:0.9;
-}
-.event-date-month{
-    font-family:'Cinzel',serif;
-    font-size:clamp(13px,1.6vw,16px);
-    letter-spacing:0.35em;
-    color:rgba(228,185,106,0.85);
-    text-transform:uppercase;
-    font-weight:700;
-}
-.event-date-year{
-    font-family:'Cinzel',serif;
-    font-size:clamp(11px,1.3vw,13px);
-    letter-spacing:0.4em;
-    color:rgba(201,150,58,0.5);
-    font-weight:700;
-}
-.event-meta-divider{
-    width:1px;
-    height:48px;
-    background:linear-gradient(to bottom,transparent,rgba(201,150,58,0.5),transparent);
+.past-event-ribbon{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:6px 14px;
+    border-radius:20px;
+    border:1px solid rgba(255,255,255,0.1);
+    background:rgba(255,255,255,0.025);
+    backdrop-filter:blur(6px);
     flex-shrink:0;
 }
-.event-venue-block{
-    display:flex;
-    flex-direction:column;
-    gap:3px;
+.past-event-ribbon-dot{
+    width:5px;
+    height:5px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.35);
+    flex-shrink:0;
 }
-.event-venue-label{
+.past-event-ribbon-text{
     font-family:'Cinzel',serif;
-    font-size:9px;
-    letter-spacing:0.5em;
-    color:rgba(255,255,255,0.3);
+    font-size:8px;
+    letter-spacing:0.4em;
+    color:rgba(255,255,255,0.5);
+    text-transform:uppercase;
+    font-weight:700;
+}
+.past-event-title-row{
+    display:flex;
+    align-items:baseline;
+    gap:18px;
+    flex-wrap:wrap;
+    margin-bottom:8px;
+}
+.past-event-title-row .section-title{
+    font-size:clamp(32px,5.5vw,52px);
+    color:rgba(255,255,255,0.85);
+    margin:0;
+}
+.past-event-meta-inline{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    flex-wrap:wrap;
+    font-family:'Cinzel',serif;
+    font-size:11px;
+    letter-spacing:0.25em;
+    color:rgba(201,150,58,0.6);
     text-transform:uppercase;
 }
-.event-venue-name{
-    font-family:'Bebas Neue',sans-serif;
-    font-size:clamp(22px,3.5vw,30px);
-    letter-spacing:0.18em;
-    color:#fff;
+.past-event-meta-inline .meta-pipe{
+    color:rgba(201,150,58,0.25);
+    font-weight:300;
+}
+.past-event-meta-inline .meta-venue{
+    color:rgba(255,255,255,0.55);
+    font-weight:600;
+}
+.past-event-desc{
+    font-family:'Cormorant Garamond',serif;
+    font-size:14px;
+    font-style:italic;
+    color:rgba(255,255,255,0.4);
+    letter-spacing:0.05em;
+    line-height:1.6;
+    max-width:540px;
+    margin-bottom:28px;
+}
+
+/* Single CTA button row for gallery + photobooth */
+.past-event-actions{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    align-items:center;
+}
+.past-event-actions .btn-outline,
+.past-event-actions .btn-gallery{
+    font-size:10px;
+    padding:13px 22px;
+    height:auto;
+    flex:0 0 auto;
+}
+
+.btn-gallery{
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(135deg, rgba(201,150,58,0.12), rgba(201,150,58,0.04));
+    border:1px solid rgba(201,150,58,0.45);
+    color:var(--gold);
+    padding:13px 22px;
+    border-radius:2px;
+    font-family:'Cinzel',serif;
+    font-size:10px;
+    letter-spacing:0.4em;
+    font-weight:700;
+    cursor:pointer;
+    transition:all 0.3s;
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    text-decoration:none;
+    box-shadow:0 0 20px rgba(201,150,58,0.08);
+}
+.btn-gallery::after{
+    content:'';
+    position:absolute;
+    top:0; left:-100%;
+    width:100%; height:100%;
+    background:linear-gradient(90deg,transparent,rgba(201,150,58,0.2),transparent);
+    transition:left 0.5s;
+}
+.btn-gallery:hover{
+    background:linear-gradient(135deg, rgba(201,150,58,0.2), rgba(201,150,58,0.08));
+    border-color:var(--gold);
+    box-shadow:0 0 35px rgba(201,150,58,0.25);
+}
+.btn-gallery:hover::after{
+    left:100%;
+}
+.btn-gallery .gallery-icon{
+    font-size:13px;
+    letter-spacing:0;
+}
+.btn-gallery .gallery-count{
+    background:rgba(201,150,58,0.15);
+    padding:2px 8px;
+    border-radius:10px;
+    font-size:9px;
+    letter-spacing:0.1em;
+}
+
+/* Past event stamp - smaller now */
+.past-event-stamp{
+    display:inline-block;
+    transform:rotate(-4deg);
+    border:1.5px solid rgba(201,150,58,0.18);
+    padding:5px 12px;
+    border-radius:3px;
+    pointer-events:none;
+    flex-shrink:0;
+}
+.past-event-stamp-text{
+    font-family:'Cinzel',serif;
+    font-size:9px;
+    letter-spacing:0.3em;
+    color:rgba(201,150,58,0.4);
+    font-weight:900;
+    text-transform:uppercase;
     line-height:1;
 }
+
+/* ════════════════════════════════
+   FULL GALLERY MODAL
+═══════════════════════════════════ */
+.gallery-modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(2,3,5,0.98);
+    z-index:9990;
+    overflow-y:auto;
+}
+.gallery-modal.visible{
+    display:block;
+}
+.gallery-modal-header{
+    position:sticky;
+    top:0;
+    z-index:10;
+    background:linear-gradient(to bottom, rgba(2,3,5,0.98), rgba(2,3,5,0.85));
+    padding:20px 30px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-bottom:1px solid rgba(201,150,58,0.1);
+    backdrop-filter:blur(10px);
+}
+.gallery-modal-title{
+    font-family:'Bebas Neue',sans-serif;
+    font-size:20px;
+    letter-spacing:0.25em;
+    color:var(--gold);
+}
+.gallery-modal-title .modal-count{
+    font-size:12px;
+    color:rgba(255,255,255,0.4);
+    margin-left:12px;
+    letter-spacing:0.15em;
+}
+.gallery-modal-close{
+    background:rgba(201,150,58,0.08);
+    border:1px solid rgba(201,150,58,0.3);
+    color:var(--gold);
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    cursor:pointer;
+    font-size:18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:all 0.25s;
+    font-family:'Cormorant Garamond',serif;
+    line-height:1;
+}
+.gallery-modal-close:hover{
+    background:rgba(201,150,58,0.18);
+    border-color:var(--gold);
+}
+.gallery-modal-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));
+    gap:8px;
+    padding:24px 30px 60px;
+    max-width:1400px;
+    margin:0 auto;
+}
+
+/* ═══════════════════════════════════
+   EVENT INFO HEADER — CARRIED OVER
+═══════════════════════════════════ */
+.event-meta{display:flex;flex-direction:column;gap:14px;margin-bottom:24px;}
+.event-date-row{display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
+.event-date-block{display:flex;align-items:baseline;gap:10px;font-family:'Bebas Neue',sans-serif;color:var(--gold);text-shadow:0 0 24px rgba(201,150,58,0.25);}
+.event-date-num{font-size:clamp(38px,6.5vw,60px);letter-spacing:0.04em;line-height:0.9;}
+.event-date-month{font-family:'Cinzel',serif;font-size:clamp(13px,1.6vw,16px);letter-spacing:0.35em;color:rgba(228,185,106,0.85);text-transform:uppercase;font-weight:700;}
+.event-date-year{font-family:'Cinzel',serif;font-size:clamp(11px,1.3vw,13px);letter-spacing:0.4em;color:rgba(201,150,58,0.5);font-weight:700;}
+.event-meta-divider{width:1px;height:48px;background:linear-gradient(to bottom,transparent,rgba(201,150,58,0.5),transparent);flex-shrink:0;}
+.event-venue-block{display:flex;flex-direction:column;gap:3px;}
+.event-venue-label{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.5em;color:rgba(255,255,255,0.3);text-transform:uppercase;}
+.event-venue-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(22px,3.5vw,30px);letter-spacing:0.18em;color:#fff;line-height:1;}
 
 .gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;margin-top:48px;}
 .gallery-item{position:relative;aspect-ratio:1;overflow:hidden;border-radius:3px;border:1px solid rgba(201,150,58,0.08);cursor:pointer;transition:border-color 0.3s,box-shadow 0.3s;}
@@ -311,6 +483,25 @@ body{
 .step-title{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:0.18em;color:#fff;margin-bottom:6px;}
 .step-subtitle{font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;color:rgba(255,255,255,0.25);letter-spacing:0.08em;margin-bottom:28px;}
 
+/* ══════════════════════════════
+   TYPE CARDS — CLEARER VERSION
+══════════════════════════════ */
+.type-intro{
+    background:linear-gradient(135deg, rgba(201,150,58,0.05), rgba(201,150,58,0.01));
+    border-left:2px solid rgba(201,150,58,0.4);
+    padding:14px 18px;
+    margin-bottom:22px;
+    border-radius:0 4px 4px 0;
+}
+.type-intro p{
+    font-family:'Cormorant Garamond',serif;
+    font-size:13px;
+    color:rgba(255,255,255,0.6);
+    line-height:1.6;
+    font-style:italic;
+}
+.type-intro p .gold{color:var(--gold);font-weight:600;font-style:normal;}
+
 /* Fields */
 .field-label{display:block;font-family:'Cinzel',serif;font-size:7px;letter-spacing:0.5em;color:rgba(201,150,58,0.5);text-transform:uppercase;margin-bottom:8px;}
 input,select{width:100%;padding:13px 16px;background:rgba(255,255,255,0.03) !important;border:1px solid rgba(201,150,58,0.18) !important;border-radius:3px;color:#e0e0e0 !important;font-family:'Cormorant Garamond',serif;font-size:15px;outline:none;transition:border-color 0.25s,box-shadow 0.25s;}
@@ -322,7 +513,7 @@ input.error,select.error{border-color:rgba(239,68,68,0.5) !important;box-shadow:
 .field-error{font-family:'Cormorant Garamond',serif;font-size:12px;color:#ef4444;font-style:italic;margin-top:5px;opacity:0;transition:opacity 0.2s;}
 .field-error.visible{opacity:1;}
 
-/* Type cards */
+/* Type cards - original simple design */
 .type-grid{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:24px;}
 .type-card{border:1px solid rgba(201,150,58,0.15);border-radius:4px;padding:18px 20px;cursor:pointer;transition:all 0.25s;position:relative;overflow:hidden;background:rgba(255,255,255,0.015);}
 .type-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(201,150,58,0.06),transparent);opacity:0;transition:opacity 0.3s;}
@@ -351,12 +542,6 @@ input.error,select.error{border-color:rgba(239,68,68,0.5) !important;box-shadow:
 .urgency-pill{display:inline-flex;align-items:center;gap:7px;padding:7px 16px;border-radius:20px;border:1px solid rgba(201,150,58,0.25);background:rgba(201,150,58,0.06);font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.3em;color:rgba(201,150,58,0.7);margin-bottom:24px;}
 .urgency-dot{width:5px;height:5px;border-radius:50%;background:#ef4444;box-shadow:0 0 6px rgba(239,68,68,0.7);animation:urgencyPulse 1.4s ease-in-out infinite;}
 @keyframes urgencyPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(0.7)}}
-
-/* How it works */
-.how-it-works{background:rgba(255,255,255,0.015);border:1px solid rgba(255,255,255,0.05);border-radius:3px;padding:18px 20px;margin-bottom:20px;}
-.hiw-title{font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.4em;color:rgba(255,255,255,0.3);margin-bottom:12px;text-transform:uppercase;}
-.hiw-step{display:flex;align-items:baseline;gap:12px;font-family:'Cormorant Garamond',serif;font-size:13px;color:rgba(255,255,255,0.35);line-height:1.6;}
-.hiw-num{font-family:'Bebas Neue',sans-serif;font-size:16px;color:rgba(201,150,58,0.3);flex-shrink:0;min-width:16px;}
 
 /* Nav buttons */
 .step-nav{display:flex;gap:10px;margin-top:28px;}
@@ -463,98 +648,6 @@ footer{padding:32px 40px;display:flex;align-items:center;justify-content:space-b
 .reveal{opacity:0;transform:translateY(30px);transition:opacity 0.9s ease,transform 0.9s ease;}
 .reveal.active{opacity:1;transform:translateY(0);}
 
-/* ════════════════════════════════
-   PAST EVENT — Archive treatment
-   Visual signal that this event
-   is in the past, not upcoming
-═══════════════════════════════════ */
-#event-info{
-    position:relative;
-}
-.past-event-ribbon{
-    display:inline-flex;
-    align-items:center;
-    gap:10px;
-    padding:8px 18px;
-    border-radius:24px;
-    border:1px solid rgba(255,255,255,0.1);
-    background:rgba(255,255,255,0.025);
-    margin-bottom:18px;
-    backdrop-filter:blur(6px);
-}
-.past-event-ribbon-dot{
-    width:6px;
-    height:6px;
-    border-radius:50%;
-    background:rgba(255,255,255,0.35);
-    flex-shrink:0;
-}
-.past-event-ribbon-text{
-    font-family:'Cinzel',serif;
-    font-size:8px;
-    letter-spacing:0.45em;
-    color:rgba(255,255,255,0.5);
-    text-transform:uppercase;
-    font-weight:700;
-}
-.past-event-ribbon-sub{
-    font-family:'Cormorant Garamond',serif;
-    font-size:11px;
-    font-style:italic;
-    color:rgba(255,255,255,0.3);
-    letter-spacing:0.08em;
-    padding-left:8px;
-    border-left:1px solid rgba(255,255,255,0.1);
-}
-
-/* Past event title gets a subtle archive feel */
-.past-event-section .section-title{
-    color:rgba(255,255,255,0.75);
-}
-.past-event-section .event-date-block{
-    color:rgba(201,150,58,0.7);
-    text-shadow:0 0 16px rgba(201,150,58,0.15);
-}
-.past-event-section .event-date-month{
-    color:rgba(228,185,106,0.6);
-}
-.past-event-section .event-venue-name{
-    color:rgba(255,255,255,0.7);
-}
-
-/* Stamp watermark in the corner */
-.past-event-stamp{
-    position:absolute;
-    top:80px;
-    right:32px;
-    transform:rotate(-12deg);
-    border:2px solid rgba(201,150,58,0.18);
-    padding:8px 16px;
-    border-radius:4px;
-    pointer-events:none;
-    z-index:1;
-    opacity:0.7;
-}
-.past-event-stamp-text{
-    font-family:'Cinzel',serif;
-    font-size:11px;
-    letter-spacing:0.35em;
-    color:rgba(201,150,58,0.4);
-    font-weight:900;
-    text-transform:uppercase;
-    line-height:1;
-}
-@media(max-width:900px){
-    .past-event-stamp{
-        position:relative;
-        top:auto;
-        right:auto;
-        transform:rotate(-4deg);
-        display:inline-block;
-        margin-bottom:14px;
-    }
-}
-
 @media(max-width:900px){
     :root{--sidebar-w:0px;}
     #marquee-banner{margin-left:0;padding-left:56px;}
@@ -565,6 +658,9 @@ footer{padding:32px 40px;display:flex;align-items:center;justify-content:space-b
     #main{margin-left:0;}
     #event-info,#booking-form{padding-left:20px;padding-right:20px;}
     .gallery-grid{grid-template-columns:repeat(2,1fr);}
+    .gallery-modal-grid{grid-template-columns:repeat(2,1fr);padding:18px 16px 60px;}
+    .gallery-modal-header{padding:16px 18px;}
+    .gallery-modal-title{font-size:16px;}
     .lb-nav{display:none;}
     .form-card{padding:22px 18px;}
     footer{justify-content:center;text-align:center;}
@@ -578,7 +674,6 @@ footer{padding:32px 40px;display:flex;align-items:center;justify-content:space-b
     .step-label{display:none;}
     .step-line{min-width:20px;}
 
-    /* Mobile CTA — uniform stacked buttons */
     .hero-ctas{
         flex-direction:column;
         gap:12px;
@@ -595,43 +690,17 @@ footer{padding:32px 40px;display:flex;align-items:center;justify-content:space-b
         letter-spacing:0.45em;
     }
 
-    /* Mobile event meta — stack date+venue cleanly */
-    .event-date-row{
-        gap:14px;
-    }
-    .event-meta-divider{
-        height:36px;
-    }
-    /* Date stack on mobile - more breathing room between month and year */
-    .event-date-block > div{
-        gap:6px !important;
-    }
-}
-
-@media(max-width:480px){
-    .event-date-row{
-        flex-direction:column;
-        align-items:flex-start;
-        gap:18px;
-    }
-    .event-meta-divider{
-        width:60px;
-        height:1px;
-        background:linear-gradient(to right,rgba(201,150,58,0.5),transparent);
-    }
-    /* Venue: label + name side-by-side on mobile */
-    .event-venue-block{
-        flex-direction:row;
-        align-items:baseline;
-        gap:12px;
-    }
-    .event-venue-label{
+    .past-event-section{padding:60px 20px 40px !important;}
+    .past-event-title-row{gap:12px;}
+    .past-event-meta-inline{font-size:10px;letter-spacing:0.2em;gap:10px;}
+    .past-event-actions{width:100%;}
+    .past-event-actions .btn-outline,
+    .past-event-actions .btn-gallery{
+        flex:1 1 auto;
+        justify-content:center;
         font-size:9px;
-        letter-spacing:0.4em;
-    }
-    .event-venue-name{
-        font-size:24px;
-        letter-spacing:0.18em;
+        letter-spacing:0.3em;
+        padding:12px 14px;
     }
 }
 </style>
@@ -667,7 +736,6 @@ footer{padding:32px 40px;display:flex;align-items:center;justify-content:space-b
     <p class="nav-label">Navigation</p>
     <a class="nav-item active" href="#hero" onclick="navClick(this,event)"><span class="nav-icon">◈</span> Home</a>
     <a class="nav-item" href="#event-info" onclick="navClick(this,event)"><span class="nav-icon">✦</span> Event</a>
-    <a class="nav-item" href="#event-info" onclick="navClick(this,event)"><span class="nav-icon">◎</span> Gallery</a>
     <a class="nav-item" href="#booking-form" onclick="navClick(this,event)"><span class="nav-icon">▣</span> Κρατήσεις</a>
     <a class="nav-item" href="#next" onclick="navClick(this,event)"><span class="nav-icon">▷</span> Next Event</a>
     <div class="nav-divider"></div>
@@ -726,6 +794,18 @@ footer{padding:32px 40px;display:flex;align-items:center;justify-content:space-b
     <div class="lb-nav lb-next" onclick="lightboxNav(1)">›</div>
 </div>
 
+<!-- Full Gallery Modal -->
+<div class="gallery-modal" id="galleryModal">
+    <div class="gallery-modal-header">
+        <div class="gallery-modal-title">
+            ΓΚΑΛΕΡΙ — THE NIGHT
+            <span class="modal-count" id="galleryModalCount">0 items</span>
+        </div>
+        <button class="gallery-modal-close" onclick="closeGalleryModal()">✕</button>
+    </div>
+    <div class="gallery-modal-grid" id="galleryModalGrid"></div>
+</div>
+
 <div id="main">
 
 <section id="hero">
@@ -749,68 +829,51 @@ footer{padding:32px 40px;display:flex;align-items:center;justify-content:space-b
             <a href="#booking-form" class="btn-primary">ΚΡΑΤΗΣΕΙΣ</a>
         </div>
     </div>
-    <div style="position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;animation:fadeSlideUp 2.4s ease forwards;opacity:0;z-index:10;">
-        <span style="font-family:'Cinzel',serif;font-size:7px;letter-spacing:0.55em;color:rgba(201,150,58,0.3);">SCROLL</span>
-        <div style="width:1px;height:36px;background:linear-gradient(to bottom,rgba(201,150,58,0.4),transparent);animation:scrollLine 2s ease-in-out infinite;"></div>
-    </div>
 </section>
 
-<style>@keyframes scrollLine{0%,100%{opacity:0.3;transform:scaleY(0.6) translateY(-4px)}50%{opacity:1;transform:scaleY(1) translateY(0)}}</style>
-
 <!-- ═══════════════════════════════════════════════════════════════
-     ▼▼▼ ΕΠΟΜΕΝΟ EVENT — UPCOMING SECTION GOES HERE ▼▼▼
-     Όταν είσαι έτοιμος για το νέο event, πρόσθεσε section εδώ
-     πάνω από το #event-info (που είναι το παλιό/Past Event).
-     Χρησιμοποίησε παρόμοιο styling με μεγάλη ημερομηνία +
-     venue για consistency. Το #event-info από κάτω θα παίζει
-     ρόλο "archive / past nights".
+     PAST EVENT — Compact archive section
+     Πληροφορίες σε μία γραμμή + κουμπί για να ανοίξει το γκαλερί
 ═══════════════════════════════════════════════════════════════ -->
 
-<section id="event-info" class="reveal past-event-section" style="padding:100px 40px;max-width:1100px;margin:0 auto;">
-    <div class="past-event-stamp">
-        <span class="past-event-stamp-text">Memories</span>
-    </div>
-    <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:20px;margin-bottom:56px;">
-        <div style="flex:1;min-width:260px;">
-            <div class="past-event-ribbon">
-                <span class="past-event-ribbon-dot"></span>
-                <span class="past-event-ribbon-text">Past Event</span>
-            </div>
-            <div class="section-title" style="margin-bottom:28px;">THE <span class="gold">NIGHT</span></div>
-            <div class="event-meta">
-                <div class="event-date-row">
-                    <div class="event-date-block">
-                        <div style="display:flex;flex-direction:column;gap:4px;">
-                            <span class="event-date-month" style="font-size:clamp(20px,3vw,26px);letter-spacing:0.18em;">Απρίλιος</span>
-                            <span class="event-date-year" style="font-size:clamp(13px,1.5vw,15px);">2026</span>
-                        </div>
-                    </div>
-                    <div class="event-meta-divider"></div>
-                    <div class="event-venue-block">
-                        <span class="event-venue-label">Venue</span>
-                        <span class="event-venue-name">SHAKA</span>
-                    </div>
-                </div>
-            </div>
+<section id="event-info" class="reveal past-event-section" style="max-width:1100px;margin:0 auto;">
+
+    <div class="past-event-header">
+        <div class="past-event-ribbon">
+            <span class="past-event-ribbon-dot"></span>
+            <span class="past-event-ribbon-text">Past Event</span>
         </div>
-        <div style="text-align:right;">
-            <a href="https://mythosnights.pages.dev/photo-booth" target="_blank" class="btn-outline" style="display:inline-flex;font-size:9px;padding:12px 24px;height:auto;flex:0 0 auto;">📸 &nbsp; Photo Booth</a>
+        <div class="past-event-stamp">
+            <span class="past-event-stamp-text">Memories</span>
         </div>
     </div>
-    <div class="gallery-grid" id="galleryGrid">
-        <div class="gallery-item" onclick="openLightbox(0)"><img src="poster.jpg" alt="Event Poster"></div>
-        <div class="gallery-item" onclick="openLightbox(1)"><img src="AA4B024A-E6F9-4794-A7C0-D3C8B67CABD1.jpeg" alt="DJ Dinglis"></div>
-        <div class="gallery-item video-item" onclick="openVideoLightbox('IMG_4370.mov')">
-            <img class="video-poster" data-video="IMG_4370.mov" alt="">
-            <video src="IMG_4370.mov" muted playsinline preload="metadata" id="vid1"></video>
-            <div class="play-icon"><div class="play-icon-circle"><div class="play-icon-triangle"></div></div></div>
-        </div>
-        <div class="gallery-item video-item" onclick="openVideoLightbox('IMG_4373.mov')">
-            <img class="video-poster" data-video="IMG_4373.mov" alt="">
-            <video src="IMG_4373.mov" muted playsinline preload="metadata" id="vid2"></video>
-            <div class="play-icon"><div class="play-icon-circle"><div class="play-icon-triangle"></div></div></div>
-        </div>
+
+    <div class="past-event-title-row">
+        <div class="section-title">THE <span class="gold">NIGHT</span></div>
     </div>
+
+    <div class="past-event-meta-inline">
+        <span>Απρίλιος 2026</span>
+        <span class="meta-pipe">·</span>
+        <span class="meta-venue">SHAKA</span>
+        <span class="meta-pipe">·</span>
+        <span>DJ Dinglis</span>
+    </div>
+
+    <p class="past-event-desc" style="margin-top:18px;">
+        Η πρώτη μας βραδιά — μια νύχτα που έγραψε ιστορία.
+        Δες αναμνήσεις από φωτογραφίες και βίντεο.
+    </p>
+
+    <div class="past-event-actions">
+        <button class="btn-gallery" onclick="openGalleryModal()">
+            <span class="gallery-icon">◎</span>
+            <span>ΦΩΤΟΓΡΑΦΙΕΣ</span>
+            <span class="gallery-count" id="btnGalleryCount">4</span>
+        </button>
+        <a href="https://mythosnights.pages.dev/photo-booth" target="_blank" class="btn-outline" style="font-size:10px;padding:13px 22px;height:auto;flex:0 0 auto;letter-spacing:0.4em;">📸 &nbsp; Photo Booth</a>
+    </div>
+
 </section>
 
 <!-- ══ BOOKING ══ -->
@@ -854,7 +917,12 @@ footer{padding:32px 40px;display:flex;align-items:center;justify-content:space-b
         <!-- Step 1: Type -->
         <div class="booking-step active" id="step-1">
             <p class="step-title">ΤΥΠΟΣ ΚΡΑΤΗΣΗΣ</p>
-            <p class="step-subtitle">Επίλεξε πώς θέλεις να έρθεις στο event</p>
+            <p class="step-subtitle">Διάλεξε πώς θες να βιώσεις τη βραδιά</p>
+
+            <div class="type-intro">
+                <p>Έχουμε <span class="gold">3 επιλογές</span> εισόδου: απλή είσοδος, τραπέζι με μπουκάλι, ή VIP καναπέ. Κάθε επιλογή έχει διαφορετικά προνόμια.</p>
+            </div>
+
             <div class="type-grid">
                 <div class="type-card" id="tc-ticket" onclick="selectType('Ticket')">
                     <div class="type-card-header">
@@ -885,7 +953,6 @@ footer{padding:32px 40px;display:flex;align-items:center;justify-content:space-b
             <div class="step-nav">
                 <button class="btn-next" onclick="goStep(2)">ΕΠΟΜΕΝΟ &nbsp;→</button>
             </div>
-            <p class="microcopy" style="margin-top:18px;">Η κράτηση <span class="gold">ισχύει μόνο μετά από επιβεβαίωση</span><br>από την ομάδα μας</p>
         </div>
 
         <!-- Step 2: People -->
@@ -899,14 +966,6 @@ footer{padding:32px 40px;display:flex;align-items:center;justify-content:space-b
                     <button class="people-btn" id="btn-plus" onclick="changePeople(1)">+</button>
                 </div>
                 <p class="people-label-sub" id="people-hint">2 άτομα</p>
-            </div>
-            <div class="how-it-works">
-                <p class="hiw-title">Πώς λειτουργεί</p>
-                <div style="display:flex;flex-direction:column;gap:6px;">
-                    <div class="hiw-step"><span class="hiw-num">01</span>Συμπλήρωσε τη φόρμα κράτησης</div>
-                    <div class="hiw-step"><span class="hiw-num">02</span>Θα σε καλέσουμε για επιβεβαίωση</div>
-                    <div class="hiw-step"><span class="hiw-num">03</span>Παραλαβή στην είσοδο του venue</div>
-                </div>
             </div>
             <div class="step-nav">
                 <button class="btn-back" onclick="goStep(1)">← ΠΙΣΩ</button>
@@ -935,7 +994,6 @@ footer{padding:32px 40px;display:flex;align-items:center;justify-content:space-b
                 <input type="tel" id="phone" placeholder="99 999 999" autocomplete="tel" inputmode="numeric">
                 <p class="field-error" id="err-phone">Εισάγαγε έγκυρο αριθμό (8 ψηφία)</p>
             </div>
-            <p class="microcopy" style="margin-bottom:20px;"><span class="gold">Ψεύτικες κρατήσεις ακυρώνονται αυτόματα.</span><br>Θα σε καλέσουμε για επιβεβαίωση.</p>
             <div class="step-nav">
                 <button class="btn-back" onclick="goStep(2)">← ΠΙΣΩ</button>
                 <button class="btn-next" onclick="goStep(4)">ΕΠΙΣΚΟΠΗΣΗ &nbsp;→</button>
@@ -994,7 +1052,7 @@ footer{padding:32px 40px;display:flex;align-items:center;justify-content:space-b
 
 <footer>
     <span class="footer-brand">MYTHOS NIGHTS © 2026</span>
-    <a href="https://www.instagram.com/sumoeventproductions" target="_blank" rel="noopener" class="footer-by">crafted by <span class="by-handle">@sumoeventproductions</span></a>
+    <a href="https://www.instagram.com/sumoeventproductions" target="_blank" rel="noopener" class="footer-by">sponsored by <span class="by-handle">@sumoeventproductions</span></a>
 </footer>
 
 </div><!-- /main -->
@@ -1003,6 +1061,56 @@ footer{padding:32px 40px;display:flex;align-items:center;justify-content:space-b
 const ADMIN_PASSWORD = "mythos2024";
 const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw900Myx7ITvm6TwfaUGX10NK-bPr3l2a9llwgmbbn_sU9JWp2phML59-eFv02cM3L5hA/exec";
 const CURRENT_EVENT_TAG = "next";
+
+/* ════════════════════════════════
+   GALLERY CONFIG
+   Πρόσθεσε φωτογραφίες/βίντεο εδώ
+═══════════════════════════════════ */
+const galleryItems = [
+    { type: 'image', src: 'poster.jpg', alt: 'Event Poster' },
+    { type: 'image', src: 'AA4B024A-E6F9-4794-A7C0-D3C8B67CABD1.jpeg', alt: 'DJ Dinglis' },
+    { type: 'video', src: 'IMG_4370.mov' },
+    { type: 'video', src: 'IMG_4373.mov' }
+    // Πρόσθεσε επιπλέον items εδώ:
+    // { type: 'image', src: 'photo5.jpg', alt: 'Description' },
+    // { type: 'video', src: 'video3.mov' },
+];
+
+/* ── BUILD GALLERY MODAL ── */
+function buildGalleryModal(){
+    const grid = document.getElementById('galleryModalGrid');
+    const countEl = document.getElementById('galleryModalCount');
+    const btnCount = document.getElementById('btnGalleryCount');
+    grid.innerHTML = '';
+    galleryItems.forEach((item, idx) => {
+        const div = document.createElement('div');
+        div.className = 'gallery-item' + (item.type === 'video' ? ' video-item' : '');
+        if (item.type === 'image') {
+            div.onclick = () => openLightbox(idx);
+            div.innerHTML = `<img src="${item.src}" alt="${item.alt || ''}">`;
+        } else {
+            div.onclick = () => openVideoLightbox(item.src);
+            div.innerHTML = `
+                <img class="video-poster" data-video="${item.src}" alt="">
+                <video src="${item.src}" muted playsinline preload="metadata"></video>
+                <div class="play-icon"><div class="play-icon-circle"><div class="play-icon-triangle"></div></div></div>
+            `;
+        }
+        grid.appendChild(div);
+    });
+    countEl.textContent = galleryItems.length + ' items';
+    btnCount.textContent = galleryItems.length;
+    setupVideoPosters();
+}
+
+function openGalleryModal(){
+    document.getElementById('galleryModal').classList.add('visible');
+    document.body.style.overflow = 'hidden';
+}
+function closeGalleryModal(){
+    document.getElementById('galleryModal').classList.remove('visible');
+    document.body.style.overflow = '';
+}
 
 /* ── FORM STATE ── */
 let currentStep = 1;
@@ -1077,7 +1185,7 @@ function clearFieldErr(id,errId){ document.getElementById(id).classList.remove('
 });
 
 function populateSummary(){
-    const lbl={'Ticket':'Ticket — Είσοδος','Τραπέζι - MIN 1 ΜΠΟΥΚΑΛΙ':'Τραπέζι — Min 1 μπουκάλι','Καναπές - MIN 2 ΜΠΟΥΚΑΛΙΑ':'Καναπές — Min 2 μπουκάλια'};
+    const lbl={'Ticket':'Ticket — Είσοδος','Τραπέζι - MIN 1 ΜΠΟΥΚΑΛΙ':'Τραπέζι — Min 1 μπουκάλι','Καναπές - MIN 2 ΜΠΟΥΚΑΛΙΑ':'VIP Καναπές — Min 2 μπουκάλια'};
     document.getElementById('sum-type').textContent   = lbl[formData.type]||formData.type;
     document.getElementById('sum-people').textContent = formData.people+' άτομα';
     document.getElementById('sum-name').textContent   = formData.name+' '+formData.surname;
@@ -1113,8 +1221,10 @@ function resetForm(){
 }
 
 /* ── VIDEO POSTER ── */
-(function(){
+function setupVideoPosters(){
     document.querySelectorAll('.video-poster').forEach(function(posterImg){
+        if(posterImg.dataset.processed) return;
+        posterImg.dataset.processed = '1';
         const videoSrc=posterImg.getAttribute('data-video'); if(!videoSrc) return;
         const tmp=document.createElement('video');
         tmp.src=videoSrc; tmp.muted=true; tmp.playsInline=true;
@@ -1135,7 +1245,7 @@ function resetForm(){
         setTimeout(function(){ if(!captured) capture(); },3000);
         tmp.load();
     });
-})();
+}
 
 /* ── PARTICLES ── */
 (function(){
@@ -1158,21 +1268,46 @@ function toggleSidebar(){document.getElementById('sidebar').classList.toggle('op
 function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('mobileOverlay').classList.remove('visible');}
 function navClick(el,e){e.preventDefault();document.querySelectorAll('.nav-item').forEach(i=>i.classList.remove('active'));el.classList.add('active');const t=document.querySelector(el.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth'});closeSidebar();}
 const sections=['hero','event-info','booking-form','next'];
-window.addEventListener('scroll',()=>{let cur='hero';sections.forEach(id=>{const el=document.getElementById(id);if(el&&window.scrollY>=el.offsetTop-200)cur=id;});document.querySelectorAll('.nav-item[href]').forEach(item=>{const href=item.getAttribute('href').replace('#','');item.classList.toggle('active',href===cur||((href==='gallery'||href==='event-info')&&cur==='event-info'));});});
+window.addEventListener('scroll',()=>{let cur='hero';sections.forEach(id=>{const el=document.getElementById(id);if(el&&window.scrollY>=el.offsetTop-200)cur=id;});document.querySelectorAll('.nav-item[href]').forEach(item=>{const href=item.getAttribute('href').replace('#','');item.classList.toggle('active',href===cur);});});
 
 /* ── VIDEO LIGHTBOX ── */
 function openVideoLightbox(src){const v=document.getElementById('lightboxVideo');v.src=src;v.play();document.getElementById('videoLightbox').classList.add('visible');document.body.style.overflow='hidden';}
 function closeVideoLightbox(){const v=document.getElementById('lightboxVideo');v.pause();v.src='';document.getElementById('videoLightbox').classList.remove('visible');document.body.style.overflow='';}
 function closeVideoLightboxBg(e){if(e.target===document.getElementById('videoLightbox'))closeVideoLightbox();}
 
-/* ── LIGHTBOX ── */
-let galleryImages=[],lbIdx=0;
-function buildGalleryImages(){galleryImages=Array.from(document.querySelectorAll('.gallery-item img')).map(i=>i.src);}
-function openLightbox(i){buildGalleryImages();lbIdx=i;if(!galleryImages[i])return;document.getElementById('lightboxImg').src=galleryImages[i];document.getElementById('lightbox').classList.add('visible');document.body.style.overflow='hidden';}
-function closeLightbox(){document.getElementById('lightbox').classList.remove('visible');document.body.style.overflow='';}
+/* ── LIGHTBOX (images only, with prev/next through image items) ── */
+let lbIdx=0;
+function getImageIndices(){return galleryItems.map((it,i)=>it.type==='image'?i:-1).filter(i=>i>=0);}
+function openLightbox(itemIdx){
+    const imgs = getImageIndices();
+    const pos = imgs.indexOf(itemIdx);
+    lbIdx = pos >= 0 ? pos : 0;
+    if(!imgs.length) return;
+    document.getElementById('lightboxImg').src = galleryItems[imgs[lbIdx]].src;
+    document.getElementById('lightbox').classList.add('visible');
+    document.body.style.overflow='hidden';
+}
+function closeLightbox(){document.getElementById('lightbox').classList.remove('visible');document.body.style.overflow=document.getElementById('galleryModal').classList.contains('visible')?'hidden':'';}
 function closeLightboxBg(e){if(e.target===document.getElementById('lightbox'))closeLightbox();}
-function lightboxNav(d){lbIdx=(lbIdx+d+galleryImages.length)%galleryImages.length;document.getElementById('lightboxImg').src=galleryImages[lbIdx];}
-document.addEventListener('keydown',e=>{if(!document.getElementById('lightbox').classList.contains('visible'))return;if(e.key==='ArrowRight')lightboxNav(1);if(e.key==='ArrowLeft')lightboxNav(-1);if(e.key==='Escape')closeLightbox();});
+function lightboxNav(d){
+    const imgs = getImageIndices();
+    if(!imgs.length) return;
+    lbIdx=(lbIdx+d+imgs.length)%imgs.length;
+    document.getElementById('lightboxImg').src = galleryItems[imgs[lbIdx]].src;
+}
+document.addEventListener('keydown',e=>{
+    if(document.getElementById('lightbox').classList.contains('visible')){
+        if(e.key==='ArrowRight')lightboxNav(1);
+        if(e.key==='ArrowLeft')lightboxNav(-1);
+        if(e.key==='Escape')closeLightbox();
+    }
+    if(document.getElementById('galleryModal').classList.contains('visible') && e.key==='Escape'){
+        if(!document.getElementById('lightbox').classList.contains('visible') &&
+           !document.getElementById('videoLightbox').classList.contains('visible')){
+            closeGalleryModal();
+        }
+    }
+});
 
 /* ── ADMIN ── */
 let clickCount=0,clickTimer;
@@ -1197,6 +1332,9 @@ window.scrollTo(0,0);
 const reveals=document.querySelectorAll('.reveal');
 function checkReveal(){reveals.forEach(el=>{if(el.getBoundingClientRect().top<window.innerHeight-100)el.classList.add('active');});}
 window.addEventListener('scroll',checkReveal);checkReveal();
+
+// Build gallery on load
+buildGalleryModal();
 </script>
 
 </body>
