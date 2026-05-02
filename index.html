@@ -189,9 +189,6 @@ body{
 
 /* ════════════════════════════════
    PAST EVENT — COMPACT VERSION
-   Συμπυκνωμένο layout: τίτλος +
-   inline meta σε μία γραμμή για να
-   μην παίρνει πολύ χώρο σε mobile
 ═══════════════════════════════════ */
 .past-event-section{
     padding:80px 40px 60px !important;
@@ -271,7 +268,6 @@ body{
     margin-bottom:28px;
 }
 
-/* Single CTA button row for gallery + photobooth */
 .past-event-actions{
     display:flex;
     gap:10px;
@@ -334,7 +330,6 @@ body{
     letter-spacing:0.1em;
 }
 
-/* Past event stamp - smaller now */
 .past-event-stamp{
     display:inline-block;
     transform:rotate(-4deg);
@@ -421,9 +416,6 @@ body{
     margin:0 auto;
 }
 
-/* ═══════════════════════════════════
-   EVENT INFO HEADER — CARRIED OVER
-═══════════════════════════════════ */
 .event-meta{display:flex;flex-direction:column;gap:14px;margin-bottom:24px;}
 .event-date-row{display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
 .event-date-block{display:flex;align-items:baseline;gap:10px;font-family:'Bebas Neue',sans-serif;color:var(--gold);text-shadow:0 0 24px rgba(201,150,58,0.25);}
@@ -454,7 +446,6 @@ body{
 }
 .booking-inner{max-width:560px;margin:0 auto;}
 
-/* Step indicator */
 .step-indicator{display:flex;align-items:center;justify-content:center;gap:0;margin:44px 0 48px;}
 .step-node{display:flex;flex-direction:column;align-items:center;gap:8px;position:relative;z-index:1;}
 .step-circle{width:36px;height:36px;border-radius:50%;border:1px solid rgba(201,150,58,0.2);background:rgba(5,6,8,0.9);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:15px;color:rgba(201,150,58,0.3);transition:all 0.4s cubic-bezier(0.4,0,0.2,1);position:relative;}
@@ -469,13 +460,11 @@ body{
 .step-line-fill{position:absolute;left:0;top:0;height:100%;width:0%;background:linear-gradient(90deg,rgba(201,150,58,0.4),rgba(201,150,58,0.2));transition:width 0.5s ease;}
 .step-line.done .step-line-fill{width:100%;}
 
-/* Form card */
 .form-card{background:rgba(255,255,255,0.018);border:1px solid rgba(201,150,58,0.12);border-radius:6px;padding:40px;position:relative;overflow:hidden;box-shadow:0 0 80px rgba(201,150,58,0.04),inset 0 0 60px rgba(201,150,58,0.015);}
 .form-card::before,.form-card::after{content:'';position:absolute;width:60px;height:60px;border-color:var(--gold);border-style:solid;opacity:0.3;}
 .form-card::before{top:-1px;left:-1px;border-width:1px 0 0 1px;}
 .form-card::after{bottom:-1px;right:-1px;border-width:0 1px 1px 0;}
 
-/* Steps */
 .booking-step{display:none;}
 .booking-step.active{display:block;animation:stepIn 0.35s cubic-bezier(0.4,0,0.2,1) forwards;}
 @keyframes stepIn{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:translateX(0)}}
@@ -483,9 +472,6 @@ body{
 .step-title{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:0.18em;color:#fff;margin-bottom:6px;}
 .step-subtitle{font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;color:rgba(255,255,255,0.25);letter-spacing:0.08em;margin-bottom:28px;}
 
-/* ══════════════════════════════
-   TYPE CARDS — CLEARER VERSION
-══════════════════════════════ */
 .type-intro{
     background:linear-gradient(135deg, rgba(201,150,58,0.05), rgba(201,150,58,0.01));
     border-left:2px solid rgba(201,150,58,0.4);
@@ -502,7 +488,6 @@ body{
 }
 .type-intro p .gold{color:var(--gold);font-weight:600;font-style:normal;}
 
-/* Fields */
 .field-label{display:block;font-family:'Cinzel',serif;font-size:7px;letter-spacing:0.5em;color:rgba(201,150,58,0.5);text-transform:uppercase;margin-bottom:8px;}
 input,select{width:100%;padding:13px 16px;background:rgba(255,255,255,0.03) !important;border:1px solid rgba(201,150,58,0.18) !important;border-radius:3px;color:#e0e0e0 !important;font-family:'Cormorant Garamond',serif;font-size:15px;outline:none;transition:border-color 0.25s,box-shadow 0.25s;}
 input:focus,select:focus{border-color:rgba(201,150,58,0.5) !important;background:rgba(201,150,58,0.02) !important;box-shadow:0 0 20px rgba(201,150,58,0.08) !important;}
@@ -513,7 +498,6 @@ input.error,select.error{border-color:rgba(239,68,68,0.5) !important;box-shadow:
 .field-error{font-family:'Cormorant Garamond',serif;font-size:12px;color:#ef4444;font-style:italic;margin-top:5px;opacity:0;transition:opacity 0.2s;}
 .field-error.visible{opacity:1;}
 
-/* Type cards - original simple design */
 .type-grid{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:24px;}
 .type-card{border:1px solid rgba(201,150,58,0.15);border-radius:4px;padding:18px 20px;cursor:pointer;transition:all 0.25s;position:relative;overflow:hidden;background:rgba(255,255,255,0.015);}
 .type-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(201,150,58,0.06),transparent);opacity:0;transition:opacity 0.3s;}
@@ -530,7 +514,6 @@ input.error,select.error{border-color:rgba(239,68,68,0.5) !important;box-shadow:
 .type-card-check{position:absolute;top:14px;right:16px;width:18px;height:18px;border-radius:50%;border:1px solid rgba(201,150,58,0.2);display:flex;align-items:center;justify-content:center;font-size:10px;color:transparent;transition:all 0.25s;}
 .type-card.selected .type-card-check{background:var(--gold);border-color:var(--gold);color:#000;}
 
-/* People counter */
 .people-counter{display:flex;align-items:center;gap:0;border:1px solid rgba(201,150,58,0.18);border-radius:3px;overflow:hidden;background:rgba(255,255,255,0.03);}
 .people-btn{width:50px;height:50px;background:transparent;border:none;color:rgba(201,150,58,0.6);font-size:20px;cursor:pointer;transition:all 0.2s;font-family:'Cormorant Garamond',serif;display:flex;align-items:center;justify-content:center;}
 .people-btn:hover{background:rgba(201,150,58,0.08);color:var(--gold);}
@@ -538,12 +521,10 @@ input.error,select.error{border-color:rgba(239,68,68,0.5) !important;box-shadow:
 .people-count{flex:1;text-align:center;font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:0.1em;color:var(--gold);line-height:1;padding:10px 0;}
 .people-label-sub{font-family:'Cormorant Garamond',serif;font-size:11px;font-style:italic;color:rgba(255,255,255,0.2);text-align:center;margin-top:10px;}
 
-/* Urgency */
 .urgency-pill{display:inline-flex;align-items:center;gap:7px;padding:7px 16px;border-radius:20px;border:1px solid rgba(201,150,58,0.25);background:rgba(201,150,58,0.06);font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.3em;color:rgba(201,150,58,0.7);margin-bottom:24px;}
 .urgency-dot{width:5px;height:5px;border-radius:50%;background:#ef4444;box-shadow:0 0 6px rgba(239,68,68,0.7);animation:urgencyPulse 1.4s ease-in-out infinite;}
 @keyframes urgencyPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(0.7)}}
 
-/* Nav buttons */
 .step-nav{display:flex;gap:10px;margin-top:28px;}
 .btn-back{padding:14px 24px;border:1px solid rgba(201,150,58,0.18);background:transparent;color:rgba(201,150,58,0.4);border-radius:3px;font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.3em;cursor:pointer;transition:all 0.25s;flex-shrink:0;}
 .btn-back:hover{border-color:rgba(201,150,58,0.4);color:rgba(201,150,58,0.8);}
@@ -553,17 +534,14 @@ input.error,select.error{border-color:rgba(239,68,68,0.5) !important;box-shadow:
 .btn-next:hover::after{left:100%;}
 .btn-next:disabled{opacity:0.4;cursor:not-allowed;}
 
-/* Summary */
 .summary-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(201,150,58,0.06);}
 .summary-row:last-child{border-bottom:none;}
 .summary-key{font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.35em;color:rgba(255,255,255,0.25);text-transform:uppercase;}
 .summary-val{font-family:'Cormorant Garamond',serif;font-size:15px;color:rgba(201,150,58,0.8);font-weight:600;}
 
-/* Microcopy */
 .microcopy{font-family:'Cormorant Garamond',serif;font-size:12px;font-style:italic;color:rgba(255,255,255,0.18);text-align:center;line-height:1.7;margin-top:14px;letter-spacing:0.05em;}
 .microcopy .gold{color:rgba(201,150,58,0.45);}
 
-/* Confirmation */
 .confirm-screen{text-align:center;padding:16px 0;}
 .confirm-icon{width:72px;height:72px;background:linear-gradient(135deg,rgba(201,150,58,0.1),rgba(201,150,58,0.2));border:1px solid rgba(201,150,58,0.35);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-size:28px;animation:confirmPop 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards,pulseGold 2.5s ease-in-out 0.5s infinite;}
 @keyframes confirmPop{from{opacity:0;transform:scale(0.6)}to{opacity:1;transform:scale(1)}}
@@ -573,7 +551,6 @@ input.error,select.error{border-color:rgba(239,68,68,0.5) !important;box-shadow:
 .confirm-divider{width:40px;height:1px;background:linear-gradient(90deg,transparent,rgba(201,150,58,0.4),transparent);margin:24px auto;}
 .confirm-note{font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.4em;color:rgba(201,150,58,0.3);text-transform:uppercase;}
 
-/* Next event */
 #next{position:relative;overflow:hidden;padding:130px 40px;text-align:center;border-top:1px solid rgba(201,150,58,0.07);}
 .next-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 50%,rgba(201,150,58,0.05) 0%,transparent 70%);pointer-events:none;}
 .next-ghost{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Bebas Neue',sans-serif;font-size:clamp(120px,25vw,260px);letter-spacing:0.05em;color:rgba(201,150,58,0.025);white-space:nowrap;pointer-events:none;user-select:none;line-height:1;}
@@ -592,7 +569,6 @@ footer{padding:32px 40px;display:flex;align-items:center;justify-content:space-b
 .footer-by .by-handle{color:rgba(228,185,106,0.85);font-weight:600;font-style:normal;letter-spacing:0.08em;transition:color 0.25s;}
 .footer-by:hover .by-handle{color:var(--gold);text-shadow:0 0 12px rgba(201,150,58,0.4);}
 
-/* Video */
 .video-item{position:relative;background:#000;}
 .video-poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;background:#0a0a0a;}
 .video-item video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;z-index:0;}
@@ -616,7 +592,6 @@ footer{padding:32px 40px;display:flex;align-items:center;justify-content:space-b
 .lb-nav:hover{background:rgba(201,150,58,0.18);color:var(--gold);}
 .lb-prev{left:16px}.lb-next{right:16px}
 
-/* Admin */
 .admin-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:1500;}
 .admin-overlay.visible{display:block;}
 #adminLogin{background:#08090d;border:1px solid var(--gold);border-radius:8px;padding:32px;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2000;width:300px;display:none;}
@@ -830,11 +805,6 @@ footer{padding:32px 40px;display:flex;align-items:center;justify-content:space-b
         </div>
     </div>
 </section>
-
-<!-- ═══════════════════════════════════════════════════════════════
-     PAST EVENT — Compact archive section
-     Πληροφορίες σε μία γραμμή + κουμπί για να ανοίξει το γκαλερί
-═══════════════════════════════════════════════════════════════ -->
 
 <section id="event-info" class="reveal past-event-section" style="max-width:1100px;margin:0 auto;">
 
@@ -1063,16 +1033,19 @@ const CURRENT_EVENT_TAG = "next";
 
 /* ════════════════════════════════
    GALLERY CONFIG
-   Πρόσθεσε φωτογραφίες/βίντεο εδώ
+   - Οι φωτογραφίες σου: pic (1).jpg έως pic (7).jpg
+   - Τα 2 βίντεο διατηρούνται στο τέλος
 ═══════════════════════════════════ */
 const galleryItems = [
-    { type: 'image', src: 'poster.jpg', alt: 'Event Poster' },
-    { type: 'image', src: 'AA4B024A-E6F9-4794-A7C0-D3C8B67CABD1.jpeg', alt: 'DJ Dinglis' },
+    { type: 'image', src: 'pic (1).jpg', alt: 'Mythos Night Photo 1' },
+    { type: 'image', src: 'pic (2).jpg', alt: 'Mythos Night Photo 2' },
+    { type: 'image', src: 'pic (3).jpg', alt: 'Mythos Night Photo 3' },
+    { type: 'image', src: 'pic (4).jpg', alt: 'Mythos Night Photo 4' },
+    { type: 'image', src: 'pic (5).jpg', alt: 'Mythos Night Photo 5' },
+    { type: 'image', src: 'pic (6).jpg', alt: 'Mythos Night Photo 6' },
+    { type: 'image', src: 'pic (7).jpg', alt: 'Mythos Night Photo 7' },
     { type: 'video', src: 'IMG_4370.mov' },
     { type: 'video', src: 'IMG_4373.mov' }
-    // Πρόσθεσε επιπλέον items εδώ:
-    // { type: 'image', src: 'photo5.jpg', alt: 'Description' },
-    // { type: 'video', src: 'video3.mov' },
 ];
 
 /* ── BUILD GALLERY MODAL ── */
@@ -1086,12 +1059,12 @@ function buildGalleryModal(){
         div.className = 'gallery-item' + (item.type === 'video' ? ' video-item' : '');
         if (item.type === 'image') {
             div.onclick = () => openLightbox(idx);
-            div.innerHTML = `<img src="${item.src}" alt="${item.alt || ''}">`;
+            div.innerHTML = `<img src="${encodeURI(item.src)}" alt="${item.alt || ''}">`;
         } else {
             div.onclick = () => openVideoLightbox(item.src);
             div.innerHTML = `
-                <img class="video-poster" data-video="${item.src}" alt="">
-                <video src="${item.src}" muted playsinline preload="metadata"></video>
+                <img class="video-poster" data-video="${encodeURI(item.src)}" alt="">
+                <video src="${encodeURI(item.src)}" muted playsinline preload="metadata"></video>
                 <div class="play-icon"><div class="play-icon-circle"><div class="play-icon-triangle"></div></div></div>
             `;
         }
@@ -1270,7 +1243,7 @@ const sections=['hero','event-info','booking-form','next'];
 window.addEventListener('scroll',()=>{let cur='hero';sections.forEach(id=>{const el=document.getElementById(id);if(el&&window.scrollY>=el.offsetTop-200)cur=id;});document.querySelectorAll('.nav-item[href]').forEach(item=>{const href=item.getAttribute('href').replace('#','');item.classList.toggle('active',href===cur);});});
 
 /* ── VIDEO LIGHTBOX ── */
-function openVideoLightbox(src){const v=document.getElementById('lightboxVideo');v.src=src;v.play();document.getElementById('videoLightbox').classList.add('visible');document.body.style.overflow='hidden';}
+function openVideoLightbox(src){const v=document.getElementById('lightboxVideo');v.src=encodeURI(src);v.play();document.getElementById('videoLightbox').classList.add('visible');document.body.style.overflow='hidden';}
 function closeVideoLightbox(){const v=document.getElementById('lightboxVideo');v.pause();v.src='';document.getElementById('videoLightbox').classList.remove('visible');document.body.style.overflow='';}
 function closeVideoLightboxBg(e){if(e.target===document.getElementById('videoLightbox'))closeVideoLightbox();}
 
@@ -1282,7 +1255,7 @@ function openLightbox(itemIdx){
     const pos = imgs.indexOf(itemIdx);
     lbIdx = pos >= 0 ? pos : 0;
     if(!imgs.length) return;
-    document.getElementById('lightboxImg').src = galleryItems[imgs[lbIdx]].src;
+    document.getElementById('lightboxImg').src = encodeURI(galleryItems[imgs[lbIdx]].src);
     document.getElementById('lightbox').classList.add('visible');
     document.body.style.overflow='hidden';
 }
@@ -1292,7 +1265,7 @@ function lightboxNav(d){
     const imgs = getImageIndices();
     if(!imgs.length) return;
     lbIdx=(lbIdx+d+imgs.length)%imgs.length;
-    document.getElementById('lightboxImg').src = galleryItems[imgs[lbIdx]].src;
+    document.getElementById('lightboxImg').src = encodeURI(galleryItems[imgs[lbIdx]].src);
 }
 document.addEventListener('keydown',e=>{
     if(document.getElementById('lightbox').classList.contains('visible')){
