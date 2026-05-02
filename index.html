@@ -744,16 +744,11 @@ footer{padding:32px 40px;display:flex;align-items:center;justify-content:space-b
             <button onclick="hideAdminTable()" class="admin-btn" style="background:#1a1a1a;color:#fff;">✕</button>
         </div>
     </div>
-    <div class="event-tabs">
-        <button class="event-tab active" id="evtab-current" onclick="setEventTab('current')"><span>📅 ΕΠΟΜΕΝΟ EVENT</span><span class="tab-count" id="count-current">0</span></button>
-        <button class="event-tab" id="evtab-archive" onclick="setEventTab('archive')"><span>📁 ΑΡΧΕΙΟ</span><span class="tab-count" id="count-archive">0</span></button>
-    </div>
-    <div id="statusFilterRow" style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;">
+    <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;">
         <button class="filter-tab active" id="tab-all" onclick="setFilter('all')">ΟΛΑ</button>
         <button class="filter-tab" id="tab-pending" onclick="setFilter('pending')">PENDING</button>
         <button class="filter-tab" id="tab-confirmed" onclick="setFilter('confirmed')">CONFIRMED</button>
     </div>
-    <div class="archive-banner" id="archiveBanner" style="display:none;"><span class="archive-banner-icon">📁</span><span>Παλιές κρατήσεις από προηγούμενα events — μόνο για ανάγνωση</span></div>
     <div id="reservationsList"></div>
     <p id="totalRes" style="text-align:right;margin-top:16px;color:#555;font-size:11px;font-family:'Cormorant Garamond',serif;"></p>
 </div>
@@ -840,7 +835,6 @@ footer{padding:32px 40px;display:flex;align-items:center;justify-content:space-b
             <span>ΦΩΤΟΓΡΑΦΙΕΣ</span>
             <span class="gallery-count" id="btnGalleryCount">4</span>
         </button>
-        <a href="https://mythosnights.pages.dev/photo-booth" target="_blank" class="btn-outline" style="font-size:10px;padding:13px 22px;height:auto;flex:0 0 auto;letter-spacing:0.4em;">📸 &nbsp; Photo Booth</a>
     </div>
 
 </section>
@@ -1028,13 +1022,11 @@ footer{padding:32px 40px;display:flex;align-items:center;justify-content:space-b
 
 <script>
 const ADMIN_PASSWORD = "mythos2024";
-const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw900Myx7ITvm6TwfaUGX10NK-bPr3l2a9llwgmbbn_sU9JWp2phML59-eFv02cM3L5hA/exec";
+const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxltj8ACDC6hGtqiWBXILRrb3-ks1Y1AfDy7OuuUVtrOFCE0ND85x8ILhDNjcTudkML/exec";
 const CURRENT_EVENT_TAG = "next";
 
 /* ════════════════════════════════
    GALLERY CONFIG
-   - Οι φωτογραφίες σου: pic (1).jpg έως pic (7).jpg
-   - Τα 2 βίντεο διατηρούνται στο τέλος
 ═══════════════════════════════════ */
 const galleryItems = [
     { type: 'image', src: 'pic (1).jpg', alt: 'Mythos Night Photo 1' },
@@ -1247,7 +1239,7 @@ function openVideoLightbox(src){const v=document.getElementById('lightboxVideo')
 function closeVideoLightbox(){const v=document.getElementById('lightboxVideo');v.pause();v.src='';document.getElementById('videoLightbox').classList.remove('visible');document.body.style.overflow='';}
 function closeVideoLightboxBg(e){if(e.target===document.getElementById('videoLightbox'))closeVideoLightbox();}
 
-/* ── LIGHTBOX (images only, with prev/next through image items) ── */
+/* ── LIGHTBOX ── */
 let lbIdx=0;
 function getImageIndices(){return galleryItems.map((it,i)=>it.type==='image'?i:-1).filter(i=>i>=0);}
 function openLightbox(itemIdx){
@@ -1289,14 +1281,12 @@ function hideAdmin(){document.getElementById('adminLogin').style.display='none';
 function hideAdminTable(){document.getElementById('adminTable').classList.remove('visible');document.getElementById('adminOverlay').classList.remove('visible');}
 function checkAdminPass(){if(document.getElementById('adminPass').value===ADMIN_PASSWORD){document.getElementById('adminLogin').style.display='none';document.getElementById('adminTable').classList.add('visible');loadReservations();}else{document.getElementById('adminMessage').innerHTML='Λάθος κωδικός!';}}
 
-let currentEventTab='current',currentFilter='all';
-function setEventTab(tab){currentEventTab=tab;document.getElementById('evtab-current').classList.toggle('active',tab==='current');document.getElementById('evtab-archive').classList.toggle('active',tab==='archive');document.getElementById('statusFilterRow').style.display=tab==='current'?'flex':'none';document.getElementById('archiveBanner').style.display=tab==='archive'?'flex':'none';renderTable(window._allReservations||[]);}
+let currentFilter='all';
 function setFilter(f){currentFilter=f;['all','pending','confirmed'].forEach(t=>document.getElementById('tab-'+t).classList.toggle('active',t===f));renderTable(window._allReservations||[]);}
-function isCurrentEvent(r){return(r.event_tag||'').toString().toLowerCase()===CURRENT_EVENT_TAG;}
 async function loadReservations(){document.getElementById('reservationsList').innerHTML='<p style="text-align:center;padding:32px;color:#555;font-family:Cormorant Garamond,serif;font-style:italic;">Φόρτωση...</p>';try{const r=await fetch(GOOGLE_APPS_SCRIPT_URL+'?t='+Date.now());const d=await r.json();window._allReservations=Array.isArray(d)?d:[];renderTable(window._allReservations);}catch(e){document.getElementById('reservationsList').innerHTML='<p style="text-align:center;padding:24px;color:#ef4444;">Σφάλμα σύνδεσης</p>';}}
-function renderTable(reservations){const listDiv=document.getElementById('reservationsList');const currentList=reservations.filter(isCurrentEvent);const archiveList=reservations.filter(r=>!isCurrentEvent(r));document.getElementById('count-current').textContent=currentList.length;document.getElementById('count-archive').textContent=archiveList.length;let visible=currentEventTab==='current'?currentList:archiveList;if(currentEventTab==='current'&&currentFilter!=='all')visible=visible.filter(r=>(r.status||'pending').toLowerCase()===currentFilter);if(!visible.length){listDiv.innerHTML=`<p style="text-align:center;padding:32px;color:#555;font-family:Cormorant Garamond,serif;font-style:italic;">${currentEventTab==='archive'?'Δεν υπάρχουν παλιές κρατήσεις':'Δεν υπάρχουν κρατήσεις για το επόμενο event'}</p>`;document.getElementById('totalRes').innerHTML='';return;}const showActions=currentEventTab==='current';let html=`<table><tr><th>Timestamp</th><th>Όνομα</th><th>Επίθετο</th><th>Τηλέφωνο</th><th>Άτομα</th><th>Τύπος</th><th>Status</th>${showActions?'<th>Αλλαγή</th>':''}</tr>`;[...visible].reverse().forEach(r=>{const status=(r.status||'pending').toLowerCase();const realIdx=reservations.indexOf(r);const statusBadge=currentEventTab==='archive'?`<span class="badge badge-archive">${status.toUpperCase()}</span>`:`<span class="badge ${status==='confirmed'?'badge-confirmed':'badge-pending'}">${status==='confirmed'?'CONFIRMED':'PENDING'}</span>`;html+=`<tr><td style="white-space:nowrap">${r.reg_date||'—'}</td><td>${r.name||''}</td><td>${r.surname||''}</td><td><a href="tel:${r.phone}" style="color:var(--gold)">${r.phone||''}</a></td><td style="text-align:center">${r.people||''}</td><td style="font-size:11px">${r.type||''}</td><td>${statusBadge}</td>${showActions?`<td>${status==='pending'?`<button class="admin-btn" style="font-size:10px;padding:5px 10px;background:#22c55e;color:#000" onclick="updateStatus(${realIdx},'confirmed')">✓ CONFIRM</button>`:`<button class="admin-btn" style="font-size:10px;padding:5px 10px;background:#333;color:#fff" onclick="updateStatus(${realIdx},'pending')">↩ PENDING</button>`}</td>`:''}</tr>`;});html+='</table>';listDiv.innerHTML=html;if(currentEventTab==='current'){const confirmed=currentList.filter(r=>(r.status||'pending')==='confirmed').length;document.getElementById('totalRes').innerHTML=`Επόμενο Event: ${currentList.length} &nbsp;|&nbsp; Confirmed: ${confirmed} &nbsp;|&nbsp; Pending: ${currentList.length-confirmed}`;}else{document.getElementById('totalRes').innerHTML=`Αρχείο: ${archiveList.length} κρατήσεις`;}}
+function renderTable(reservations){const listDiv=document.getElementById('reservationsList');let visible=reservations;if(currentFilter!=='all')visible=visible.filter(r=>(r.status||'pending').toLowerCase()===currentFilter);if(!visible.length){listDiv.innerHTML='<p style="text-align:center;padding:32px;color:#555;font-family:Cormorant Garamond,serif;font-style:italic;">Δεν υπάρχουν κρατήσεις</p>';document.getElementById('totalRes').innerHTML='';return;}let html=`<table><tr><th>Timestamp</th><th>Όνομα</th><th>Επίθετο</th><th>Τηλέφωνο</th><th>Άτομα</th><th>Τύπος</th><th>Status</th><th>Αλλαγή</th></tr>`;[...visible].reverse().forEach(r=>{const status=(r.status||'pending').toLowerCase();const realIdx=reservations.indexOf(r);const statusBadge=`<span class="badge ${status==='confirmed'?'badge-confirmed':'badge-pending'}">${status==='confirmed'?'CONFIRMED':'PENDING'}</span>`;html+=`<tr><td style="white-space:nowrap">${r.reg_date||'—'}</td><td>${r.name||''}</td><td>${r.surname||''}</td><td><a href="tel:${r.phone}" style="color:var(--gold)">${r.phone||''}</a></td><td style="text-align:center">${r.people||''}</td><td style="font-size:11px">${r.type||''}</td><td>${statusBadge}</td><td>${status==='pending'?`<button class="admin-btn" style="font-size:10px;padding:5px 10px;background:#22c55e;color:#000" onclick="updateStatus(${realIdx},'confirmed')">✓ CONFIRM</button>`:`<button class="admin-btn" style="font-size:10px;padding:5px 10px;background:#333;color:#fff" onclick="updateStatus(${realIdx},'pending')">↩ PENDING</button>`}</td></tr>`;});html+='</table>';listDiv.innerHTML=html;const confirmed=reservations.filter(r=>(r.status||'pending')==='confirmed').length;document.getElementById('totalRes').innerHTML=`Σύνολο: ${reservations.length} &nbsp;|&nbsp; Confirmed: ${confirmed} &nbsp;|&nbsp; Pending: ${reservations.length-confirmed}`;}
 async function updateStatus(index,newStatus){const res=window._allReservations[index];if(!res)return;res.status=newStatus;try{await fetch(GOOGLE_APPS_SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'updateStatus',rowIndex:index,status:newStatus})});}catch(e){}renderTable(window._allReservations);}
-async function downloadExcel(){try{const response=await fetch(GOOGLE_APPS_SCRIPT_URL+'?t='+Date.now());const reservations=await response.json();const list=currentEventTab==='current'?reservations.filter(isCurrentEvent):reservations.filter(r=>!isCurrentEvent(r));const fileName=currentEventTab==='current'?'reservations_next_event.csv':'reservations_archive.csv';let csv='Ημερομηνία,Όνομα,Επίθετο,Τηλέφωνο,Άτομα,Τύπος,Status\n';list.forEach(r=>{const c=v=>(v||'').toString().replace(/,/g,' ');csv+=`${c(r.reg_date)},${c(r.name)},${c(r.surname)},${c(r.phone)},${r.people||''},${c(r.type)},${r.status||'pending'}\n`;});const blob=new Blob(["\uFEFF"+csv],{type:'text/csv;charset=utf-8;'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=fileName;a.click();}catch(e){alert('Σφάλμα');}}
+async function downloadExcel(){try{const response=await fetch(GOOGLE_APPS_SCRIPT_URL+'?t='+Date.now());const reservations=await response.json();let csv='Ημερομηνία,Όνομα,Επίθετο,Τηλέφωνο,Άτομα,Τύπος,Status\n';reservations.forEach(r=>{const c=v=>(v||'').toString().replace(/,/g,' ');csv+=`${c(r.reg_date)},${c(r.name)},${c(r.surname)},${c(r.phone)},${r.people||''},${c(r.type)},${r.status||'pending'}\n`;});const blob=new Blob(["\uFEFF"+csv],{type:'text/csv;charset=utf-8;'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='reservations.csv';a.click();}catch(e){alert('Σφάλμα');}}
 
 window.addEventListener('beforeunload',()=>window.scrollTo(0,0));
 if('scrollRestoration' in history)history.scrollRestoration='manual';
@@ -1305,7 +1295,6 @@ const reveals=document.querySelectorAll('.reveal');
 function checkReveal(){reveals.forEach(el=>{if(el.getBoundingClientRect().top<window.innerHeight-100)el.classList.add('active');});}
 window.addEventListener('scroll',checkReveal);checkReveal();
 
-// Build gallery on load
 buildGalleryModal();
 </script>
 
